@@ -1,0 +1,50 @@
+[
+  {"img": "http://images.8tracks.com/cover/i/009/877/353/IMG_7125-3744.jpg",
+   "url": "/playlists/aesthetic-playlist.json",
+   "name": "예쁘지요?",
+    "tags":[
+            {"tag":"kpop"},
+            {"tag":"visual"}
+        ]
+  },
+  {"img": "http://images.8tracks.com/cover/i/001/722/488/KWORK_cover-2659.png",
+   "url": "/playlists/cardio-playlist.json",
+   "name": "Work It Out",
+    "tags":[
+            {"tag":"kpop"},
+            {"tag":"workout"}
+        ]
+  },
+  {"img": "http://images.8tracks.com/cover/i/001/755/466/kpop_relax_cover-8198.png",
+   "url": "/playlists/chilling-playlist.json",
+   "name": "Chilling Out",
+    "tags":[
+            {"tag":"kpop"},
+            {"tag":"chill"}
+        ]
+  },
+  {"img": "http://images.8tracks.com/cover/i/009/324/851/photo-janette-beckman-run-dmc-and-posse-in-hollis-queens-ny-1984-7899.jpg",
+   "url": "/playlists/oldschool-playlist.json",
+   "name": "Back to the 90s",
+    "tags":[
+            {"tag":"hip-hop"},
+            {"tag":"old school"}
+        ]
+  },
+  {"img": "http://images.8tracks.com/cover/i/009/348/411/large-5580.jpg",
+   "playlist-url": "/playlists/ready-playlist.json",
+   "name": "Getting Ready",
+    "tags":[
+            {"tag":"kpop"},
+            {"tag":"upbeat"}
+        ]
+  },
+  {"img": "http://images.8tracks.com/cover/i/002/607/629/vapor-245.png",
+   "url": "/playlists/vapor-playlist.json",
+   "name": "Vaporwave & Future Funk",
+    "tags":[
+            {"tag":"vaporwave"},
+            {"tag":"future funk"}
+        ]
+  }
+]

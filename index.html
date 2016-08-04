@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html data-ng-app="JukeTubeApp">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <title>Jukebox</title>
+      <!-- META DATA -->
+      <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+      <meta name="description" content="">
+      <meta name="keywords" content="">
+      <meta name="author" content="">
+      <!-- CSS Global Compulsory -->
+      <link rel="stylesheet" href="./css/bootstrap.min.css">
+      <link rel="stylesheet" href="./css/style.css">
+      <!-- CSS Implementing Plugins -->
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" type="text/css">
+      <link href='https://fonts.googleapis.com/css?family=Lato:400,100italic,300,700' rel='stylesheet' type='text/css'>
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+         rel="stylesheet">
+      <link rel="stylesheet" href="./css/animate.min.css" type="text/css">
+      <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+      <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+      <script src="js/respond.min.js"></script>
+      <![endif]-->
+      <!--[if lt IE 11]>
+      <link rel="stylesheet" type="text/css" href="css/ie.css">
+      <![endif]-->
+      <!-- JS -->
+      <script type="text/javascript" src="./js/modernizr.js"></script>
+   <body cz-shortcut-listen="true" data-ng-controller="VideosController">
+      <div id="preloader">
+         <spinner>
+            <div class='bar' id='bar-one'>&nbsp;</div>
+            <div class='bar' id='bar-two'>&nbsp;</div>
+            <div class='bar' id='bar-three'>&nbsp;</div>
+         </spinner>
+      </div>
+      <nav class="navbar navbar-fixed-top">
+         <div class="container-fluid">
+            <div class="navbar-header">
+               <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+               <span class="sr-only">Toggle navigation</span>
+               <span class="icon-bar"></span>
+               <span class="icon-bar"></span>
+               <span class="icon-bar"></span>
+               </button>
+               <div class="navbar-overlay" style="left: 168px;"></div>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+               <ul class="nav navbar-nav navbar-right">
+               </ul>
+            </div>
+            <!--/.nav-collapse -->
+         </div>
+         <!--/.container-fluid -->
+      </nav>
+      <div class="main-container section home-section fullscreen-element">
+      <div id="player" class="video-background">
+         <div id="placeholder" class="video-foreground">
+         </div>
+      </div>
+      <!-- Home -->
+      <!-- .main-container end -->
+      <div class="main-overlay">
+      <!-- Page Overlay -->
+      <div class="page-overlay">
+         <div class="page-o page-o-1" data-layer-animation-delay="300" data-layer-animation-out-delay="1200">
+            <div id="menu">
+               <ul>
+                  <li><i class="fa fa-minus" aria-hidden="true"></i></li>
+                  <li><i class="fa fa-history" aria-hidden="true"></i></li>
+                  <li><i class="fa fa-play" aria-hidden="true"></i></li>
+               </ul>
+            </div>
+         </div>
+         <div class="page-o page-o-2" data-layer-animation-delay="600" data-layer-animation-out-delay="900">
+            <div id="playlist" style="position: relative z-index: 10000;">
+               <p id="current">{{ youtube.videoTitle }}</p>
+               <ol id="upcoming" data-ng-show="playlist">
+                  <li data-ng-repeat="video in upcoming">
+                     <p><i class="material-icons item-delete" data-ng-click="delete('upcoming', video.id)">close</i>
+                        <span class="item-title" data-ng-click="launch(video.id, video.title)">{{video.title}}</span>
+                     </p>
+                  </li>
+               </ol>
+            </div>
+         </div>
+      </div>
+      <div class="overlay" id="overlay-search">
+         <a href="javascript:void(0)" id="close-search" class="overlay-close"><i class="material-icons">clear</i></a>
+         <nav class="overlay-menu">
+            <form id="search" data-ng-submit="search()">
+               <input id="query" name="q" type="text" placeholder="Search for a YouTube video..." data-ng-model="query">
+               <input id="submit" type="image" src="search.png" alt="Search" style="display: none;">
+            </form>
+            <div id="results">
+               <div class="video" data-ng-repeat="video in results" data-ng-click="queue(video.id, video.title)">
+                  <div class="row">
+                     <div class="col-md-2">
+                        <img class="video-image" data-ng-src="{{ video.thumbnail }}">
+                     </div>
+                     <div class="col-md-10">
+                        <p class="video-title">{{ video.title }}</p>
+                        <p class="video-author">{{ video.author }}</p>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </nav>
+      </div>
+      <div class="overlay" id="overlay-playlist">
+         <a href="javascript:void(0)" id="close-playlist" class="overlay-close"><i class="material-icons">clear</i></a>
+         <nav class="overlay-menu" style="width: 75%;">
+            <div class="row">
+               <div class="col-md-4" ng-repeat="playlist in customPlaylists">
+                  <div class="card">
+                     <div class="card_image">
+                        <img src="{{playlist.img}}" alt="" class="image">
+                        <i class="material-icons" onClick="favorite(this);">
+                        favorite_border</i>
+                     </div>
+                     <div class="cardContent">
+                        <button class="cardContentButton" ng-click="loadPlaylist(playlist.url)"><i class="material-icons">play_arrow</i></button>
+                        <p class="cardContentName">{{playlist.name}}</p>
+                        <p class="cardContentJob">Tags: <span class="label label-primary" ng-repeat="genre in playlist.tags">{{genre.tag}}</span></p>
+                     </div>
+         </nav>
+         </div>
+         </div>
+         </div>
+      </div>
+      <div id="minimal-animale">
+         <h1>
+         {{ youtube.videoTitle }}</h2>
+         <h4 data-ng-repeat="video in upcoming" ng-show="$first">Up Next: {{ video.title }}</h4>
+      </div>
+      <div class="menu-button"><i class="material-icons">add</i>
+         <a href="javascript:void(0)" id="toggle-search"><i class="material-icons">search</i></a>
+         <a href="javascript:void(0)" id="toggle-playlist"><i class="material-icons">dehaze</i></a>
+         <a href="javascript:void(0)" id="toggle-minimalism"><i class="material-icons">music_video</i></a>
+      </div>
+      <!-- JS -->
+      <script type="text/javascript" src="js/jquery.min.js"></script>
+      <script type="text/javascript" src="js/bootstrap.min.js"></script>
+      <script type="text/javascript" src="js/plugins.js"></script>
+      <script type="text/javascript" src="js/main.js"></script>
+      <script src="angular.min.js"></script>
+      <script src="angular-local-storage.js"></script>
+      <script src="app.js"></script>
+      <script>
+         $('#toggle-search').click(function() {
+         	 $('#overlay-search').toggleClass('open');
+         	});
+
+         $('#close-playlist').click(function() {
+         $('#overlay-playlist').removeClass('open');
+         });
+
+         $('#close-search').click(function() {
+         $('#overlay-search').removeClass('open');
+         });
+
+          $('#toggle-playlist').click(function() {
+         		$('#overlay-playlist').toggleClass('open');
+         	 });
+
+         $('#toggle-minimalism').click(function() {
+         			$('.page-overlay').toggle()
+         $('#minimal-animale').toggleClass('show')
+         		 });
+          // A minimal search box like this does requires automatic focus in order for someone to find it.
+
+         var input = document.querySelector('#query');
+         var loadTimeout;
+
+         // Look ma, no jQuery!
+         input.focus();
+         input.addEventListener('keydown', keyHandler, false);
+
+         function keyHandler(e) {
+         	// Having a second delay to prevent too many AJAX requests
+         	if(loadTimeout) clearTimeout(loadTimeout);
+         	loadTimeout = setTimeout(loadData, 1000);
+         }
+
+         function loadData() {
+         	var query = input.value;
+
+         	// AJAX call
+         }
+
+         		 change = false;
+
+         		 function favorite(objeto){
+         			 if(!change){
+         				 $(objeto).text("favorite");
+         				 $(objeto).css({"color":"#F7CAC9"});
+         				 change = true;
+         			 }else{
+         				 $(objeto).text("favorite_border");
+         				 $(objeto).css({"color":"white"});
+         				 change = false;
+         			 }
+
+         		 }
+
+      </script>
+   </body>
+</html>
