@@ -253,6 +253,7 @@ app.controller('VideosController', function($scope, $http, $log, VideosService) 
  $scope.loadPlaylist = function(playlist) {
   $http.get(playlist)
    .then(function(res) {
+    $scope.upcoming.splice(0);
     var json = JSON.stringify(res.data);
     $.each($.parseJSON(json), function() {
      VideosService.queueVideo(this.id, this.title);
