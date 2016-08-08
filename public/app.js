@@ -81,9 +81,15 @@ app.service('VideosService', ['$window', '$rootScope', '$log', function($window,
    youtube.state = 'paused';
   } else if (event.data == YT.PlayerState.ENDED) {
    youtube.state = 'ended';
+   if (typeof upcoming[0] === "undefined"){
+     //TO DO: TRIGGER MODAL THAT LOADS THE NEXT PLAYLIST AFTER A COUNTDOWN TIMER
+     console.log ('that was the last song');
+   }
+   else {
    service.launchPlayer(upcoming[0].id, upcoming[0].title);
    service.archiveVideo(upcoming[0].id, upcoming[0].title);
    service.deleteVideo(upcoming, upcoming[0].id);
+ }
   }
   $rootScope.$apply();
  }
