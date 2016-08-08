@@ -76,7 +76,7 @@
          <div class="page-o page-o-2" data-layer-animation-delay="600" data-layer-animation-out-delay="900">
             <div id="playlist" style="position: relative z-index: 10000;">
                <p id="current">{{ youtube.videoTitle }}</p>
-               <ol id="upcoming" data-ng-show="playlist">
+               <ol ui-sortable ng-model="upcoming" id="upcoming" data-ng-show="playlist">
                   <li data-ng-repeat="video in upcoming">
                      <p><i class="material-icons item-delete" data-ng-click="delete('upcoming', video.id)">close</i>
                         <span class="item-title" data-ng-click="launch(video.id, video.title)">{{video.title}}</span>
@@ -147,6 +147,7 @@
       <script src="angular.min.js"></script>
       <script src="angular-local-storage.js"></script>
       <script src="app.js"></script>
+      <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui/0.4.0/angular-ui.min.js"></script>
       <script>
          $('#toggle-search').click(function() {
          	 $('#overlay-search').toggleClass('open');
