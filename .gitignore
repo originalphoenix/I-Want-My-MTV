@@ -1,2 +1,7 @@
+<<<<<<< HEAD
 
 .ftpconfig
+=======
+#ignore node dependencies
+node_modules/
+>>>>>>> b42edf338d73dbca0ecaf7921a65ec38af3c6ad2
