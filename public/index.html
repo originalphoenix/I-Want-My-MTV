@@ -76,7 +76,7 @@
          <div class="page-o page-o-2" data-layer-animation-delay="600" data-layer-animation-out-delay="900">
             <div id="playlist" style="position: relative z-index: 10000;">
                <p id="current">{{ youtube.videoTitle }}</p>
-               <ol ui-sortable ng-model="upcoming" id="upcoming" data-ng-show="playlist">
+               <ol id="upcoming" data-ng-show="playlist">
                   <li data-ng-repeat="video in upcoming">
                      <p><i class="material-icons item-delete" data-ng-click="delete('upcoming', video.id)">close</i>
                         <span class="item-title" data-ng-click="launch(video.id, video.title)">{{video.title}}</span>
@@ -111,8 +111,11 @@
       <div class="overlay" id="overlay-playlist">
          <a href="javascript:void(0)" id="close-playlist" class="overlay-close"><i class="material-icons">clear</i></a>
          <nav class="overlay-menu" style="width: 75%;">
+           <form id="search">
+              <p><input id="query" name="q" type="text" placeholder="Search by tag" ng-model="name">
+           </form>
             <div class="row">
-               <div class="col-md-4" ng-repeat="playlist in customPlaylists">
+               <div class="col-md-4" ng-repeat="playlist in customPlaylists | filter: name ">
                   <div class="card">
                      <div class="card_image">
                         <img src="{{playlist.img}}" alt="" class="image">
@@ -146,8 +149,8 @@
       <script type="text/javascript" src="js/main.js"></script>
       <script src="angular.min.js"></script>
       <script src="angular-local-storage.js"></script>
-      <script src="app.js"></script>
       <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui/0.4.0/angular-ui.min.js"></script>
+      <script src="app.js"></script>
       <script>
          $('#toggle-search').click(function() {
          	 $('#overlay-search').toggleClass('open');
