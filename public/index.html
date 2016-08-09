@@ -132,6 +132,26 @@
          </div>
          </div>
       </div>
+
+      <!-- Playlist Ended Modal -->
+<div class="modal fade" id="nextPlaylistModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Loading the next playlist</h4>
+      </div>
+      <div class="modal-body">
+        This playlist is over!
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="loadPlaylist('/playlists/aesthetic-playlist.json', true)">On to the next one</button>
+        <button type="button" class="btn btn-primary">Sound of Silence Please</button>
+      </div>
+    </div>
+  </div>
+</div>
+
       <div id="minimal-animale">
          <h1>
          {{ youtube.videoTitle }}</h2>

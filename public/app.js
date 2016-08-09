@@ -53,7 +53,8 @@ app.service('VideosService', ['$window', '$rootScope', '$log', function($window,
   title: '레디(Reddy) - 생각해 (Feat. 박재범) MV'
  }];
  var history = [{
-  id: '96es5i6FzDc',
+  //id: '96es5i6FzDc',
+  id: 'Kdsnvr3BuQk',
   title: '[MV] GIRIBOY(기리보이) _ Hogu(호구)'
  }];
 
@@ -83,7 +84,7 @@ app.service('VideosService', ['$window', '$rootScope', '$log', function($window,
    youtube.state = 'ended';
    if (typeof upcoming[0] === "undefined"){
      //TO DO: TRIGGER MODAL THAT LOADS THE NEXT PLAYLIST AFTER A COUNTDOWN TIMER
-     console.log ('that was the last song');
+     $('#nextPlaylistModal').modal('show')
    }
    else {
    service.launchPlayer(upcoming[0].id, upcoming[0].title);
@@ -256,7 +257,7 @@ app.controller('VideosController', function($scope, $http, $log, VideosService) 
     $scope.customPlaylists = data;
 });
 
- $scope.loadPlaylist = function(playlist) {
+ $scope.loadPlaylist = function(playlist, next) {
   $http.get(playlist)
    .then(function(res) {
     $scope.upcoming.splice(0);
@@ -265,6 +266,17 @@ app.controller('VideosController', function($scope, $http, $log, VideosService) 
      VideosService.queueVideo(this.id, this.title);
     });
     $('#overlay-playlist').removeClass('open');
+    if (next = true) {
+    VideosService.launchPlayer(res.data[0].id, res.data[0].title);
+  }
    });
  }
+
+   $("#nextPlaylistModal").on('shown.bs.modal', function () {
+            setTimeout(function(){
+              $('#nextPlaylistModal').modal('hide');
+               $scope.loadPlaylist('/playlists/aesthetic-playlist.json', true);
+            }, 3000)
+    });
+
 });
