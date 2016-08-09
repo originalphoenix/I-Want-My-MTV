@@ -53,8 +53,7 @@ app.service('VideosService', ['$window', '$rootScope', '$log', function($window,
   title: '레디(Reddy) - 생각해 (Feat. 박재범) MV'
  }];
  var history = [{
-  //id: '96es5i6FzDc',
-  id: 'Kdsnvr3BuQk',
+  id: '96es5i6FzDc',
   title: '[MV] GIRIBOY(기리보이) _ Hogu(호구)'
  }];
 
