@@ -17,7 +17,7 @@
             })
 
             // route for the contact page
-            .when('/contact', {
+            .when('/genres', {
                 templateUrl : 'pages/genres.html',
                 controller  : 'genreController'
             });
@@ -25,6 +25,7 @@
 
     // create the controller and inject Angular's $scope
     themeApp.controller('mainController', function($scope) {
+      $scope.message = 'Welcome Home';
         // create a message to display in our view
     });
 
