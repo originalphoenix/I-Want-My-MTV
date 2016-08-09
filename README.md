@@ -3,6 +3,8 @@ Money for Nothing, Chicks for Free Youtube Jukebox
 
 Jukebox spun off of juketube with a better layout and actually works.
 
+Design Inspiration: https://www.behance.net/gallery/19435591/Songoroo
+
 Jukebox UI/UX
 - Playlist layout is ugly IS STILL UGLY
 - Add History back in?
