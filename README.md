@@ -3,14 +3,20 @@ Money for Nothing, Chicks for Free Youtube Jukebox
 
 Jukebox spun off of juketube with a better layout and actually works.
 
-UI/UX
+Design Inspiration: https://www.behance.net/gallery/19435591/Songoroo
+
+Jukebox UI/UX
 - Playlist layout is ugly IS STILL UGLY
 - Add History back in?
 - Clean up CSS
 - add play, pause, history buttons in now playing
 
-BACKEND
-- Clear upcoming before loading a playlist
+App UI/UX
+
+- Change Colors
+- Switch to Material Design Cards for everything
+- Shove angular into everything once endpoints are set up
+- Add "Create Playlist" Page
 
 FUNCTIONALITY
 - API endpoints instead of JSON files
@@ -18,7 +24,7 @@ FUNCTIONALITY
 - Ability to load playlists from API
 - Ability to save playlists with album art and tags
 - Ability to loop playlists from the start
-- When Playlists End Autoplay to next related playlist using similar tags (a la 8tracks)
+- Load next playlist via tags
 - Add Favorites
 - Live Search from youtube
 - Give weight to "official" and "MV" 
