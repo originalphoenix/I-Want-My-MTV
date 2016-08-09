@@ -634,7 +634,7 @@ img {
 }
 
 .page-overlay .page-o-2 {
-	width: 28%;
+	width: 20%;
 }
 
 .page-overlay.alt .page-o-2 {
@@ -728,26 +728,63 @@ img {
 
 
 /* Custom CSS for JukeTube Goes Here */
+
+.controls {
+	padding: 15px;
+    color: black;
+}
+
+.controls > div > span {
+	padding: 10px;
+}
+
+.controls > div > span:hover {
+	padding: 10px;
+	color: white;
+}
+
+
+.now-playing > #current {
+	font-size: 1.5em;
+	margin-bottom: 10px;
+	margin-bottom: 30px;
+	margin-top: 30px;
+	white-space: nowrap;
+	text-align: center;
+}
+
+.video-controls {
+	text-align: center;
+}
+
+.video-controls > span > i {
+	font-size: 32px;
+	vertical-align: middle;
+}
+
+span.play-pause > i {
+	font-size: 60px;
+	vertical-align: middle
+}
+
 #playlist {
 	color: #2B2B2B;
-	padding: 5%;
+	padding-top: 5%;
 	font-family: 'Lato', sans-serif;
 	font-weight: 200px;
 	font-size: 1.2em;
 }
 
-#playlist > #current {
-	font-size: 1.5em;
-	margin-bottom: 10px;
-	text-align: center;
-	margin-bottom: 30px;
-	white-space: nowrap;
-}
 
 #playlist > #upcoming > li {
 	border-top: 1px solid rgba(255, 255, 255, 0.5);
 	border-bottom: 1px solid rgba(255, 255, 255, 0.5);
 	padding: 10px;
+	background: rgba(255, 255, 255, 0.45) !important;
+}
+
+#playlist > #upcoming > li::nth-child(even) {
+	background: rgba(184, 184, 184, 0.45) !important;
 }
 
 #playlist > #upcoming > li > p {
@@ -771,8 +808,12 @@ img {
 	color: #F7CAC9;
 }
 
-#playlist > #upcoming > li > p > span.item-title {
+span.item-title {
 	cursor: pointer;
+	display: inline-block;
+	margin-bottom: 0px;
+	white-space: nowrap;
+	overflow: hidden;
 }
 
 #playlist > #upcoming > li > p > span.item-title:hover {
