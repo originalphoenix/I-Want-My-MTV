@@ -14,6 +14,7 @@ App UI/UX
 - Change Colors
 - Switch to Material Design Cards for everything
 - Shove angular into everything once endpoints are set up
+- Add "Create Playlist" Page
 
 FUNCTIONALITY
 - API endpoints instead of JSON files
