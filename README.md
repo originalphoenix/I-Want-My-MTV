@@ -3,13 +3,17 @@ Money for Nothing, Chicks for Free Youtube Jukebox
 
 Jukebox spun off of juketube with a better layout and actually works.
 
-UI/UX
+Jukebox UI/UX
 - Playlist layout is ugly IS STILL UGLY
 - Add History back in?
 - Clean up CSS
 - add play, pause, history buttons in now playing
 
-BACKEND
+App UI/UX
+
+- Change Colors
+- Switch to Material Design Cards for everything
+- Shove angular into everything once endpoints are set up
 
 FUNCTIONALITY
 - API endpoints instead of JSON files
