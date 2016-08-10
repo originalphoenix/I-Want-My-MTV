@@ -769,22 +769,24 @@ span.play-pause > i {
 
 #playlist {
 	color: #2B2B2B;
-	padding-top: 5%;
+	margin-top: 5%;
 	font-family: 'Lato', sans-serif;
 	font-weight: 200px;
 	font-size: 1.2em;
+	height: 100%;
+	background: white;
 }
 
 
 #playlist > #upcoming > li {
-	border-top: 1px solid rgba(255, 255, 255, 0.5);
-	border-bottom: 1px solid rgba(255, 255, 255, 0.5);
 	padding: 10px;
-	background: rgba(255, 255, 255, 0.45) !important;
+	background: rgba(255, 255, 255, 1);
+	padding-top: 15px;
+	padding-bottom: 15px;;
 }
 
-#playlist > #upcoming > li::nth-child(even) {
-	background: rgba(184, 184, 184, 0.45) !important;
+#playlist > #upcoming > li:nth-child(even) {
+	background: #edecf2;
 }
 
 #playlist > #upcoming > li > p {
@@ -793,6 +795,12 @@ span.play-pause > i {
 	white-space: nowrap;
 	overflow: hidden;
 
+}
+
+.playlist-counter {
+	font-size: 28px;
+    color: #92A8D1;
+    padding-left: 30px;
 }
 
 #playlist > #upcoming > li > p > i.material-icons.item-delete {
@@ -816,9 +824,42 @@ span.item-title {
 	overflow: hidden;
 }
 
-#playlist > #upcoming > li > p > span.item-title:hover {
+span.item-title:hover {
 	color: #92A8D1;
 }
+
+
+.delete {
+	right: 0;
+	    position: absolute;
+	    z-index: 100;
+	    padding: 17px;
+	    background-color: #F7CAC9;
+	    color: white;
+	    opacity: 0;
+	    margin-top: -15px;
+	    cursor: pointer;
+	    padding-top: 20px;
+	    padding-bottom: 14px;
+}
+
+.delete:hover {
+opacity: 1
+}
+
+.save-playlist > button {
+	width: 100%;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    color: black;
+    background: #F2DDDE;
+    border: none;
+		font-weight: 200;
+    position: absolute;
+    bottom: 0;
+		font-size: 24px;
+}
+
 
 #menu {
 	color: white;

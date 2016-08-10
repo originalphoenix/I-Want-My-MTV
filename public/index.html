@@ -71,8 +71,8 @@
                <ol id="upcoming" data-ng-show="playlist">
                   <li data-ng-repeat="video in upcoming">
                     <div class="row">
-                      <div class="col-md-2">
-                        #
+                      <div class="col-md-2 playlist-counter">
+                        {{$index + 1}}
                       </div>
                       <div class="col-md-10">
                         <span class="item-title" data-ng-click="launch(video.id, video.title)">{{video.title}}</span>
@@ -83,6 +83,9 @@
                     </div>
                   </li>
                </ol>
+               <div class="save-playlist">
+                 <button>Save This Playlist</button>
+               </div>
             </div>
             <!--
             <div id="history" style="position: relative z-index: 10000;">
@@ -94,9 +97,6 @@
                   </li>
                </ol>
             </div> -->
-            <div class="save-playlist">
-              <button><!-- Only show this if anything has been added to the playlist --></button>
-            </div>
          </div>
       </div>
       <div class="overlay" id="overlay-search">
