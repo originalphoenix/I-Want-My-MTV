@@ -72,13 +72,27 @@ app.service('VideosService', ['$window', '$rootScope', '$log', function($window,
   youtube.videoTitle = history[0].title;
   youtube.player.playVideo();
 
+  var playButton = document.getElementById("play-button");
+  playButton.addEventListener("click", function() {
+    youtube.player.playVideo();
+  });
+
+  var pauseButton = document.getElementById("pause-button");
+  pauseButton.addEventListener("click", function() {
+      youtube.player.pauseVideo();
+  });
+
  }
 
  function onYoutubeStateChange(event) {
   if (event.data == YT.PlayerState.PLAYING) {
    youtube.state = 'playing';
+   $("#pause-button").show();
+   $("#play-button").hide();
   } else if (event.data == YT.PlayerState.PAUSED) {
    youtube.state = 'paused';
+   $("#play-button").show();
+   $("#pause-button").hide();
   } else if (event.data == YT.PlayerState.ENDED) {
    youtube.state = 'ended';
    if (typeof upcoming[0] === "undefined"){
@@ -216,7 +230,7 @@ app.controller('VideosController', function($scope, $http, $log, VideosService) 
   VideosService.deleteVideo($scope.history, id);
   $log.info('Queued id:' + id + ' and title:' + title);
   $("input[type=text], textarea").val("");
-  $scope.results = $scope.origData;
+  $scope.results = $scope.initial;
   $('#overlay-search').removeClass('open');
  };
 
@@ -239,8 +253,7 @@ app.controller('VideosController', function($scope, $http, $log, VideosService) 
     }
    })
    .success(function(data) {
-    VideosService.listResults(data);
-    $log.info(data);
+    $scope.results = VideosService.listResults(data);
    })
    .error(function() {
     $log.info('Search error');

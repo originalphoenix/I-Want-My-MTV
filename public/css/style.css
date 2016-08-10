@@ -827,6 +827,25 @@ span.play-pause > i {
 	color: #F7CAC9;
 }
 
+#playlist > #history {
+	display: none;
+}
+
+#playlist > #history > li {
+	padding: 10px;
+	background: #edecf2;
+	padding-top: 15px;
+	padding-bottom: 15px;
+	color: grey;
+}
+
+#playlist > #history > li > p {
+	display: inline-block;
+	margin-bottom: 0px;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
 span.item-title {
 	cursor: pointer;
 	display: inline-block;
@@ -884,6 +903,13 @@ opacity: 1
 	padding: 10px;
 margin-top: 5px;
 margin-bottom: 5px;
+}
+
+#player.video-background.full {
+	  background: #000;
+	  position: fixed;
+	  top: 0; right: 0; bottom: 0; left: 0;
+		width: 100%;
 }
 
 .video-background {
@@ -1203,6 +1229,7 @@ margin-bottom: 0px;
   font-size: 24px;
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26), 0 2px 10px 0 rgba(0, 0, 0, 0.22);
   cursor: pointer;
+	display: none;
 }
 .menu-button:hover {
   background: #F2DDDE;

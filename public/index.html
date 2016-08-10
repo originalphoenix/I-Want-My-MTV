@@ -48,8 +48,8 @@
          <div class="page-o page-o-2" data-layer-animation-delay="600" data-layer-animation-out-delay="900">
            <div class="controls">
              <div class="pull-left">
-             <span><i class="material-icons">replay</i></span>
-             <span id="toggle-minimalism"><i class="material-icons">branding_watermark</i></span>
+             <span id="history-button"><i class="material-icons">history</i></span>
+             <span class="toggle-minimalism"><i class="material-icons">branding_watermark</i></span>
             </div>
             <div class="pull-right">
              <span><i class="material-icons">favorite_border</i></span>
@@ -63,7 +63,8 @@
             <span><!-- Time Bar --> </span>
             <div class="video-controls">
             <span><i class="material-icons">skip_previous</i></span>
-            <span class="play-pause"><i class="material-icons">play_arrow</i></span>
+            <span class="play-pause" id="play-button"><i class="material-icons">play_arrow</i></span>
+            <span class="play-pause" id="pause-button"><i class="material-icons">pause</i></span>
             <!-- <p><i class="material-icons">pause</i></p> -->
             <span><i class="material-icons">skip_next</i></span>
           </div>
@@ -84,20 +85,25 @@
                     </div>
                   </li>
                </ol>
+               <ol id="history" data-ng-show="playlist">
+                  <li data-ng-repeat="video in history">
+                    <div class="row">
+                      <div class="col-md-2 playlist-counter">
+                        <i class="material-icons">replay</i>
+                      </div>
+                      <div class="col-md-10">
+                        <span class="item-title" data-ng-click="launch(video.id, video.title)">{{video.title}}</span>
+                      </div>
+                      <div class="delete">
+                        <i class="material-icons item-delete" data-ng-click="delete('history', video.id)">close</i>
+                      </div>
+                    </div>
+                  </li>
+               </ol>
                <div class="save-playlist">
                  <button>Save This Playlist</button>
                </div>
             </div>
-            <!--
-            <div id="history" style="position: relative z-index: 10000;">
-               <ol id="upcoming" data-ng-show="playlist">
-                  <li data-ng-repeat="video in upcoming">
-                     <p><i class="material-icons item-delete" data-ng-click="delete('upcoming', video.id)">close</i>
-                        <span class="item-title" data-ng-click="launch(video.id, video.title)">{{video.title}}</span>
-                     </p>
-                  </li>
-               </ol>
-            </div> -->
          </div>
       </div>
       <div class="overlay" id="overlay-search">
@@ -171,11 +177,8 @@
          {{ youtube.videoTitle }}</h2>
          <h4 data-ng-repeat="video in upcoming" ng-show="$first">Up Next: {{ video.title }}</h4>
       </div>
-<!--      <div class="menu-button"><i class="material-icons">add</i>
-         <a href="javascript:void(0)" id="toggle-search"><i class="material-icons">search</i></a>
-         <a href="javascript:void(0)" id="toggle-playlist"><i class="material-icons">dehaze</i></a>
-         <a href="javascript:void(0)" id="toggle-minimalism"><i class="material-icons">music_video</i></a>
-      </div> -->
+      <div class="menu-button toggle-minimalism"><i class="material-icons">playlist_play</i>
+      </div>
       <!-- JS -->
       <script type="text/javascript" src="js/jquery.min.js"></script>
       <script type="text/javascript" src="js/bootstrap.min.js"></script>
@@ -185,6 +188,20 @@
       <script src="angular-local-storage.js"></script>
       <script src="app.js"></script>
       <script>
+      $('#history-button').click(function() {
+        var $this = $(this);
+        $this.toggleClass("active");
+
+        if ($this.hasClass("active")) {
+          $this.html("<i class=\"material-icons\">queue_music</i>");
+          $("#history").show();
+          $("#upcoming").hide();
+        } else {
+          $this.html("<i class=\"material-icons\">history</i>");
+          $("#history").hide();
+          $("#upcoming").show();
+ }
+       });
          $('#toggle-search').click(function() {
          	 $('#overlay-search').toggleClass('open');
          	});
@@ -201,11 +218,14 @@
          		$('#overlay-playlist').toggleClass('open');
          	 });
 
-         $('#toggle-minimalism').click(function() {
+         $('.toggle-minimalism').click(function() {
          			$('.page-overlay').toggle()
-         $('#minimal-animale').toggleClass('show')
+              $('.menu-button').toggle()
+              $('#minimal-animale').toggleClass('show')
+              $('#player').toggleClass('full')
+
          		 });
-          // A minimal search box like this does requires automatic focus in order for someone to find it.
+
 
          var input = document.querySelector('#query');
          var loadTimeout;
