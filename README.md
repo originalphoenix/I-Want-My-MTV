@@ -8,6 +8,7 @@ Design Inspiration: https://www.behance.net/gallery/19435591/Songoroo
 Jukebox UI/UX
 - Clean up CSS
 - Add CSS Animations to everything
+- Show Icon where play button should be while youtube video is loading
 
 App UI/UX
 
