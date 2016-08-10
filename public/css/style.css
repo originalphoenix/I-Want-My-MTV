@@ -612,12 +612,16 @@ img {
 	width: 100%;
 	overflow: hidden;
 	z-index: 0;
-	-webkit-transition: all .5s ease;
-	-moz-transition: all .5s ease;
-	-ms-transition: all .5s ease;
-	-o-transition: all .5s ease;
-	transition: all .5s ease;
-	background: rgba(255, 255, 255, 0.45) !important;
+	-webkit-transition: all 1.5s ease;
+	-moz-transition: all 1.5s ease;
+	-ms-transition: all 1.5s ease;
+	-o-transition: all 1.5s ease;
+	transition: all 1.5s ease;
+	background: linear-gradient(220deg, rgba(247, 202, 201, 1), rgba(146, 168, 209, 1));
+	background-size: 400% 400%;
+	-webkit-animation: PantoneColors 6s ease infinite;
+	-moz-animation: PantoneColors 6s ease infinite;
+	animation: PantoneColors 6s ease infinite;
 
 }
 
@@ -634,7 +638,7 @@ img {
 }
 
 .page-overlay .page-o-2 {
-	width: 28%;
+	width: 20%;
 }
 
 .page-overlay.alt .page-o-2 {
@@ -670,7 +674,6 @@ img {
 	position: absolute;
 	top: 0;
 	bottom: 0;
-	left: 0;
 	right: 0;
 	z-index: -10;
 	-webkit-transition: all .5s ease;
@@ -678,6 +681,9 @@ img {
 	-ms-transition: all .5s ease;
 	-o-transition: all .5s ease;
 	transition: all .5s ease;
+	-webkit-box-shadow: inset 11px 0px 25px -4px rgba(43,43,43,0.36);
+	-moz-box-shadow: inset 11px 0px 25px -4px rgba(43,43,43,0.36);
+	box-shadow: inset 11px 0px 25px -4px rgba(43,43,43,0.36);
 }
 
 .overlay-background,
@@ -728,26 +734,70 @@ img {
 
 
 /* Custom CSS for JukeTube Goes Here */
+
+.controls {
+	padding: 15px;
+    color: white;
+}
+
+.controls > div > span {
+	padding: 10px;
+	cursor: pointer;
+}
+
+.controls > div > span:hover {
+	padding: 10px;
+	color: ##2B2B2B;
+}
+
+
+.now-playing > #current {
+	font-size: 1.5em;
+	margin-bottom: 10px;
+	margin-bottom: 50px;
+	margin-top: 30px;
+	padding-left: 15px;
+	padding-right: 15px;
+	text-align: center;
+	color: white;
+}
+
+.video-controls {
+	text-align: center;
+	color: white;
+}
+
+.video-controls > span > i {
+	font-size: 32px;
+	vertical-align: middle;
+	cursor: pointer;
+}
+
+span.play-pause > i {
+	font-size: 60px;
+	vertical-align: middle
+}
+
 #playlist {
 	color: #2B2B2B;
-	padding: 5%;
+	margin-top: 15%;
 	font-family: 'Lato', sans-serif;
 	font-weight: 200px;
 	font-size: 1.2em;
+	height: 100%;
+	background: white;
 }
 
-#playlist > #current {
-	font-size: 1.5em;
-	margin-bottom: 10px;
-	text-align: center;
-	margin-bottom: 30px;
-	white-space: nowrap;
-}
 
 #playlist > #upcoming > li {
-	border-top: 1px solid rgba(255, 255, 255, 0.5);
-	border-bottom: 1px solid rgba(255, 255, 255, 0.5);
 	padding: 10px;
+	background: rgba(255, 255, 255, 1);
+	padding-top: 15px;
+	padding-bottom: 15px;;
+}
+
+#playlist > #upcoming > li:nth-child(even) {
+	background: #edecf2;
 }
 
 #playlist > #upcoming > li > p {
@@ -756,6 +806,12 @@ img {
 	white-space: nowrap;
 	overflow: hidden;
 
+}
+
+.playlist-counter {
+	font-size: 28px;
+    color: #92A8D1;
+    padding-left: 30px;
 }
 
 #playlist > #upcoming > li > p > i.material-icons.item-delete {
@@ -771,13 +827,70 @@ img {
 	color: #F7CAC9;
 }
 
-#playlist > #upcoming > li > p > span.item-title {
-	cursor: pointer;
+#playlist > #history {
+	display: none;
 }
 
-#playlist > #upcoming > li > p > span.item-title:hover {
+#playlist > #history > li {
+	padding: 10px;
+	background: #edecf2;
+	padding-top: 15px;
+	padding-bottom: 15px;
+	color: grey;
+}
+
+#playlist > #history > li > p {
+	display: inline-block;
+	margin-bottom: 0px;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+span.item-title {
+	cursor: pointer;
+	display: inline-block;
+	margin-bottom: 0px;
+	white-space: nowrap;
+	overflow: hidden;
+	width: 95%;
+}
+
+span.item-title:hover {
 	color: #92A8D1;
 }
+
+
+.delete {
+	right: 0;
+	    position: absolute;
+	    z-index: 100;
+	    padding: 17px;
+	    background-color: #F7CAC9;
+	    color: white;
+	    opacity: 0;
+	    margin-top: -15px;
+	    cursor: pointer;
+	    padding-top: 20px;
+	    padding-bottom: 14px;
+}
+
+.delete:hover {
+opacity: 1
+}
+
+.save-playlist > button {
+	width: 100%;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    color: black;
+    background: #F2DDDE;
+    border: none;
+		font-weight: 200;
+    position: absolute;
+    bottom: 0;
+		font-size: 24px;
+}
+
 
 #menu {
 	color: white;
@@ -792,10 +905,18 @@ margin-top: 5px;
 margin-bottom: 5px;
 }
 
+#player.video-background.full {
+	  background: #000;
+	  position: fixed;
+	  top: 0; right: 0; bottom: 0; left: 0;
+		width: 100%;
+}
+
 .video-background {
   background: #000;
   position: fixed;
-  top: 0; right: 0; bottom: 0; left: 0;
+  top: 0; right: 0; bottom: 0;
+	width: 80%;
 }
 .video-foreground,
 .video-background iframe {
@@ -865,8 +986,8 @@ margin-bottom: 5px;
 	-moz-animation: PantoneColors 6s ease infinite;
 	animation: PantoneColors 6s ease infinite;
   top: 0;
-  left: 0;
-  width: 100%;
+  right: 0;
+  width: 80%;
   height: 0%;
   opacity: 0;
   visibility: hidden;
@@ -1108,6 +1229,7 @@ margin-bottom: 0px;
   font-size: 24px;
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26), 0 2px 10px 0 rgba(0, 0, 0, 0.22);
   cursor: pointer;
+	display: none;
 }
 .menu-button:hover {
   background: #F2DDDE;
@@ -1204,7 +1326,7 @@ margin-bottom: 0px;
 }
 
 .card {
-  width: 425px;
+  width: 375px;
   margin: 0 auto;
   box-shadow: 0 12px 15px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
   margin-bottom: 3em;
