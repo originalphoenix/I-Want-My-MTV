@@ -49,11 +49,12 @@
            <div class="controls">
              <div class="pull-left">
              <span><i class="material-icons">replay</i></span>
-             <span><i class="material-icons">branding_watermark</i></span>
+             <span id="toggle-minimalism"><i class="material-icons">branding_watermark</i></span>
             </div>
             <div class="pull-right">
              <span><i class="material-icons">favorite_border</i></span>
-             <span><i class="material-icons">playlist_add</i></span>
+             <span id="toggle-search"><i class="material-icons">search</i></span>
+             <span id="toggle-playlist"><i class="material-icons">playlist_add</i></span>
             </div>
           </div>
           <div class="clearfix"></div>
@@ -170,11 +171,11 @@
          {{ youtube.videoTitle }}</h2>
          <h4 data-ng-repeat="video in upcoming" ng-show="$first">Up Next: {{ video.title }}</h4>
       </div>
-      <div class="menu-button"><i class="material-icons">add</i>
+<!--      <div class="menu-button"><i class="material-icons">add</i>
          <a href="javascript:void(0)" id="toggle-search"><i class="material-icons">search</i></a>
          <a href="javascript:void(0)" id="toggle-playlist"><i class="material-icons">dehaze</i></a>
          <a href="javascript:void(0)" id="toggle-minimalism"><i class="material-icons">music_video</i></a>
-      </div>
+      </div> -->
       <!-- JS -->
       <script type="text/javascript" src="js/jquery.min.js"></script>
       <script type="text/javascript" src="js/bootstrap.min.js"></script>
