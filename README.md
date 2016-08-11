@@ -10,6 +10,7 @@ Jukebox UI/UX
 - Add CSS Animations to everything
 - Show Icon where play button should be while youtube video is loading
 - When youtube status is ended, show a gradient background instead of the youtube screen
+- Fix the Modal for "playlist has ended" / Style it also
 
 App UI/UX
 
