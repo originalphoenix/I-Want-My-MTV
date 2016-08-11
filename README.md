@@ -6,10 +6,10 @@ Jukebox spun off of juketube with a better layout and actually works.
 Design Inspiration: https://www.behance.net/gallery/19435591/Songoroo
 
 Jukebox UI/UX
-- Playlist layout is ugly IS STILL UGLY
-- Add History back in?
 - Clean up CSS
-- add play, pause, history buttons in now playing
+- Add CSS Animations to everything
+- Show Icon where play button should be while youtube video is loading
+- When youtube status is ended, show a gradient background instead of the youtube screen
 
 App UI/UX
 
