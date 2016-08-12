@@ -7,6 +7,7 @@ var mongoose    = require('mongoose');
 var passport	= require('passport');
 var config      = require('./config/database'); // get db config file
 var User        = require('./app/models/user'); // get the mongoose model
+var Playlist     = require('./app/models/playlists');
 var port        = process.env.PORT || 8080;
 var jwt         = require('jwt-simple');
 
@@ -69,7 +70,7 @@ apiRoutes.post('/authenticate', function(req, res) {
     if (err) throw err;
 
     if (!user) {
-      res.send({success: false, msg: 'Authentication failed. User not found.'});
+      res.send({success: false, msg: 'Authentication failed.'});
     } else {
       // check if password matches
       user.comparePassword(req.body.password, function (err, isMatch) {
@@ -79,7 +80,7 @@ apiRoutes.post('/authenticate', function(req, res) {
           // return the information including token as JSON
           res.json({success: true, token: 'JWT ' + token});
         } else {
-          res.send({success: false, msg: 'Authentication failed. Wrong password.'});
+          res.send({success: false, msg: 'Authentication failed.'});
         }
       });
     }
@@ -106,6 +107,78 @@ apiRoutes.get('/memberinfo', passport.authenticate('jwt', { session: false}), fu
     return res.status(403).send({success: false, msg: 'No token provided.'});
   }
 });
+
+apiRoutes.post('/playlist', function(req, res) {
+
+        var playlist = new Playlist({
+          img: req.body.img,
+          name: req.body.name,
+          playlist_author: req.body.playlist_author,
+          tags: req.body.tags,
+          songs: req.body.songs
+        });
+
+
+        playlist.save(function(err) {
+            if (err)
+                res.send(err);
+
+            res.json({ message: 'Playlist created!' });
+        });
+
+    });
+
+
+apiRoutes.get('/playlist', function(req, res) {
+        Playlist.find(function(err, playlist) {
+            if (err)
+                res.send(err);
+
+            res.json(playlist);
+        });
+    });
+
+
+apiRoutes.get('/playlist/:playlist_id', function(req, res) {
+        Playlist.findById(req.params.playlist_id, function(err, playlist) {
+            if (err)
+                res.send(err);
+                res.json(playlist);
+            });
+        });
+
+        apiRoutes.put('/playlist/:playlist_id', function(req, res) {
+                 Playlist.findById(req.params.playlist_id, function(err, playlist) {
+
+                     if (err)
+                         res.send(err);
+
+                         playlist.img: req.body.img,
+                         playlist.name: req.body.name,
+                         playlist.playlist_author: req.body.playlist_author,
+                         playlist.tags: req.body.tags,
+                         playlist.songs: req.body.songs
+
+                     playlist.save(function(err) {
+                         if (err)
+                             res.send(err);
+
+                         res.json({ message: 'Playlist updated!' });
+                     });
+
+                 });
+                });
+
+                apiRoutes.delete('/playlist/:playlist_id', function(req, res) {
+                  Playlist.remove({
+                      _id: req.params.playlist_id
+                  }, function(err, playlist) {
+                      if (err)
+                          res.send(err);
+
+                      res.json({ message: 'Successfully deleted' });
+                  });
+                        });
 
 getToken = function (headers) {
   if (headers && headers.authorization) {

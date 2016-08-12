@@ -13,17 +13,17 @@ var playlistSchema = Schema({
 });
 
 var tagSchema = Schema({
-  _playlist : { type: Number, ref: 'Playlist' }
+  _playlist : { type: Number, ref: 'Playlist' },
   tag    : String
 });
 
 var songSchema = Schema({
-  _playlist : { type: Number, ref: 'Playlist' }
+  _playlist : { type: Number, ref: 'Playlist' },
   s_index : Number,
   s_id : String,
   s_title : String
 });
 
-var Playlist  = mongoose.model('Playlist', playlistSchema);
-var Tag  = mongoose.model('Tag', tagSchema);
-var Song  = mongoose.model('Song', songSchema);
+module.exports = mongoose.model('Playlist', playlistSchema);
+module.exports = mongoose.model('Tag', tagSchema);
+module.exports = mongoose.model('Song', songSchema);
