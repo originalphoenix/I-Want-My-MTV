@@ -19,6 +19,12 @@ App UI/UX
 - Shove angular into everything once endpoints are set up
 - Add "Create Playlist" Page
 
+API 
+- Users that create playlists also delete them
+- Users that create playlists can only edit them
+- Lock down GET so that only the app can make requests to it
+- Need some way of relating "favorites" to a user account, not sure how yet :/ 
+
 FUNCTIONALITY
 - API endpoints instead of JSON files
 - User Accounts
