@@ -7,14 +7,13 @@ var mongoose    = require('mongoose');
 var passport	= require('passport');
 var config      = require('./config/database'); // get db config file
 var User        = require('./app/models/user'); // get the mongoose model
-var Playlist     = require('./app/models/playlists');
+// var Playlist     = require('./app/models/playlists');
 var port        = process.env.PORT || 8080;
 var jwt         = require('jwt-simple');
 
 // get our request parameters
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-
 // log to console
 app.use(morgan('dev'));
 
@@ -108,24 +107,49 @@ apiRoutes.get('/memberinfo', passport.authenticate('jwt', { session: false}), fu
   }
 });
 
-apiRoutes.post('/playlist', function(req, res) {
+var Schema = mongoose.Schema
 
-        var playlist = new Playlist({
+var tagSchema = Schema({
+  tag: String
+})
+
+var songSchema = Schema({
+  s_index: Number,
+  s_id: String,
+  s_title: String
+})
+
+var playlistSchema = Schema({
+  img: String,
+  name: String,
+  playlist_author: String,
+  tags: [tagSchema],
+  songs: [songSchema],
+  play_count: Number,
+  favorites: Number
+})
+
+var Playlist = mongoose.model('Playlist', playlistSchema)
+
+
+apiRoutes.post('/playlist', function(req, res) {
+       var playlist = new Playlist({
           img: req.body.img,
           name: req.body.name,
           playlist_author: req.body.playlist_author,
           tags: req.body.tags,
-          songs: req.body.songs
+          songs: req.body.songs,
+          play_count: req.body.play_count,
+          favorites: req.body.favorites,
         });
 
 
         playlist.save(function(err) {
-            if (err)
-                res.send(err);
-
-            res.json({ message: 'Playlist created!' });
+          if (err) {
+            return res.json({success: false, msg: 'Failed'});
+          }
+          res.json({success: true, msg: 'Congrats'});
         });
-
     });
 
 
@@ -153,11 +177,11 @@ apiRoutes.get('/playlist/:playlist_id', function(req, res) {
                      if (err)
                          res.send(err);
 
-                         playlist.img: req.body.img,
-                         playlist.name: req.body.name,
-                         playlist.playlist_author: req.body.playlist_author,
-                         playlist.tags: req.body.tags,
-                         playlist.songs: req.body.songs
+                         playlist.img = req.body.img;
+                         playlist.name = req.body.name;
+                         playlist.playlist_author = req.body.playlist_author;
+                         playlist.tags = req.body.tags;
+                         playlist.songs = req.body.songs;
 
                      playlist.save(function(err) {
                          if (err)
