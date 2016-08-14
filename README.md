@@ -10,6 +10,7 @@ Jukebox UI/UX
 - Add CSS Animations to everything
 - Show Icon where play button should be while youtube video is loading
 - When youtube status is ended, show a gradient background instead of the youtube screen
+- Fix the Modal for "playlist has ended" / Style it also
 
 App UI/UX
 
@@ -17,6 +18,12 @@ App UI/UX
 - Switch to Material Design Cards for everything
 - Shove angular into everything once endpoints are set up
 - Add "Create Playlist" Page
+
+API 
+- Users that create playlists also delete them
+- Users that create playlists can only edit them
+- Lock down GET so that only the app can make requests to it
+- Need some way of relating "favorites" to a user account, not sure how yet :/ 
 
 FUNCTIONALITY
 - API endpoints instead of JSON files
