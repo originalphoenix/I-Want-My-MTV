@@ -10,6 +10,7 @@ var User        = require('./app/models/user'); // get the mongoose model
 // var Playlist     = require('./app/models/playlists');
 var port        = process.env.PORT || 8080;
 var jwt         = require('jwt-simple');
+var path        = require('path');
 
 // get our request parameters
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -20,17 +21,20 @@ app.use(morgan('dev'));
 // Use the passport package in our application
 app.use(passport.initialize());
 
-/* set static files location
+// set static files location
 app.use(express.static(__dirname + '/public'));
-
-// set up home page
-app.get('*', function(req, res) {
-	res.sendFile(path.join(__dirname + '/public/index.html'));
-}); */
 
 // demo Route (GET http://localhost:8080)
 app.get('/', function(req, res) {
-  res.send('Hello! The API is at http://localhost:' + port + '/api');
+  res.sendFile(path.join(__dirname + '/public/index.html'));
+});
+
+app.get('/signup', function(req, res) {
+  res.sendFile(path.join(__dirname + '/public/signup.html'));
+});
+
+app.get('/signin', function(req, res) {
+  res.sendFile(path.join(__dirname + '/public/signin.html'));
 });
 
 // connect to database
@@ -49,6 +53,7 @@ apiRoutes.post('/signup', function(req, res) {
   } else {
     var newUser = new User({
       name: req.body.name,
+      email: req.body.email,
       password: req.body.password
     });
     // save the user
@@ -86,9 +91,6 @@ apiRoutes.post('/authenticate', function(req, res) {
   });
 });
 
-<<<<<<< HEAD
-app.listen(config.port);
-=======
 // route to a restricted info (GET http://localhost:8080/api/memberinfo)
 apiRoutes.get('/memberinfo', passport.authenticate('jwt', { session: false}), function(req, res) {
   var token = getToken(req.headers);
@@ -227,4 +229,3 @@ app.use('/api', apiRoutes);
 // Start the server
 app.listen(port);
 console.log('Wow, fantastic baby: http://localhost:' + port);
->>>>>>> master

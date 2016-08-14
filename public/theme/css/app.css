@@ -3,7 +3,7 @@ html {
   overflow-x: hidden;
 }
 body {
-  font-family: "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 14px;
   color: #788188;
   background-color: transparent;
@@ -17,6 +17,11 @@ body {
 .h5,
 .h6 {
   margin: 0;
+}
+
+.h1 {
+  font-size: 48px;
+font-weight: 200;
 }
 a {
   color: #545a5f;
@@ -1358,17 +1363,17 @@ fieldset[disabled] .btn-success.active {
 }
 .btn-info {
   color: #fff !important;
-  background-color: #4cb6cb;
-  border-color: #4cb6cb;
+  background-color: #92A8D1;
+  border-color: #92A8D1;
 }
 .btn-info:hover,
 .btn-info:focus,
 .btn-info:active,
 .btn-info.active,
 .open .dropdown-toggle.btn-info {
-  color: #fff !important;
-  background-color: #39adc4;
-  border-color: #36a3b9;
+  color: #555 !important;
+  background-color: white;
+  border-color: white;
 }
 .btn-info:active,
 .btn-info.active,
@@ -1405,7 +1410,7 @@ fieldset[disabled] .btn-info.active {
 .open .dropdown-toggle.btn-warning {
   color: #fff !important;
   background-color: #f9d21a;
-  border-color: #f9cf0b;
+  border-color: #92A8D1;
 }
 .btn-warning:active,
 .btn-warning.active,
@@ -1428,7 +1433,7 @@ fieldset[disabled] .btn-warning:focus,
 fieldset[disabled] .btn-warning:active,
 fieldset[disabled] .btn-warning.active {
   background-color: #fad733;
-  border-color: #fad733;
+  border-color: #92A8D1;
 }
 .btn-danger {
   color: #fff !important;
@@ -2428,11 +2433,11 @@ fieldset[disabled] .btn-dark.active {
 }
 .bg-info {
   background-color: #4cb6cb;
-  color: #eaf6f9;
+  color: #fff;
 }
 .bg-info.lt,
 .bg-info .lt {
-  background-color: #62bcce;
+  background-color: #F7CAC9;
 }
 .bg-info.lter,
 .bg-info .lter {
@@ -2444,7 +2449,11 @@ fieldset[disabled] .btn-dark.active {
 }
 .bg-info.dker,
 .bg-info .dker {
-  background-color: #2ea0b6;
+  background: linear-gradient(220deg, rgba(247, 202, 201, 0.9), rgba(146, 168, 209, 0.9));
+  background-size: 400% 400%;
+  -webkit-animation: PantoneColors 6s ease infinite;
+  -moz-animation: PantoneColors 6s ease infinite;
+  animation: PantoneColors 6s ease infinite;
 }
 .bg-info.bg,
 .bg-info .bg {
@@ -2494,7 +2503,7 @@ fieldset[disabled] .btn-dark.active {
   color: #fff;
 }
 .bg-info .text-muted {
-  color: #c3e6ed !important;
+  color: #fff !important;
 }
 .bg-info .text-lt {
   color: #ffffff !important;
