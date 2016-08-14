@@ -274,6 +274,7 @@ app.controller('VideosController', function($scope, $http, $log, VideosService) 
    method: 'GET',
    url: '/api/playlist/' + playlist_id
  }).then(function successCallback(response) {
+   $scope.upcoming.splice(0);
     var json = JSON.stringify(response.data.songs);
     $.each($.parseJSON(json), function() {
      VideosService.queueVideo(this.s_id, this.s_title);
