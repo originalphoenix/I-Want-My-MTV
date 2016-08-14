@@ -20,17 +20,12 @@ app.use(morgan('dev'));
 // Use the passport package in our application
 app.use(passport.initialize());
 
-/* set static files location
+// set static files location
 app.use(express.static(__dirname + '/public'));
 
 // set up home page
-app.get('*', function(req, res) {
-	res.sendFile(path.join(__dirname + '/public/index.html'));
-}); */
-
-// demo Route (GET http://localhost:8080)
 app.get('/', function(req, res) {
-  res.send('Hello! The API is at http://localhost:' + port + '/api');
+	res.sendFile(path.join(__dirname + '/public/index.html'));
 });
 
 // connect to database
@@ -107,6 +102,8 @@ apiRoutes.get('/memberinfo', passport.authenticate('jwt', { session: false}), fu
   }
 });
 
+// If you don't define the playlist schema in line, it throws a gigantic fit, don't know why, don't even ask me tbh
+
 var Schema = mongoose.Schema
 
 var tagSchema = Schema({
@@ -182,6 +179,8 @@ apiRoutes.get('/playlist/:playlist_id', function(req, res) {
                          playlist.playlist_author = req.body.playlist_author;
                          playlist.tags = req.body.tags;
                          playlist.songs = req.body.songs;
+                         playlist.play_count = req.body.play_count;
+                         playlist.favorites = req.body.favorites;
 
                      playlist.save(function(err) {
                          if (err)

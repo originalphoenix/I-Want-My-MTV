@@ -21,4 +21,4 @@ var playlistSchema = Schema({
   favorites: Number
 })
 
-var Playlist = mongoose.model('Playlist', playlistSchema)
+module.exports = mongoose.model('Playlist', playlistSchema)

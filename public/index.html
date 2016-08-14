@@ -143,7 +143,7 @@
                         favorite_border</i>
                      </div>
                      <div class="cardContent">
-                        <button class="cardContentButton" ng-click="loadPlaylist(playlist.url)"><i class="material-icons">play_arrow</i></button>
+                        <button class="cardContentButton" ng-click="loadPlaylist(playlist._id)"><i class="material-icons">play_arrow</i></button>
                         <p class="cardContentName">{{playlist.name}}</p>
                         <p class="cardContentJob">Tags: <span class="label label-primary" ng-repeat="genre in playlist.tags">{{genre.tag}}</span></p>
                      </div>

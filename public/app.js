@@ -265,23 +265,27 @@ app.controller('VideosController', function($scope, $http, $log, VideosService) 
  }
 
  $scope.customPlaylists= [];
- $http.get('playlists/playlist-masterlist.json').success(function(data) {
+ $http.get('/api/playlist/').success(function(data) {
     $scope.customPlaylists = data;
 });
 
- $scope.loadPlaylist = function(playlist, next) {
-  $http.get(playlist)
-   .then(function(res) {
-    $scope.upcoming.splice(0);
-    var json = JSON.stringify(res.data);
+ $scope.loadPlaylist = function(playlist_id, next) {
+   $http({
+   method: 'GET',
+   url: '/api/playlist/' + playlist_id
+ }).then(function successCallback(response) {
+    var json = JSON.stringify(response.data.songs);
     $.each($.parseJSON(json), function() {
-     VideosService.queueVideo(this.id, this.title);
+     VideosService.queueVideo(this.s_id, this.s_title);
     });
     $('#overlay-playlist').removeClass('open');
     if (next = true) {
     VideosService.launchPlayer(res.data[0].id, res.data[0].title);
   }
-   });
+  }, function errorCallback(response) {
+    console.log('holy shit it broke');
+  });
+
  }
 
    $("#nextPlaylistModal").on('shown.bs.modal', function () {
