@@ -11,8 +11,33 @@
   animation: PantoneColors 6s ease infinite;
 }
 
+.gradient-bg-dark {
+  background: linear-gradient(220deg, rgba(247, 202, 201, 0.6), rgba(146, 168, 209, 0.6));
+  background-size: 400% 400%;
+  -webkit-animation: PantoneColors 6s ease infinite;
+  -moz-animation: PantoneColors 6s ease infinite;
+  animation: PantoneColors 6s ease infinite;
+}
+
 .tab-pane {
   padding: 5%;
+}
+
+.lined-box {
+  height: 90vh;
+    margin: 1%;
+    padding: 1%;
+    border: 5px solid white;
+}
+
+.create-playlist-gradient {
+  margin-top: -60px;
+  margin-bottom: -60px;
+  padding-top: 20px;
+  z-index: 100;
+  position: absolute;
+  width: 100%;
+    height: 110%;
 }
 
 /* Overlay */
@@ -486,16 +511,16 @@ margin-bottom: 5px;
 	padding-top: 10px;
 }
 #query::-webkit-input-placeholder {
-  color: rgba(255, 255, 255, 0.25);
+  color: rgba(255, 255, 255, 0.50);
 }
 #query:-moz-placeholder {
-  color: rgba(255, 255, 255, 0.25);
+  color: rgba(255, 255, 255, 0.50);
 }
 #query::-moz-placeholder {
-  color: rgba(255, 255, 255, 0.25);
+  color: rgba(255, 255, 255, 0.50);
 }
 #query:-ms-input-placeholder {
-  color: rgba(255, 255, 255, 0.25);
+  color: rgba(255, 255, 255, 0.50);
 }
 
 input:-webkit-autofill,
@@ -524,10 +549,9 @@ input:-webkit-autofill:active {
 	width: 100%;
 	padding-top: 10px;
 }
-
 #results > .video {
-	border-top: 1px solid rgba(255, 255, 255, 0.5);
-	border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+	border-top: 1px solid rgba(255, 255, 255, 0.2);
+	border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 	padding: 10px;
 	cursor: pointer;
 }
@@ -546,6 +570,7 @@ font-family: 'Lato';
 font-size: 24px;
 text-align: left;
 margin-bottom: 0px;
+font-weight: 200;
 }
 
 p.video-author {

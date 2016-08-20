@@ -1,16 +1,26 @@
-<section class="hbox stretch gradient-bg">
+<div class="gradient-bg-dark create-playlist-gradient">
+  <h2 class="font-thin m-b" style="margin-left: 20px;">Playlist In Progress <span class="musicbar animate inline m-l-sm" style="width:20px;height:20px">
+     <span class="bar1 a1 bg-primary lter"></span>
+     <span class="bar2 a2 bg-info lt"></span>
+     <span class="bar3 a3 bg-success"></span>
+     <span class="bar4 a4 bg-warning dk"></span>
+     <span class="bar5 a5 bg-danger dker"></span>
+     </span>
+  </h2>
+<div class="lined-box">
+<section class="hbox stretch">
   <!-- side content -->
   <aside class="col-sm-8 no-padder" id="sidebar">
     <section class="vbox animated fadeInUp">
-      <section class="scrollable wrapper">
+      <section class="wrapper">
         <div class="m-t-n-xxs item pos-rlt">
           <form id="search" data-ng-submit="search()">
-             <input id="query" name="q" type="text" placeholder="Search for a YouTube video..." data-ng-model="query">
+             <input id="query" name="q" type="text" placeholder="Search for a YouTube video to add..." data-ng-model="query">
              <input id="submit" type="image" src="search.png" alt="Search" style="display: none;">
           </form>
           <div id="results">
              <div class="video" data-ng-repeat="video in results" data-ng-click="queue(video.id, video.title)">
-                <div class="row">
+                <div class="row results-row">
                    <div class="col-md-2">
                       <img class="video-image" data-ng-src="{{ video.thumbnail }}">
                    </div>
@@ -25,7 +35,7 @@
     </section>
   </aside>
   <!-- / side content -->
-  <section class="col-sm-4 no-padder bg-white">
+  <section class="col-sm-4 no-padder  bg-white">
     <section class="vbox">
       <section class="scrollable hover">
         <ul class="list-group list-group-lg no-bg auto m-b-none m-t-n-xxs">
@@ -186,8 +196,22 @@
             </a>
           </li>
         </ul>
+        <div class="save-playlist">
+          <button>Save This Playlist</button>
+        </div>
       </section>
     </section>
   </section>
     </section>
   </section>
+</div>
+</div>
+
+<style>
+.hidden-full {
+  display: none;
+}
+
+header {
+  display: inline;
+}
