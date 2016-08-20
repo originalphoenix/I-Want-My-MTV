@@ -13,11 +13,25 @@ Jukebox UI/UX
 - Fix the Modal for "playlist has ended" / Style it also
 
 App UI/UX
-
-- Change Colors
-- Switch to Material Design Cards for everything
 - Shove angular into everything once endpoints are set up
-- Add "Create Playlist" Page
+- Create Playlist Page still is ugly but I don't know what to do.
+- Fixed Width for Playlist Cards
+- Create New Playlist needs to be restyled
+- More Animations MORE ANIMATIONS
+
+App Functionality
+- Load Playlist from another screen into the Jukebox
+- Manage User Tokens to Pull up Data
+- Add Settings Tab to Profile Page (only visible if the profile belongs to the logged in user) 
+- Favorites Need to Happen?
+- Save Playlist Page needs wired up
+- Search Page needs to be added and implemented
+- Profile URLs and Playlist URLs need to be shareable
+- If Genre is clicked, genre page needs to pull up that genre automatically
+- Genre only picks from all available tags
+- 404 Handling
+- Home only displays genres that user has liked in the past
+- Drag and Drop Reordering on Playlist Page
 
 API 
 - Users that create playlists also delete them
@@ -27,8 +41,6 @@ API
 
 FUNCTIONALITY
 - API endpoints instead of JSON files
-- User Accounts
-- Ability to load playlists from API
 - Ability to save playlists with album art and tags
 - Ability to loop playlists from the start
 - Load next playlist via tags
