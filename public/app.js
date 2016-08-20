@@ -1,4 +1,4 @@
-var app = angular.module('JukeTubeApp', []);
+var app = angular.module('JukeTubeApp', ['ngRoute']);
 
 // Run
 
@@ -14,6 +14,42 @@ app.run(function() {
 app.config(function($httpProvider) {
  delete $httpProvider.defaults.headers.common['X-Requested-With'];
 });
+
+// Routes
+app.config(function($routeProvider) {
+    $routeProvider
+
+        // route for the home page
+        .when('/', {
+            templateUrl : 'theme/pages/playlist-create.html',
+            controller  : 'VideosController'
+        })
+
+        // route for the profile page
+        .when('/profile', {
+            templateUrl : 'theme/pages/profile.html',
+            controller  : 'profileController'
+        })
+
+        // route for the genre page
+        .when('/genres', {
+            templateUrl : 'theme/pages/genres.html',
+            controller  : 'genreController'
+        });
+});
+
+// create the controller and inject Angular's $scope
+app.controller('mainController', function($scope) {
+  $scope.message = 'Welcome Home';
+    // create a message to display in our view
+});
+
+app.controller('profileController', function($scope) {
+});
+
+app.controller('genreController', function($scope) {
+});
+
 
 // Service
 
@@ -121,7 +157,8 @@ app.service('VideosService', ['$window', '$rootScope', '$log', function($window,
     'showinfo': 0,
     'autoplay': 1,
     'controls': 0,
-    'modestbranding': 1
+    'modestbranding': 1,
+    'iv_load_policy': 3
    },
    events: {
     'onReady': onYoutubeReady,

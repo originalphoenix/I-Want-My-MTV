@@ -6,19 +6,19 @@
 
             // route for the home page
             .when('/', {
-                templateUrl : 'pages/home.html',
+                templateUrl : 'theme/pages/home.html',
                 controller  : 'mainController'
             })
 
             // route for the profile page
             .when('/profile', {
-                templateUrl : 'pages/profile.html',
+                templateUrl : 'theme/pages/profile.html',
                 controller  : 'profileController'
             })
 
-            // route for the contact page
+            // route for the genre page
             .when('/genres', {
-                templateUrl : 'pages/genres.html',
+                templateUrl : 'theme/pages/genres.html',
                 controller  : 'genreController'
             });
     });

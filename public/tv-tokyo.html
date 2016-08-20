@@ -1,20 +1,23 @@
 <!DOCTYPE html>
-<html lang="en" class="app" ng-app="themeApp">
+<html lang="en" class="app" ng-app="JukeTubeApp">
    <head>
       <meta charset="utf-8" />
       <title>Jukebox</title>
       <meta name="description" content="app, web app, responsive, admin dashboard, admin, flat, flat ui, ui kit, off screen nav" />
       <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-      <link rel="stylesheet" href="css/bootstrap.css" type="text/css" />
-      <link rel="stylesheet" href="css/animate.css" type="text/css" />
-      <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css" />
-      <link rel="stylesheet" href="css/simple-line-icons.css" type="text/css" />
-      <link rel="stylesheet" href="css/font.css" type="text/css" />
-      <link rel="stylesheet" href="css/app.css" type="text/css" />
+      <link rel="stylesheet" href="theme/css/bootstrap.css" type="text/css" />
+      <link rel="stylesheet" href="theme/css/animate.css" type="text/css" />
+      <link rel="stylesheet" href="theme/css/font-awesome.min.css" type="text/css" />
+      <link rel="stylesheet" href="theme/css/simple-line-icons.css" type="text/css" />
+      <link rel="stylesheet" href="theme/css/font.css" type="text/css" />
+      <link rel="stylesheet" href="theme/css/app.css" type="text/css" />
+      <link rel="stylesheet" href="theme/css/custom.css" type="text/css" />
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+         rel="stylesheet">
       <!--[if lt IE 9]>
-      <script src="js/ie/html5shiv.js"></script>
-      <script src="js/ie/respond.min.js"></script>
-      <script src="js/ie/excanvas.js"></script>
+      <script src="theme/js/ie/html5shiv.js"></script>
+      <script src="theme/js/ie/respond.min.js"></script>
+      <script src="theme/js/ie/excanvas.js"></script>
       <![endif]-->
    </head>
    <body class="" ng-controller="mainController">
@@ -24,7 +27,7 @@
             <a class="btn btn-link visible-xs" data-toggle="class:nav-off-screen,open" data-target="#nav,html">
             <i class="icon-list"></i>
             </a>
-            <a href="index.html" class="navbar-brand text-lt">
+            <a href="index.html" class="navbar-brand text-lt" style="background-color: #F7CAC9">
             <i class="icon-earphones"></i>
             <img src="images/logo.png" alt="." class="hide">
             <span class="hidden-nav-xs m-l-sm">Musik</span>
@@ -35,7 +38,7 @@
          </div>
          <ul class="nav navbar-nav hidden-xs">
             <li>
-               <a href="#nav,.navbar-header" data-toggle="class:nav-xs,nav-xs" class="text-muted">
+               <a href="#nav,.navbar-header" data-toggle="class:nav-xs,nav-xs" class="text-muted" target="_self">
                <i class="fa fa-indent text"></i>
                <i class="fa fa-dedent text-active"></i>
                </a>
@@ -54,11 +57,11 @@
          <div class="navbar-right ">
             <ul class="nav navbar-nav m-n hidden-xs nav-user user">
                <li class="dropdown">
-                  <a href="#" class="dropdown-toggle bg clear" data-toggle="dropdown">
+                  <a href="#" class="dropdown-toggle bg clear" data-toggle="dropdown" target="_self">
                   <span class="thumb-sm avatar pull-right m-t-n-sm m-b-n-sm m-l-sm">
                   <img src="images/a0.png" alt="...">
                   </span>
-                  John.Smith <b class="caret"></b>
+                  Test.User<b class="caret"></b>
                   </a>
                   <ul class="dropdown-menu animated fadeInRight">
                      <li>
@@ -80,14 +83,14 @@
       <section>
       <section class="hbox stretch">
       <!-- .aside -->
-      <aside class="bg-black dk nav-xs aside hidden-print" id="nav">
+      <aside class="bg-light dk nav-xs aside hidden-print" id="nav">
          <section class="vbox">
             <section class="w-f-md scrollable">
                <div class="slim-scroll" data-height="auto" data-disable-fade-out="true" data-distance="0" data-size="10px" data-railOpacity="0.2">
                   <!-- nav -->
                   <nav class="nav-primary hidden-xs">
                      <ul class="nav bg clearfix">
-                        <li class="hidden-nav-xs padder m-t m-b-sm text-xs text-muted">
+                        <li class="hidden-nav-xs padder m-t m-b-sm text-xs">
                            Discover
                         </li>
                         <li>
@@ -98,27 +101,26 @@
                         </li>
                         <li>
                            <a href="genres">
-                           <i class="icon-music-tone-alt icon text-info"></i>
+                           <i class="icon-music-tone-alt icon text-success"></i>
                            <span class="font-bold">Genres</span>
                            </a>
                         </li>
                         <li class="m-b hidden-nav-xs"></li>
                      </ul>
                      <ul class="nav text-sm">
-                        <li class="hidden-nav-xs padder m-t m-b-sm text-xs text-muted">
+                        <li class="hidden-nav-xs padder m-t m-b-sm text-xs">
                            <span class="pull-right"><a href="#"><i class="icon-plus i-lg"></i></a></span>
                            Favorites
                         </li>
                         <li>
                            <a href="#">
-                           <i class="icon-music-tone icon"></i>
-                           <span>Hip-Pop</span>
+                           <i class="icon-music-tone icon text-success-lter"></i>
+                           <span>Hip-Hop</span>
                            </a>
                         </li>
                         <li>
                            <a href="#">
                            <i class="icon-playlist icon text-success-lter"></i>
-                           <b class="badge bg-success dker pull-right">9</b>
                            <span>Jazz</span>
                            </a>
                         </li>
@@ -132,7 +134,7 @@
                   <div class="dropdown dropup wrapper-sm clearfix">
                      <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                      <span class="thumb-sm avatar pull-left m-l-xs">
-                     <img src="images/a3.png" class="dker" alt="...">
+                     <img src="images/a0.png" class="dker" alt="...">
                      <i class="on b-black"></i>
                      </span>
                      <span class="hidden-nav-xs clear">
@@ -177,22 +179,23 @@
             <section class="vbox">
          <!-- angular templating -->
          <!-- this is where content will be injected -->
-         <div ng-view style="height: 100%"></div>
+         <div ng-view style="height: 100%; overflow-y:scroll;"></div>
        </section>
      </section>
    </section>
       </section>
-      <script src="js/jquery.min.js"></script>
+      <script src="theme/js/jquery.min.js"></script>
       <!-- Bootstrap -->
-      <script src="js/bootstrap.js"></script>
+      <script src="theme/js/bootstrap.js"></script>
       <!-- App -->
       <!-- SPELLS -->
       <!-- load angular via CDN -->
       <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
       <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-route.js"></script>
-      <script src="js/theme.js"></script>
-      <script src="js/app.js"></script>
-      <script src="js/slimscroll/jquery.slimscroll.min.js"></script>
-      <script src="js/app.plugin.js"></script>
+      <script src="theme/js/theme.js"></script>
+      <script src="theme/js/app.js"></script>
+      <script src="app.js"></script> <!-- Angular App, more important -->
+      <script src="theme/js/slimscroll/jquery.slimscroll.min.js"></script>
+      <script src="theme/js/app.plugin.js"></script>
    </body>
 </html>

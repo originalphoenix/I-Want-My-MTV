@@ -658,6 +658,7 @@ body.container {
     position: relative;
     height: 100%;
     width: 100%;
+    backround-color: white;
   }
   .vbox > section,
   .vbox > footer {
@@ -2050,28 +2051,34 @@ fieldset[disabled] .btn-dark.active {
   filter: none;
 }
 .bg-light {
-  background-color: #e8eff0;
+  background-color: #89ABE3;
   color: #788188;
 }
 .bg-light.lt,
 .bg-light .lt {
-  background-color: #edf2f3;
+  background-color: #FCEFEE;
 }
 .bg-light.lter,
 .bg-light .lter {
-  background-color: #f2f5f5;
+  background-color: #ACC4EB;
 }
+
+.bg-light.ltest,
+.bg-light .ltest {
+  background-color: #DEE4F1;
+}
+
 .bg-light.dk,
 .bg-light .dk {
-  background-color: #e0eaec;
+  background-color: #89ABE3;
 }
 .bg-light.dker,
 .bg-light .dker {
-  background-color: #d7e5e8;
+  background-color: #89ABE3;
 }
 .bg-light.bg,
 .bg-light .bg {
-  background-color: #e8eff0;
+  background-color: #ACC4EB;
 }
 .bg-dark {
   background-color: #5a6a7a;
@@ -2247,11 +2254,11 @@ fieldset[disabled] .btn-dark.active {
 .bg-black .auto .list-group-item:focus,
 .bg-black .auto .list-group-item:active,
 .bg-black .auto .list-group-item.active {
-  background-color: #181f24 !important;
+  background-color: #89ABE3 !important;
 }
 .bg-primary {
-  background-color: #545ca6;
-  color: #dadcec;
+  background-color: #89ABE3;
+  color: white;
 }
 .bg-primary.lt,
 .bg-primary .lt {
@@ -2338,7 +2345,7 @@ fieldset[disabled] .btn-dark.active {
 .bg-primary .auto .list-group-item:focus,
 .bg-primary .auto .list-group-item:active,
 .bg-primary .auto .list-group-item.active {
-  background-color: #495098 !important;
+  background-color: #FCEFEE !important;
 }
 .bg-success {
   background-color: #1ab667;
@@ -2432,7 +2439,7 @@ fieldset[disabled] .btn-dark.active {
   background-color: #15a25a !important;
 }
 .bg-info {
-  background-color: #4cb6cb;
+  background-color: #89ABE3;
   color: #fff;
 }
 .bg-info.lt,
@@ -2762,13 +2769,13 @@ a.bg-light:focus {
   color: #339cb1;
 }
 .text-success {
-  color: #1ab667;
+  color: #fff;
 }
 .text-success-lt {
-  color: #1dcc74;
+  color: #A5DAD6;
 }
 .text-success-lter {
-  color: #23e080;
+  color: #fff;
 }
 .text-success-dk {
   color: #17a05a;
