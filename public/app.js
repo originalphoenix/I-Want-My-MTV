@@ -15,26 +15,39 @@ app.config(function($httpProvider) {
  delete $httpProvider.defaults.headers.common['X-Requested-With'];
 });
 
+
 // Routes
 app.config(function($routeProvider) {
     $routeProvider
 
         // route for the home page
         .when('/', {
-            templateUrl : 'theme/pages/playlist-create.html',
+            templateUrl : 'theme/pages/home.html',
             controller  : 'VideosController'
         })
 
         // route for the profile page
         .when('/profile', {
             templateUrl : 'theme/pages/profile.html',
-            controller  : 'profileController'
+            controller  : 'VideosController'
+        })
+
+        // route for the genre page
+        .when('/create', {
+            templateUrl : 'theme/pages/playlist-create.html',
+            controller  : 'VideosController'
+        })
+
+        // route for the genre page
+        .when('/play', {
+            templateUrl : 'theme/pages/jukebox.html',
+            controller  : 'VideosController'
         })
 
         // route for the genre page
         .when('/genres', {
             templateUrl : 'theme/pages/genres.html',
-            controller  : 'genreController'
+            controller  : 'VideosController'
         });
 });
 
