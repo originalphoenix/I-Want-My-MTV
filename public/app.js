@@ -283,7 +283,7 @@ app.controller('VideosController', function($scope, $http, $log, VideosService) 
      type: 'video',
      videoEmbeddable: 'true',
      order: 'relevance',
-     maxResults: '8',
+     maxResults: '16',
      part: 'id,snippet',
      fields: 'items/id,items/snippet/title,items/snippet/description,items/snippet/thumbnails/default,items/snippet/channelTitle',
      q: this.query

@@ -28,6 +28,7 @@
     margin: 1%;
     padding: 1%;
     border: 5px solid white;
+  overflow: hidden;
 }
 
 .create-playlist-gradient {
@@ -498,7 +499,7 @@ margin-bottom: 5px;
   box-sizing: border-box;
   background-color: transparent;
   border: 0;
-  color: #fff;
+  color: #545a5f;
   display: block;
   font-family: 'Lato';
   font-size: 4rem;
@@ -511,16 +512,16 @@ margin-bottom: 5px;
 	padding-top: 10px;
 }
 #query::-webkit-input-placeholder {
-  color: rgba(255, 255, 255, 0.50);
+  color: rgba(84,90,95, 0.50);
 }
 #query:-moz-placeholder {
-  color: rgba(255, 255, 255, 0.50);
+  color: rgba(84,90,95, 0.50);
 }
 #query::-moz-placeholder {
-  color: rgba(255, 255, 255, 0.50);
+  color: rgba(84,90,95, 0.50);
 }
 #query:-ms-input-placeholder {
-  color: rgba(255, 255, 255, 0.50);
+  color: rgba(84,90,95, 0.50);
 }
 
 input:-webkit-autofill,
@@ -537,7 +538,7 @@ input:-webkit-autofill:active {
 	box-sizing: border-box;
 	background-color: transparent;
 	border: 0;
-	color: #fff;
+	color: #545a5f;
 	display: block;
 	font-family: 'Lato';
 	font-size: 4rem;
@@ -549,23 +550,38 @@ input:-webkit-autofill:active {
 	width: 100%;
 	padding-top: 10px;
 }
+
+.results-row {
+    box-shadow: 0 12px 15px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
+    background-color: white;
+    padding: 15px;
+    margin-bottom: 2px;
+}
+
+.results-row:first-child {
+    box-shadow: 0 12px 15px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
+    background-color: white;
+    padding: 15px;
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
 #results > .video {
-	border-top: 1px solid rgba(255, 255, 255, 0.2);
-	border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 	padding: 10px;
 	cursor: pointer;
+    margin-left: 15px;
+    margin-right: 15px;
+    margin-bottom: -15px;
 }
 
-#results > .video:hover  {
-	background: rgba(255, 255, 255, 0.3)
-}
+#results > .video:hover {
+  width: 100%;
+  margin: 0px;
+  margin-bottom: -15px;
 
-#results > .video:active  {
-	background: rgba(255, 255, 255, 0.3)
 }
 
 p.video-title {
-	color: white;
+	color: #788188;
 font-family: 'Lato';
 font-size: 24px;
 text-align: left;
@@ -574,7 +590,7 @@ font-weight: 200;
 }
 
 p.video-author {
-	color: white;
+	color: #788188;
 font-family: 'Lato';
 font-size: 18px;
 text-align: left;
@@ -602,6 +618,11 @@ margin-bottom: 0px;
   cursor: pointer;
 	display: none;
 }
+
+#save.menu-button {
+  display: block
+}
+
 .menu-button:hover {
   background: #F2DDDE;
   box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.28), 0 4px 15px 0 rgba(0, 0, 0, 0.25);
