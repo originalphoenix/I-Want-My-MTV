@@ -10,6 +10,7 @@ var User        = require('./app/models/user'); // get the mongoose model
 // var Playlist     = require('./app/models/playlists');
 var port        = process.env.PORT || 8080;
 var jwt         = require('jwt-simple');
+var path        = require('path');
 
 // get our request parameters
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -23,9 +24,21 @@ app.use(passport.initialize());
 // set static files location
 app.use(express.static(__dirname + '/public'));
 
-// set up home page
+// demo Route (GET http://localhost:8080)
+app.get('/jukebox', function(req, res) {
+  res.sendFile(path.join(__dirname + '/public/jukebox.html'));
+});
+
+app.get('/signup', function(req, res) {
+  res.sendFile(path.join(__dirname + '/public/signup.html'));
+});
+
+app.get('/signin', function(req, res) {
+  res.sendFile(path.join(__dirname + '/public/signin.html'));
+});
+
 app.get('/', function(req, res) {
-	res.sendFile(path.join(__dirname + '/public/index.html'));
+  res.sendFile(path.join(__dirname + '/public/tv-tokyo.html'));
 });
 
 // connect to database
@@ -44,6 +57,7 @@ apiRoutes.post('/signup', function(req, res) {
   } else {
     var newUser = new User({
       name: req.body.name,
+      email: req.body.email,
       password: req.body.password
     });
     // save the user

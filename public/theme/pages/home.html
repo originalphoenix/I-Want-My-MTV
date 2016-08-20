@@ -1,0 +1,94 @@
+<section class="scrollable padder-lg gradient-bg" id="bjax-target" style="height: 100%">
+   <a href="#" class="pull-right text-muted m-t-lg" data-toggle="class:fa-spin" ><i class="icon-refresh i-lg  inline" id="refresh"></i></a>
+   <h2 class="font-thin m-b">Featured Playlists<span class="musicbar animate inline m-l-sm" style="width:20px;height:20px">
+      <span class="bar1 a1 bg-primary lter"></span>
+      <span class="bar2 a2 bg-info lt"></span>
+      <span class="bar3 a3 bg-success"></span>
+      <span class="bar4 a4 bg-warning dk"></span>
+      <span class="bar5 a5 bg-danger dker"></span>
+      </span>
+   </h2>
+  <div class="row m-t-lg m-b-lg">
+      <div class="col-sm-6">
+        <div class="card" ng-click="loadPlaylist(playlist.url)">
+           <div class="card_image featured_card_image">
+             <p class="cardContentJob featured_playlist_name">情報デスクVIRTUAL</p>
+              <img src="https://levels.io/wp-content/uploads/2015/10/maxresdefault-3.jpg" alt="" class="image">
+              <i class="material-icons" onclick="favorite(this);">
+              favorite_border</i>
+           </div>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="card" ng-click="loadPlaylist(playlist.url)">
+           <div class="card_image featured_card_image">
+             <p class="cardContentJob featured_playlist_name">From Boombap to Bibimbap</p>
+              <img src="https://67.media.tumblr.com/228713250791f0f6b96fd3ec24366f69/tumblr_o0jhb8QYlL1tfpvc0o2_1280.jpg" alt="" class="image">
+              <i class="material-icons" onclick="favorite(this);">
+              favorite_border</i>
+           </div>
+        </div>
+     </div>
+      </div>
+
+   </div>
+   <h2 class="font-thin m-b">Tag Spotlight: <span class="label label-primary">kpop</span></h2>
+   <div class="row row-sm">
+     <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2" ng-repeat="playlist in customPlaylists | filter: 'kpop'">
+       <div class="card">
+          <div class="card_image">
+             <img src="{{playlist.img}}" alt="" class="image">
+             <i class="material-icons" onClick="favorite(this);">
+             favorite_border</i>
+          </div>
+          <div class="cardContent">
+             <button class="cardContentButton" ng-click="loadPlaylist(playlist.url)"><i class="material-icons">play_arrow</i></button>
+             <p class="cardContentName">{{playlist.name}}</p>
+             <p class="cardContentJob">{{playlist.playlist_author}}</p>
+             <p class="cardContentJob">Tags: <span class="label label-primary" ng-repeat="genre in playlist.tags">{{genre.tag}}</span></p>
+          </div>
+</div>
+    </div>
+</div>
+<h2 class="font-thin m-b">Tag Spotlight: <span class="label label-primary">vaporwave</span></h2>
+<div class="row row-sm">
+  <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2" ng-repeat="playlist in customPlaylists | filter: 'vaporwave'">
+    <div class="card">
+       <div class="card_image">
+          <img src="{{playlist.img}}" alt="" class="image">
+          <i class="material-icons" onClick="favorite(this);">
+          favorite_border</i>
+       </div>
+       <div class="cardContent">
+          <button class="cardContentButton" ng-click="loadPlaylist(playlist.url)"><i class="material-icons">play_arrow</i></button>
+          <p class="cardContentName">{{playlist.name}}</p>
+          <p class="cardContentJob">{{playlist.playlist_author}}</p>
+          <p class="cardContentJob">Tags: <span class="label label-primary" ng-repeat="genre in playlist.tags">{{genre.tag}}</span></p>
+       </div>
+</div>
+ </div>
+</div>
+   <div class="row m-t-lg m-b-lg">
+      <div class="col-sm-6">
+         <div class="bg-primary wrapper-md r">
+            <a href="#">
+            <span class="h4 m-b-xs block"><i class=" icon-user-follow i-lg"></i> Login or Create account</span>
+            <span>Save and share your playlist with your friends when you log in or create an account.</span>
+            </a>
+         </div>
+      </div>
+      <div class="col-sm-6">
+         <div class="bg-black wrapper-md r">
+            <a href="#">
+            <span class="h4 m-b-xs block"><i class="icon-cloud-download i-lg"></i> Download our app</span>
+            <span class="text-muted">Get the apps for desktop and mobile to start listening music at anywhere and anytime.</span>
+            </a>
+         </div>
+      </div>
+   </div>
+</section>
+</section>
+</section>
+<!-- side content -->
+</section>
+<a href="#" class="hide nav-off-screen-block" data-toggle="class:nav-off-screen,open" data-target="#nav,html"></a>

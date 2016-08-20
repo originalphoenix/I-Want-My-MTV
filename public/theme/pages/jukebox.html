@@ -1,0 +1,64 @@
+<section class="hbox stretch bg-white">
+  <!-- side content -->
+  <aside class="col-sm-3 no-padder" id="sidebar">
+    <section class="vbox animated fadeInUp">
+      <section class="scrollable">
+        <div class="m-t-n-xxs item pos-rlt">
+          <div class="top text-right">
+            <i class="material-icons" style="color: white; padding: 10px; cursor: pointer;">mode_edit</i>
+          </div>
+          <div class="bottom gd bg-info wrapper-lg">
+            <span class="h2 font-thin">Playlist Name <i class="material-icons">mode_edit</i></span><br>
+            <span class="h4 font-thin">Tags: <i class="material-icons">mode_edit</i></span>
+
+          </div>
+          <img class="img-full" src="http://www.gsurgeon.net/wp-content/uploads/2016/01/hogu-7.jpg" alt="...">
+        </div>
+        <ol class="list-group list-group-lg no-radius no-border no-bg m-t-n-xxs m-b-none auto" data-ng-show="playlist">
+          <li class="list-group-item" data-ng-repeat="video in upcoming">
+            <div class="pull-right m-l">
+              <a class="m-r-sm" data-ng-click="delete('upcoming', video.id)" target="_self"><i class="icon-trash"></i></a>
+            </div>
+            <a  data-ng-click="launch(video.id, video.title)" class="jp-play-me m-r-sm pull-left" target="_self">
+              <i class="icon-control-play text"></i>
+            </a>
+            <div class="clear text-ellipsis">
+              <span>{{video.title}}</span>
+              <span class="text-muted"> -- 04:35</span>
+            </div>
+          </li>
+        </ul>
+      </section>
+    </section>
+  </aside>
+  <!-- / side content -->
+  <section class="col-sm-8 no-padder bg-light ltest">
+    <section class="vbox">
+      <section class="scrollable hover">
+        <div id="player" class="video-background">
+           <div id="placeholder" class="video-foreground">
+           </div>
+        </div>
+      </section>
+    </section>
+  </section>
+    </section>
+  </section>
+  <div class="menu-button" id="save"><i class="material-icons">done</i>
+  </div>
+</section>
+</section>
+</section>
+<style>
+.hidden-full {
+display: none;
+}
+#page-container {
+margin-top: -60px;
+height: 100vh;
+}
+
+header {
+display: inline;
+}
+</style>
