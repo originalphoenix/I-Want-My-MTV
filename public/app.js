@@ -84,7 +84,7 @@ app.controller('profileController', function($scope) {
 
 });
 app.controller('genreController', function($scope) {
-  
+
 });
 app.controller('signupController', function($scope, $http) {
     // create a blank object to handle form data.

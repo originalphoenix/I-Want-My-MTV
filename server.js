@@ -89,7 +89,7 @@ apiRoutes.post('/authenticate', function(req, res) {
 
 // route to a restricted info (GET http://localhost:8080/api/memberinfo)
 apiRoutes.get('/memberinfo', passport.authenticate('jwt', { session: false}), function(req, res) {
-  var token = req.headers.token;
+  var token = getToken(req.headers);
   if (token) {
     var decoded = jwt.decode(token, config.secret);
     User.findOne({
@@ -100,7 +100,7 @@ apiRoutes.get('/memberinfo', passport.authenticate('jwt', { session: false}), fu
         if (!user) {
           return res.status(403).send({success: false, msg: 'Authentication failed. User not found.'});
         } else {
-          res.json({success: true, msg: 'Welcome in the member area ' + user.name + '!'});
+          res.json(user);
         }
     });
   } else {
