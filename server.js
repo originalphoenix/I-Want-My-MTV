@@ -122,9 +122,8 @@ var tagSchema = Schema({
 })
 
 var songSchema = Schema({
-  s_index: Number,
-  s_id: String,
-  s_title: String
+  id: String,
+  title: String
 })
 
 var playlistSchema = Schema({

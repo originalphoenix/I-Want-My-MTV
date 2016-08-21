@@ -321,8 +321,9 @@ app.controller('createController', function($scope, $rootScope, $http, $window,
       // create a blank object to handle form data.
 
       $scope.playlist = {};
-      $scope.playlist_name = 'Playlist Name'
-      $scope.playlist_tags = 'Tag1, Tag2'
+      $scope.playlist_name = 'Playlist Name';
+      $scope.playlist_tags = 'Tag1, Tag2';
+      $scope.playlist_img = 'http://www.gsurgeon.net/wp-content/uploads/2016/01/hogu-7.jpg';
 
       // calling our submit function.
       $scope.submitForm = function() {
@@ -335,18 +336,19 @@ app.controller('createController', function($scope, $rootScope, $http, $window,
 
         console.log(tagjson);
 
-        var playlistPayload = [{
-          'img': $scope.playlist.img,
+        var playlistPayload = {
+          'img': $scope.playlist_img,
           'name': $scope.playlist_name,
           'playlist_author': $rootScope.username,
-          'songs' : [$scope.upcoming],
-          'tags' : [tagjson],
-        }]
+          'songs' : $scope.upcoming,
+          'tags' : tagjson,
+        }
+          playlistPayload = JSON.stringify(playlistPayload);
           console.log(playlistPayload);
-          $http({
+         $http({
               method: 'POST',
               url: '/api/playlist',
-              data: $scope.playlist, //forms user object
+              data: playlistPayload, //forms user object
               headers: {
                   'Content-Type': 'application/json'
               }
