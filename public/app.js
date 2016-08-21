@@ -1,4 +1,4 @@
-var app = angular.module('JukeTubeApp', ['ngRoute']);
+var app = angular.module('JukeTubeApp', ['ngRoute', 'xeditable']);
 // Run
 app.run(function() {
     var tag = document.createElement('script');
@@ -276,7 +276,7 @@ app.controller('profileController', function($scope, $http, $window,
     });
 });
 
-app.controller('createController', function($scope, $http, $window,
+app.controller('createController', function($scope, $rootScope, $http, $window,
     userInfoService, playlistInfoService, VideosService) {
       init();
 
@@ -319,9 +319,30 @@ app.controller('createController', function($scope, $http, $window,
       }
 
       // create a blank object to handle form data.
+
       $scope.playlist = {};
+      $scope.playlist_name = 'Playlist Name'
+      $scope.playlist_tags = 'Tag1, Tag2'
+
       // calling our submit function.
       $scope.submitForm = function() {
+
+        var tagjson = [];
+        var tagSplit = $scope.playlist_tags.split(",");
+        for (var i = 0; i < tagSplit.length; i++) {
+            tagjson.push({"tag":tagSplit[i]});
+          }
+
+        console.log(tagjson);
+
+        var playlistPayload = [{
+          'img': $scope.playlist.img,
+          'name': $scope.playlist_name,
+          'playlist_author': $rootScope.username,
+          'songs' : [$scope.upcoming],
+          'tags' : [tagjson],
+        }]
+          console.log(playlistPayload);
           $http({
               method: 'POST',
               url: '/api/playlist',
