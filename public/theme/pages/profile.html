@@ -5,11 +5,11 @@
                 <div class="wrapper">
                     <div class="text-center m-b m-t">
                         <a href="#" class="thumb-lg">
-                            <img src="images/a0.png" class="img-circle">
+                            <img data-ng-src="{{profilepic}}" class="img-circle">
                         </a>
                         <div>
-                            <div class="h3 m-t-xs m-b-xs">Test.User</div>
-                            <small class="text-muted"><i class="fa fa-map-marker"></i> Portland, OR</small>
+                            <div class="h3 m-t-xs m-b-xs">{{firstname}} {{lastname}}</div>
+                            <small class="text-muted"><i class="fa fa-map-marker"></i> {{location}}</small>
                         </div>
                     </div>
                     <div class="panel wrapper">
@@ -30,7 +30,7 @@
                     </div>
                     <div>
                         <small class="text-uc text-xs text-muted">about me</small>
-                        <p>Artist</p>
+                        <p>{{about}}</p>
                         <small class="text-uc text-xs text-muted">favorite genres</small>
                         <p><span class="label label-primary">kpop</span> <span class="label label-primary">future funk</span> <span class="label label-primary">classical</span>
                         </p>
@@ -48,6 +48,8 @@
                     </li>
                     <li class=""><a href="#created" data-toggle="tab" target="_self">Created</a>
                     </li>
+                    <li class=""><a href="#profile" data-toggle="tab" target="_self">Profile Settings</a>
+                    </li>
                 </ul>
             </header>
             <section class="scrollable">
@@ -57,7 +59,7 @@
                             <div class="col-xs-6 col-sm-4 col-md-3 col-lg-3" ng-repeat="playlist in customPlaylists">
                                 <div class="card">
                                     <div class="card_image">
-                                        <img src="{{playlist.img}}" alt="" class="image">
+                                        <img data-ng-src="{{playlist.img}}" alt="" class="image">
                                         <i class="material-icons" onClick="favorite(this);">
                                     favorite_border</i>
                                     </div>
@@ -75,10 +77,10 @@
                     </div>
                     <div class="tab-pane" id="created">
                             <div class="row row-sm">
-                                <div class="col-xs-6 col-sm-4 col-md-3 col-lg-3" ng-repeat="playlist in customPlaylists">
+                                <div class="col-xs-6 col-sm-4 col-md-3 col-lg-3" ng-repeat="playlist in customPlaylists | filter: username">
                                     <div class="card">
                                         <div class="card_image">
-                                            <img src="{{playlist.img}}" alt="" class="image">
+                                            <img data-ng-src="{{playlist.img}}" alt="" class="image">
                                             <i class="material-icons" onClick="favorite(this);">
                                       favorite_border</i>
                                         </div>
@@ -108,9 +110,56 @@
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane" id="interaction">
-                        <div class="text-center wrapper">
-                            <i class="fa fa-spinner fa fa-spin fa fa-large"></i>
+                    <div class="tab-pane" id="profile">
+                        <div class="wrapper">
+                            <div class="row">
+                              <div class="col-md-12">
+                                <form role="form">
+                                  <div class="form-group">
+                                    <div class="col-sm-2">
+                                    <label class="control-label">Current Profile Photo</label>
+                                    <img data-ng-src="{{profilepic}}" class="img-circle" style="width: 100%;">
+                                  </div>
+                                    <div class="col-sm-10">
+                                      <label class="control-label">New Profile Photo</label>
+                                      <div class="dropfile visible-lg">
+                                        <small>Drag and Drop!</small>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="clearfix"></div>
+                                  <div class="form-group">
+                                    <label>First Name</label>
+                                    <input type="text" class="form-control" placeholder="First Name">
+                                  </div>
+                                  <div class="form-group">
+                                    <label>Last Name</label>
+                                    <input type="text" class="form-control" placeholder="Last Name">
+                                  </div>
+                                  <div class="form-group">
+                                    <label>Current Location</label>
+                                    <input type="text" class="form-control" placeholder="Location">
+                                  </div>
+                                  <div class="form-group">
+                                    <label>Email address</label>
+                                    <input type="email" class="form-control" placeholder="Enter email">
+                                  </div>
+                                  <div class="form-group">
+                                    <label>About You</label>
+                                    <input type="text" class="form-control" placeholder="Enter email">
+                                  </div>
+                                  <div class="form-group">
+                                    <label>Password</label>
+                                    <input type="password" class="form-control" placeholder="Password">
+                                  </div>
+                                  <div class="form-group">
+                                    <label>Password Again</label>
+                                    <input type="password" class="form-control" placeholder="Password">
+                                  </div>
+                                  <button type="submit" class="btn btn-sm btn-default">Submit</button>
+                                </form>
+                              </div>
+                            </div>
                         </div>
                     </div>
                 </div>

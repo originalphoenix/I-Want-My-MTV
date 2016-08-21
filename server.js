@@ -48,7 +48,12 @@ apiRoutes.post('/signup', function(req, res) {
     res.json({success: false, msg: 'Please pass name and password.'});
   } else {
     var newUser = new User({
-      name: req.body.name,
+      username: req.body.username,
+      firstname: req.body.firstname,
+      lastname: req.body.lastname,
+      profilepic: req.body.profilepic,
+      location: req.body.location,
+      about: req.body.about,
       email: req.body.email,
       password: req.body.password
     });
@@ -65,7 +70,7 @@ apiRoutes.post('/signup', function(req, res) {
 // route to authenticate a user (POST http://localhost:8080/api/authenticate)
 apiRoutes.post('/authenticate', function(req, res) {
   User.findOne({
-    name: req.body.name
+    username: req.body.name
   }, function(err, user) {
     if (err) throw err;
 
@@ -93,7 +98,7 @@ apiRoutes.get('/memberinfo', passport.authenticate('jwt', { session: false}), fu
   if (token) {
     var decoded = jwt.decode(token, config.secret);
     User.findOne({
-      name: decoded.name
+      username: decoded.username
     }, function(err, user) {
         if (err) throw err;
 

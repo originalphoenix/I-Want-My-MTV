@@ -27,7 +27,7 @@ app.config(function($routeProvider) {
         // route for the profile page
         .when('/profile', {
             templateUrl: 'theme/pages/profile.html',
-            controller: 'VideosController'
+            controller: 'profileController'
         })
         // route for the genre page
         .when('/create', {
@@ -46,7 +46,10 @@ app.config(function($routeProvider) {
         });
 });
 // WE FACTORIES NOW BOI
-app.factory('userInfoService', function($http, $window) {
+app.factory('userInfoService', function($http, $window,$rootScope) {
+     var token = $window.localStorage['jwtToken'];
+     console.log(token);
+     $rootScope.loggedout = false;
     $http({
         method: 'GET',
         url: '/api/memberinfo',
@@ -58,6 +61,12 @@ app.factory('userInfoService', function($http, $window) {
         if (data.errors) {
             $scope.errorName = data.errors;
         } else {
+            $rootScope.username = data.username;
+            $rootScope.firstname = data.firstname;
+            $rootScope.lastname = data.lastname;
+            $rootScope.profilepic = data.profilepic;
+            $rootScope.location = data.location;
+            $rootScope.about = data.about;
             console.log(data);
         }
     });
@@ -80,9 +89,14 @@ app.controller('mainController', function($scope, $http, $window,
         $scope.customPlaylists = data;
     });
 });
-app.controller('profileController', function($scope) {
-
+app.controller('profileController', function($scope, $http, $window,
+    userInfoService, playlistInfoService) {
+    $scope.customPlaylists = [];
+    playlistInfoService.getPlaylists().success(function(data) {
+        $scope.customPlaylists = data;
+    });
 });
+
 app.controller('genreController', function($scope) {
 
 });

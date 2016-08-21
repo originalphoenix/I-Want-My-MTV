@@ -6,30 +6,35 @@ var bcrypt = require('bcrypt');
 
 // set up a mongoose model
 var UserSchema = new Schema({
-  name: {
+    username: {
         type: String,
         unique: true,
         required: true
     },
-  email: {
-          type: String,
-          unique: true,
-          required: true
-      },
-  password: {
+    firstname: String,
+    lastname: String,
+    profilepic: String,
+    location: String,
+    about: String,
+    email: {
+        type: String,
+        unique: true,
+        required: true
+    },
+    password: {
         type: String,
         required: true
     }
 });
 
-UserSchema.pre('save', function (next) {
+UserSchema.pre('save', function(next) {
     var user = this;
     if (this.isModified('password') || this.isNew) {
-        bcrypt.genSalt(10, function (err, salt) {
+        bcrypt.genSalt(10, function(err, salt) {
             if (err) {
                 return next(err);
             }
-            bcrypt.hash(user.password, salt, function (err, hash) {
+            bcrypt.hash(user.password, salt, function(err, hash) {
                 if (err) {
                     return next(err);
                 }
@@ -42,8 +47,8 @@ UserSchema.pre('save', function (next) {
     }
 });
 
-UserSchema.methods.comparePassword = function (passw, cb) {
-    bcrypt.compare(passw, this.password, function (err, isMatch) {
+UserSchema.methods.comparePassword = function(passw, cb) {
+    bcrypt.compare(passw, this.password, function(err, isMatch) {
         if (err) {
             return cb(err);
         }
