@@ -32,7 +32,7 @@ app.config(function($routeProvider) {
         // route for the genre page
         .when('/create', {
             templateUrl: 'theme/pages/playlist-create.html',
-            controller: 'VideosController'
+            controller: 'createController'
         })
         // route for the genre page
         .when('/play', {
@@ -81,68 +81,9 @@ app.factory('playlistInfoService', function($http) {
         }
     }
 });
-// create the controller and inject Angular's $scope
-app.controller('mainController', function($scope, $http, $window,
-    userInfoService, playlistInfoService) {
-    $scope.customPlaylists = [];
-    playlistInfoService.getPlaylists().success(function(data) {
-        $scope.customPlaylists = data;
-    });
-});
-app.controller('profileController', function($scope, $http, $window,
-    userInfoService, playlistInfoService) {
-    $scope.customPlaylists = [];
-    playlistInfoService.getPlaylists().success(function(data) {
-        $scope.customPlaylists = data;
-    });
-});
 
-app.controller('genreController', function($scope) {
+// Video Service
 
-});
-app.controller('signupController', function($scope, $http) {
-    // create a blank object to handle form data.
-    $scope.user = {};
-    // calling our submit function.
-    $scope.submitForm = function() {
-        // Posting data to php file
-        $http({
-            method: 'POST',
-            url: '/api/signup',
-            data: $scope.user, //forms user object
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
-        }).success(function(data) {
-            if (data.errors) {
-                // Showing errors.
-                $scope.errorName = data.errors;
-            } else {
-                $scope.message = data.message;
-            }
-        });
-    };
-});
-app.controller('signinController', function($scope, $http, $location, $window) {
-    $scope.user = {};
-    $scope.submitForm = function() {
-        $http({
-            method: 'POST',
-            url: '/api/authenticate',
-            data: $.param($scope.user), //forms user object
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
-        }).success(function(data) {
-            if (data.errors) {
-                $scope.errorName = data.errors;
-            } else {
-                $window.localStorage['jwtToken'] = data.token;
-                $location.path('/');
-            }
-        });
-    };
-});
 // Service
 app.service('VideosService', ['$window', '$rootScope', '$log',
     function($window, $rootScope, $log) {
@@ -318,6 +259,113 @@ app.service('VideosService', ['$window', '$rootScope', '$log',
         };
     }
 ]);
+
+// create the controller and inject Angular's $scope
+app.controller('mainController', function($scope, $http, $window,
+    userInfoService, playlistInfoService) {
+    $scope.customPlaylists = [];
+    playlistInfoService.getPlaylists().success(function(data) {
+        $scope.customPlaylists = data;
+    });
+});
+app.controller('profileController', function($scope, $http, $window,
+    userInfoService, playlistInfoService) {
+    $scope.customPlaylists = [];
+    playlistInfoService.getPlaylists().success(function(data) {
+        $scope.customPlaylists = data;
+    });
+});
+
+app.controller('createController', function($scope, $http, $window,
+    userInfoService, playlistInfoService, VideosService) {
+      init();
+
+      function init() {
+          $scope.youtube = VideosService.getYoutube();
+          $scope.results = VideosService.getResults();
+          $scope.upcoming = VideosService.getUpcoming();
+          $scope.playlist = true;
+      }
+
+
+
+      $scope.queue = function(id, title) {
+          VideosService.queueVideo(id, title);
+      //    VideosService.deleteVideo($scope.history, id);
+          $log.info('Queued id:' + id + ' and title:' + title);
+      };
+
+      $scope.delete = function(list, id) {
+          VideosService.deleteVideo($scope.upcoming, id);
+      };
+
+      $scope.search = function() {
+          $http.get('https://www.googleapis.com/youtube/v3/search', {
+              params: {
+                  key: 'AIzaSyCARc1XWs6s-bkrvh_Bdd3YPjjrWlDDSUw',
+                  type: 'video',
+                  videoEmbeddable: 'true',
+                  order: 'relevance',
+                  maxResults: '16',
+                  part: 'id,snippet',
+                  fields: 'items/id,items/snippet/title,items/snippet/description,items/snippet/thumbnails/default,items/snippet/channelTitle',
+                  q: this.query
+              }
+          }).success(function(data) {
+              $scope.results = VideosService.listResults(data);
+          }).error(function() {
+              $log.info('Search error');
+          });
+      }
+
+});
+
+app.controller('genreController', function($scope) {
+});
+app.controller('signupController', function($scope, $http) {
+    // create a blank object to handle form data.
+    $scope.user = {};
+    // calling our submit function.
+    $scope.submitForm = function() {
+        // Posting data to php file
+        $http({
+            method: 'POST',
+            url: '/api/signup',
+            data: $scope.user, //forms user object
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        }).success(function(data) {
+            if (data.errors) {
+                // Showing errors.
+                $scope.errorName = data.errors;
+            } else {
+                $scope.message = data.message;
+            }
+        });
+    };
+});
+app.controller('signinController', function($scope, $http, $location, $window) {
+    $scope.user = {};
+    $scope.submitForm = function() {
+        $http({
+            method: 'POST',
+            url: '/api/authenticate',
+            data: $.param($scope.user), //forms user object
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        }).success(function(data) {
+            if (data.errors) {
+                $scope.errorName = data.errors;
+            } else {
+                $window.localStorage['jwtToken'] = data.token;
+                $location.path('/');
+            }
+        });
+    };
+});
+
 // Controller
 app.controller('VideosController', function($scope, $http, $log, VideosService) {
     init();

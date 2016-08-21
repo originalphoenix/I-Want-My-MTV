@@ -111,11 +111,11 @@
          <nav class="overlay-menu">
             <form id="search" data-ng-submit="search()">
                <input id="query" name="q" type="text" placeholder="Search for a YouTube video..." data-ng-model="query">
-               <input id="submit" type="image" src="search.png" alt="Search" style="display: none;">
+               <input id="submit" type="image" alt="Search" style="display: none;">
             </form>
             <div id="results">
-               <div class="video" data-ng-repeat="video in results" data-ng-click="queue(video.id, video.title)">
-                  <div class="row">
+               <div class="video" data-ng-repeat="video in results" >
+                  <div class="row" data-ng-click="queue(video.id, video.title)" target="_self">
                      <div class="col-md-2">
                         <img class="video-image" data-ng-src="{{ video.thumbnail }}">
                      </div>
@@ -138,7 +138,7 @@
                <div class="col-md-4" ng-repeat="playlist in customPlaylists | filter: name ">
                   <div class="card">
                      <div class="card_image">
-                        <img src="{{playlist.img}}" alt="" class="image">
+                        <img data-ng-src="{{playlist.img}}" alt="" class="image">
                         <i class="material-icons" onClick="favorite(this);">
                         favorite_border</i>
                      </div>
