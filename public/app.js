@@ -318,6 +318,27 @@ app.controller('createController', function($scope, $http, $window,
           });
       }
 
+      // create a blank object to handle form data.
+      $scope.playlist = {};
+      // calling our submit function.
+      $scope.submitForm = function() {
+          $http({
+              method: 'POST',
+              url: '/api/playlist',
+              data: $scope.playlist, //forms user object
+              headers: {
+                  'Content-Type': 'application/json'
+              }
+          }).success(function(data) {
+              if (data.errors) {
+                  // Showing errors.
+                  $scope.errorName = data.errors;
+              } else {
+                  $scope.message = data.message;
+              }
+          });
+      };
+
 });
 
 app.controller('genreController', function($scope) {
