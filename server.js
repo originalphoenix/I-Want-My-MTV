@@ -29,14 +29,6 @@ app.get('/jukebox', function(req, res) {
   res.sendFile(path.join(__dirname + '/public/jukebox.html'));
 });
 
-app.get('/signup', function(req, res) {
-  res.sendFile(path.join(__dirname + '/public/signup.html'));
-});
-
-app.get('/signin', function(req, res) {
-  res.sendFile(path.join(__dirname + '/public/signin.html'));
-});
-
 app.get('/', function(req, res) {
   res.sendFile(path.join(__dirname + '/public/tv-tokyo.html'));
 });
@@ -78,7 +70,7 @@ apiRoutes.post('/authenticate', function(req, res) {
     if (err) throw err;
 
     if (!user) {
-      res.send({success: false, msg: 'Authentication failed.'});
+      res.send({success: false, msg: 'Authentication failed user does not exist'});
     } else {
       // check if password matches
       user.comparePassword(req.body.password, function (err, isMatch) {
@@ -97,7 +89,7 @@ apiRoutes.post('/authenticate', function(req, res) {
 
 // route to a restricted info (GET http://localhost:8080/api/memberinfo)
 apiRoutes.get('/memberinfo', passport.authenticate('jwt', { session: false}), function(req, res) {
-  var token = getToken(req.headers);
+  var token = req.headers.token;
   if (token) {
     var decoded = jwt.decode(token, config.secret);
     User.findOne({

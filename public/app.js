@@ -23,7 +23,17 @@ app.config(function($routeProvider) {
         // route for the home page
         .when('/', {
             templateUrl : 'theme/pages/home.html',
-            controller  : 'VideosController'
+            controller  : 'mainController'
+        })
+
+        .when('/signup', {
+            templateUrl : 'signup.html',
+            controller  : 'signupController'
+        })
+
+        .when('/signin', {
+            templateUrl : 'signin.html',
+            controller  : 'signinController'
         })
 
         // route for the profile page
@@ -51,16 +61,94 @@ app.config(function($routeProvider) {
         });
 });
 
-// create the controller and inject Angular's $scope
-app.controller('mainController', function($scope) {
-  $scope.message = 'Welcome Home';
-    // create a message to display in our view
+// WE FACTORIES NOW BOI
+
+app.factory('userInfoService', function() {
+  $http({
+    method  : 'GET',
+    url     : '/api/memberinfo',
+    headers : {'Content-Type': 'application/x-www-form-urlencoded',
+              'Authorization' : $window.localStorage['jwtToken']
+            }
+   })
+   .success(function(data) {
+     if (data.errors) {
+       $scope.errorName = data.errors;
+     } else {
+       console.log(data);
+     }
+   });
 });
+
+app.factory('playlistInfoService', function() {
+  $http({
+    method  : 'GET',
+    url     : '/api/memberinfo',
+    headers : {'Content-Type': 'application/x-www-form-urlencoded',
+              'Authorization' : $window.localStorage['jwtToken']
+            }
+   })
+   .success(function(data) {
+     if (data.errors) {
+       $scope.errorName = data.errors;
+     } else {
+       console.log(data);
+     }
+   });
+});
+
+// create the controller and inject Angular's $scope
+app.controller('mainController', function($scope, $http, $window) {
+ });
 
 app.controller('profileController', function($scope) {
 });
 
 app.controller('genreController', function($scope) {
+});
+
+
+app.controller('signupController', function($scope, $http) {
+  // create a blank object to handle form data.
+    $scope.user = {};
+  // calling our submit function.
+    $scope.submitForm = function() {
+    // Posting data to php file
+    $http({
+      method  : 'POST',
+      url     : '/api/signup',
+      data    : $scope.user, //forms user object
+      headers : {'Content-Type': 'application/x-www-form-urlencoded'}
+     })
+      .success(function(data) {
+        if (data.errors) {
+          // Showing errors.
+          $scope.errorName = data.errors;
+        } else {
+          $scope.message = data.message;
+        }
+      });
+    };
+});
+
+app.controller('signinController', function($scope, $http, $location, $window) {
+    $scope.user = {};
+    $scope.submitForm = function() {
+    $http({
+      method  : 'POST',
+      url     : '/api/authenticate',
+      data    : $.param($scope.user), //forms user object
+      headers : {'Content-Type': 'application/x-www-form-urlencoded'}
+     })
+      .success(function(data) {
+        if (data.errors) {
+          $scope.errorName = data.errors;
+        } else {
+          $window.localStorage['jwtToken'] = data.token;
+          $location.path('/');
+        }
+      });
+    };
 });
 
 
