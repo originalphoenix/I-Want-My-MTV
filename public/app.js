@@ -45,11 +45,12 @@ app.config(function($routeProvider) {
             controller: 'VideosController'
         });
 });
+
+//USER AUTH
 // WE FACTORIES NOW BOI
 app.factory('userInfoService', function($http, $window, $rootScope) {
-    var token = $window.localStorage['jwtToken'];
-    $rootScope.loggedout = false;
-    $http({
+  return {
+    getUserInfo: function() {$http({
         method: 'GET',
         url: '/api/memberinfo',
         headers: {
@@ -59,7 +60,9 @@ app.factory('userInfoService', function($http, $window, $rootScope) {
     }).success(function(data) {
         if (data.errors) {
             $scope.errorName = data.errors;
+            $rootScope.loggedout = true;
         } else {
+            $rootScope.loggedout = false;
             $rootScope.username = data.username;
             $rootScope.firstname = data.firstname;
             $rootScope.lastname = data.lastname;
@@ -68,6 +71,8 @@ app.factory('userInfoService', function($http, $window, $rootScope) {
             $rootScope.about = data.about;
         }
     });
+  }
+};
 });
 app.factory('playlistInfoService', function($http) {
     return {
@@ -245,8 +250,9 @@ app.service('VideosService', ['$window', '$rootScope', '$log', '$http',
 ]);
 
 // create the controller and inject Angular's $scope
-app.controller('mainController', function($scope, $rootScope, $http, $window, $location,
+app.controller('mainController', function($scope, $rootScope, $http, $window, $location, $route,
     userInfoService, playlistInfoService) {
+    userInfoService.getUserInfo();
     $scope.customPlaylists = [];
     playlistInfoService.getPlaylists().success(function(data) {
         $scope.customPlaylists = data;
@@ -263,6 +269,12 @@ app.controller('mainController', function($scope, $rootScope, $http, $window, $l
             console.log('it dead');
         });
     }
+    $rootScope.logout = function() {
+    console.log('who the fuck is scraeming log off at my house. show yourself, coward. I will never log off')
+    $window.localStorage.removeItem('jwtToken');
+    userInfoService.getUserInfo();
+    $window.location.reload(); //This is not the angular way, but it's my way, think of a better way soon
+    }
 });
 app.controller('profileController', function($scope, $http, $window,
     userInfoService, playlistInfoService) {
@@ -270,6 +282,9 @@ app.controller('profileController', function($scope, $http, $window,
     playlistInfoService.getPlaylists().success(function(data) {
         $scope.customPlaylists = data;
     });
+    $scope.logout = function() {
+    $window.localStorage.removeItem('jwtToken');
+    }
 });
 
 app.controller('createController', function($scope, $rootScope, $http, $window,
@@ -360,6 +375,10 @@ app.controller('createController', function($scope, $rootScope, $http, $window,
         });
     };
 
+    $scope.logout = function() {
+    $window.localStorage.removeItem('jwtToken');
+    }
+
 });
 
 app.controller('genreController', function($scope) {});
@@ -386,7 +405,7 @@ app.controller('signupController', function($scope, $http) {
         });
     };
 });
-app.controller('signinController', function($scope, $http, $location, $window) {
+app.controller('signinController', function($scope, $http, $location, $window, userInfoService) {
     $scope.user = {};
     $scope.submitForm = function() {
         $http({
@@ -401,6 +420,7 @@ app.controller('signinController', function($scope, $http, $location, $window) {
                 $scope.errorName = data.errors;
             } else {
                 $window.localStorage['jwtToken'] = data.token;
+                userInfoService.getUserInfo();
                 $location.path('/');
             }
         });
@@ -528,4 +548,11 @@ app.controller('VideosController', function($route, $scope, $rootScope, $http, $
                 true);
         }, 3000)
     });
+
+    $scope.logout = function() {
+    $window.localStorage.removeItem('jwtToken');
+    console.log('who the fuck is scraeming log off at my house. show yourself, coward. I will never log off')
+    $route.reload();
+    }
+
 });
