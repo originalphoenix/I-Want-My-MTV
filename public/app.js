@@ -48,7 +48,6 @@ app.config(function($routeProvider) {
 // WE FACTORIES NOW BOI
 app.factory('userInfoService', function($http, $window,$rootScope) {
      var token = $window.localStorage['jwtToken'];
-     console.log(token);
      $rootScope.loggedout = false;
     $http({
         method: 'GET',
@@ -67,7 +66,6 @@ app.factory('userInfoService', function($http, $window,$rootScope) {
             $rootScope.profilepic = data.profilepic;
             $rootScope.location = data.location;
             $rootScope.about = data.about;
-            console.log(data);
         }
     });
 });
@@ -82,11 +80,10 @@ app.factory('playlistInfoService', function($http) {
     }
 });
 
-// Video Service
 
 // Service
-app.service('VideosService', ['$window', '$rootScope', '$log',
-    function($window, $rootScope, $log) {
+app.service('VideosService', ['$window', '$rootScope', '$log', '$http',
+    function($window, $rootScope, $log, $http) {
         var service = this;
         var youtube = {
             ready: false,
@@ -97,45 +94,32 @@ app.service('VideosService', ['$window', '$rootScope', '$log',
             state: 'playing'
         };
         var results = [];
-        var upcoming = [{
-            id: '5rvCbPJkmqs',
-            title: '빈지노 (Beenzino) - Life In Color MV'
-        }, {
-            id: '65zY1720sao',
-            title: '[MV] Verbal Jint(버벌진트), Sanchez(산체스) (팬텀) _ Doin\' It(싫대) (Feat. Bumkey(범키))'
-        }, {
-            id: 'ewjucLierFc',
-            title: '지코 (ZICO) - 너는 나 나는 너 (I Am You, You Are Me) MV'
-        }, {
-            id: 'OuvFs9pj9jk',
-            title: '팔로알토 (Paloalto) - Fancy (Feat. DEAN & Sway D)'
-        }, {
-            id: 'rCeM57e2BfU',
-            title: '헤이즈 (Heize) - And July (Feat. DEAN, DJ Friz) MV'
-        }, {
-            id: 'Ibb5RhoKfzE',
-            title: '[MV] Zion.T _ Eat(꺼내 먹어요)'
-        }, {
-            id: 'Ywjmoco2xXA',
-            title: '레디(Reddy) - 생각해 (Feat. 박재범) MV'
-        }];
-        var history = [{
-            id: '96es5i6FzDc',
-            title: '[MV] GIRIBOY(기리보이) _ Hogu(호구)'
-        }];
-        $window.onYouTubeIframeAPIReady = function() {
+        var upcoming = [];
+        var history = [];
+        this.onYouTubeIframeAPIReady = function() {
             $log.info('Youtube API is ready');
             youtube.ready = true;
             service.bindPlayer('placeholder');
             service.loadPlayer();
-            $rootScope.$apply();
+          //  $rootScope.$apply();
         };
 
         function onYoutubeReady(event) {
+          var playlist_id = $rootScope.playlistID;
+          $http({
+              method: 'GET',
+              url: '/api/playlist/' + playlist_id
+          }).then(function successCallback(response) {
+            youtube.player.cueVideoById(response.data.songs[0].id);
+            youtube.videoId = response.data.songs[0].id;
+            youtube.videoTitle = response.data.songs[0].title;
+            youtube.player.playVideo();
+            service.archiveVideo(upcoming[0].id, upcoming[0]
+                .title);
+           service.deleteVideo(upcoming, upcoming[0].id);
+
+          });
             $log.info('YouTube Player is ready');
-            youtube.player.cueVideoById(history[0].id);
-            youtube.videoId = history[0].id;
-            youtube.videoTitle = history[0].title;
             youtube.player.playVideo();
             var playButton = document.getElementById("play-button");
             playButton.addEventListener("click", function() {
@@ -261,12 +245,24 @@ app.service('VideosService', ['$window', '$rootScope', '$log',
 ]);
 
 // create the controller and inject Angular's $scope
-app.controller('mainController', function($scope, $http, $window,
+app.controller('mainController', function($scope, $rootScope, $http, $window, $location,
     userInfoService, playlistInfoService) {
     $scope.customPlaylists = [];
     playlistInfoService.getPlaylists().success(function(data) {
         $scope.customPlaylists = data;
     });
+    $scope.loadPlaylist = function(playlist_id, next) {
+        $http({
+            method: 'GET',
+            url: '/api/playlist/' + playlist_id
+        }).then(function successCallback(response) {
+          $rootScope.playlistID = response.data._id;
+          console.log($rootScope.playlistID);
+          $location.path('play');
+        }, function errorCallback(response) {
+          console.log('it dead');
+        });
+    }
 });
 app.controller('profileController', function($scope, $http, $window,
     userInfoService, playlistInfoService) {
@@ -348,7 +344,7 @@ app.controller('createController', function($scope, $rootScope, $http, $window,
          $http({
               method: 'POST',
               url: '/api/playlist',
-              data: playlistPayload, //forms user object
+              data: playlistPayload,
               headers: {
                   'Content-Type': 'application/json'
               }
@@ -411,16 +407,35 @@ app.controller('signinController', function($scope, $http, $location, $window) {
 });
 
 // Controller
-app.controller('VideosController', function($scope, $http, $log, VideosService) {
-    init();
+app.controller('VideosController', function($route, $scope, $rootScope, $http, $log, userInfoService, playlistInfoService, VideosService) {
+  $scope.loadPlaylist = function(playlist_id, next) {
+      $http({
+          method: 'GET',
+          url: '/api/playlist/' + playlist_id
+      }).then(function successCallback(response) {
+          VideosService.onYouTubeIframeAPIReady();
+          $scope.upcoming.splice(0);
+          var json = JSON.stringify(response.data.songs);
+          $.each($.parseJSON(json), function() {
+              VideosService.queueVideo(this.id,
+                  this.title);
+          });
+          $('#overlay-playlist').removeClass('open');
+      }, function errorCallback(response) {
+          console.log('holy shit it broke');
+      });
+  }
 
+    init();
     function init() {
         $scope.youtube = VideosService.getYoutube();
         $scope.results = VideosService.getResults();
         $scope.upcoming = VideosService.getUpcoming();
         $scope.history = VideosService.getHistory();
         $scope.playlist = true;
+        $scope.loadPlaylist($rootScope.playlistID);
     }
+
     $scope.launch = function(id, title) {
         VideosService.launchPlayer(id, title);
         VideosService.archiveVideo(id, title);
@@ -463,26 +478,41 @@ app.controller('VideosController', function($scope, $http, $log, VideosService) 
     $http.get('/api/playlist/').success(function(data) {
         $scope.customPlaylists = data;
     });
-    $scope.loadPlaylist = function(playlist_id, next) {
-        $http({
-            method: 'GET',
-            url: '/api/playlist/' + playlist_id
-        }).then(function successCallback(response) {
-            $scope.upcoming.splice(0);
-            var json = JSON.stringify(response.data.songs);
-            $.each($.parseJSON(json), function() {
-                VideosService.queueVideo(this.s_id,
-                    this.s_title);
-            });
-            $('#overlay-playlist').removeClass('open');
-            if (next = true) {
-                VideosService.launchPlayer(res.data[0].id,
-                    res.data[0].title);
-            }
-        }, function errorCallback(response) {
-            console.log('holy shit it broke');
-        });
-    }
+
+    $scope.$on('$locationChangeStart', function(event) {
+      $route.reload();
+      $scope.upcoming.splice(0);
+      $scope.history.splice(0);
+      $rootScope.PlaylistID = 0;
+    });
+
+    $scope.historyView = function() {
+      var $this = $(this);
+      $this.toggleClass("active");
+      consloe.log('history');
+      if ($this.hasClass("active")) {
+        $this.html("<i class=\"material-icons\">queue_music</i>");
+        $("#history").show();
+        $("#upcoming").hide();
+      } else {
+        $this.html("<i class=\"material-icons\">history</i>");
+        $("#history").hide();
+        $("#upcoming").show();
+    }};
+
+    $scope.searchView = function() { $('#overlay-search').toggleClass('open') };
+
+    $scope.playlistView = function() { $('#overlay-playlist').toggleClass('open'); };
+
+    $scope.minimalView = function() {
+         $('#sidebar').toggle()
+         $('.menu-button').toggle()
+         $('#minimal-animale').toggleClass('show')
+         $('#player').toggleClass('full')
+
+        };
+
+
     $("#nextPlaylistModal").on('shown.bs.modal', function() {
         setTimeout(function() {
             $('#nextPlaylistModal').modal('hide');

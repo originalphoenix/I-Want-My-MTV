@@ -37,12 +37,12 @@
      <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2" ng-repeat="playlist in customPlaylists | filter: 'kpop'">
        <div class="card">
           <div class="card_image">
-             <img src="{{playlist.img}}" alt="" class="image">
+             <img data-ng-src="{{playlist.img}}" alt="" class="image">
              <i class="material-icons" onClick="favorite(this);">
              favorite_border</i>
           </div>
           <div class="cardContent">
-             <button class="cardContentButton" ng-click="loadPlaylist(playlist.url)"><i class="material-icons">play_arrow</i></button>
+             <button class="cardContentButton" ng-click="loadPlaylist(playlist._id)"><i class="material-icons">play_arrow</i></button>
              <p class="cardContentName">{{playlist.name}}</p>
              <p class="cardContentJob">{{playlist.playlist_author}}</p>
              <p class="cardContentJob">Tags: <span class="label label-primary" ng-repeat="genre in playlist.tags">{{genre.tag}}</span></p>
@@ -55,12 +55,12 @@
   <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2" ng-repeat="playlist in customPlaylists | filter: 'vaporwave'">
     <div class="card">
        <div class="card_image">
-          <img src="{{playlist.img}}" alt="" class="image">
+          <img data-ng-src="{{playlist.img}}" alt="" class="image">
           <i class="material-icons" onClick="favorite(this);">
           favorite_border</i>
        </div>
        <div class="cardContent">
-          <button class="cardContentButton" ng-click="loadPlaylist(playlist.url)"><i class="material-icons">play_arrow</i></button>
+          <button class="cardContentButton" ng-click="loadPlaylist(playlist._id)"><i class="material-icons">play_arrow</i></button>
           <p class="cardContentName">{{playlist.name}}</p>
           <p class="cardContentJob">{{playlist.playlist_author}}</p>
           <p class="cardContentJob">Tags: <span class="label label-primary" ng-repeat="genre in playlist.tags">{{genre.tag}}</span></p>

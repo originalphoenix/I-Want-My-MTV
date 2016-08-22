@@ -4,12 +4,27 @@
     <section class="vbox animated fadeInUp">
       <section class="scrollable">
         <div class="m-t-n-xxs item pos-rlt">
-          <div class="top text-right">
-            <i class="material-icons" style="color: white; padding: 10px; cursor: pointer;">mode_edit</i>
-          </div>
+          <div class="top text-right wrapper">
+            <div class="pull-left">
+            <span id="history-button" ng-click="historyView()"><i class="material-icons">history</i></span>
+            <span class="toggle-minimalism" ng-click="minimalism()"><i class="material-icons">branding_watermark</i></span>
+           </div>
+           <div class="pull-right">
+            <span><i class="material-icons">favorite_border</i></span>
+            <span id="toggle-search" ng-click="searchView()"><i class="material-icons">search</i></span>
+            <span id="toggle-playlist" ng-click="playlistView()"><i class="material-icons">playlist_add</i></span>
+           </div>
+        </div>
           <div class="bottom gd bg-info wrapper-lg">
-            <span class="h2 font-thin">Playlist Name <i class="material-icons">mode_edit</i></span><br>
-            <span class="h4 font-thin">Tags: <i class="material-icons">mode_edit</i></span>
+            <div class="video-controls">
+              <span class="h2 font-thin">{{ youtube.videoTitle }}<br>
+            <span><i class="material-icons">skip_previous</i></span>
+            <span class="play-pause" id="play-button"><i class="material-icons">play_arrow</i></span>
+            <span class="play-pause" id="pause-button"><i class="material-icons">pause</i></span>
+            <!-- <p><i class="material-icons">pause</i></p> -->
+            <span><i class="material-icons">skip_next</i></span>
+          </div>
+            <span class="h4 font-thin">in playlistname</span>
 
           </div>
           <img class="img-full" src="http://www.gsurgeon.net/wp-content/uploads/2016/01/hogu-7.jpg" alt="...">
@@ -27,7 +42,21 @@
               <span class="text-muted"> -- 04:35</span>
             </div>
           </li>
-        </ul>
+        </ol>
+        <ol id="history" data-ng-show="playlist" style="padding: 0;">
+          <li class="list-group-item" data-ng-repeat="video in history">
+            <div class="pull-right m-l">
+              <a class="m-r-sm" data-ng-click="delete('upcoming', video.id)" target="_self"><i class="icon-trash"></i></a>
+            </div>
+            <a data-ng-click="launch(video.id, video.title)" class="jp-play-me m-r-sm pull-left" target="_self">
+              <i class="material-icons">replay</i>
+            </a>
+            <div class="clear text-ellipsis">
+              <span>{{video.title}}</span>
+              <span class="text-muted"> -- 04:35</span>
+            </div>
+          </li>
+        </ol>
       </section>
     </section>
   </aside>
@@ -44,7 +73,81 @@
   </section>
     </section>
   </section>
-  <div class="menu-button" id="save"><i class="material-icons">done</i>
+  <div class="overlay" id="overlay-search">
+     <a href="javascript:void(0)" id="close-search" class="overlay-close"><i class="material-icons">clear</i></a>
+     <nav class="overlay-menu">
+        <form id="search" data-ng-submit="search()">
+           <input id="query" name="q" type="text" placeholder="Search for a YouTube video..." data-ng-model="query">
+           <input id="submit" type="image" alt="Search" style="display: none;">
+        </form>
+        <div id="results">
+           <div class="video" data-ng-repeat="video in results" >
+              <div class="row" data-ng-click="queue(video.id, video.title)" target="_self">
+                 <div class="col-md-2">
+                    <img class="video-image" data-ng-src="{{ video.thumbnail }}">
+                 </div>
+                 <div class="col-md-10">
+                    <p class="video-title">{{ video.title }}</p>
+                    <p class="video-author">{{ video.author }}</p>
+                 </div>
+              </div>
+           </div>
+        </div>
+     </nav>
+  </div>
+  <div class="overlay" id="overlay-playlist">
+     <a href="javascript:void(0)" id="close-playlist" class="overlay-close"><i class="material-icons">clear</i></a>
+     <nav class="overlay-menu" style="width: 75%;">
+       <form id="search">
+          <p><input id="query" name="q" type="text" placeholder="Search by tag" ng-model="name">
+       </form>
+        <div class="row">
+           <div class="col-md-4" ng-repeat="playlist in customPlaylists | filter: name ">
+              <div class="card">
+                 <div class="card_image">
+                    <img data-ng-src="{{playlist.img}}" alt="" class="image">
+                    <i class="material-icons" onClick="favorite(this);">
+                    favorite_border</i>
+                 </div>
+                 <div class="cardContent">
+                    <button class="cardContentButton" ng-click="loadPlaylist(playlist._id)"><i class="material-icons">play_arrow</i></button>
+                    <p class="cardContentName">{{playlist.name}}</p>
+                    <p class="cardContentJob">{{playlist.playlist_author}}</p>
+
+                    <p class="cardContentJob">Tags: <span class="label label-primary" ng-repeat="genre in playlist.tags">{{genre.tag}}</span></p>
+                 </div>
+     </nav>
+     </div>
+     </div>
+     </div>
+  </div>
+
+  <!-- Playlist Ended Modal -->
+<div class="modal fade" id="nextPlaylistModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <h4 class="modal-title" id="myModalLabel">Loading the next playlist</h4>
+  </div>
+  <div class="modal-body">
+    This playlist is over!
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="loadPlaylist('/playlists/aesthetic-playlist.json', true)">On to the next one</button>
+    <button type="button" class="btn btn-primary">Sound of Silence Please</button>
+  </div>
+</div>
+</div>
+</div>
+
+  <div id="minimal-animale">
+     <h1>
+     {{ youtube.videoTitle }}</h2>
+     <h4 data-ng-repeat="video in upcoming" ng-show="$first">Up Next: {{ video.title }}</h4>
+  </div>
+  <div class="menu-button toggle-minimalism"><i class="material-icons">playlist_play</i>
+  </div>
   </div>
 </section>
 </section>
@@ -62,3 +165,49 @@ header {
 display: inline;
 }
 </style>
+
+<script>
+
+   $('#close-playlist').click(function() {
+   $('#overlay-playlist').removeClass('open');
+   });
+
+   $('#close-search').click(function() {
+   $('#overlay-search').removeClass('open');
+   });
+
+   var input = document.querySelector('#query');
+   var loadTimeout;
+
+   // Look ma, no jQuery!
+   input.focus();
+   input.addEventListener('keydown', keyHandler, false);
+
+   function keyHandler(e) {
+    // Having a second delay to prevent too many AJAX requests
+    if(loadTimeout) clearTimeout(loadTimeout);
+    loadTimeout = setTimeout(loadData, 1000);
+   }
+
+   function loadData() {
+    var query = input.value;
+
+    // AJAX call
+   }
+
+       change = false;
+
+       function favorite(objeto){
+         if(!change){
+           $(objeto).text("favorite");
+           $(objeto).css({"color":"#F7CAC9"});
+           change = true;
+         }else{
+           $(objeto).text("favorite_border");
+           $(objeto).css({"color":"white"});
+           change = false;
+         }
+
+       }
+
+</script>
