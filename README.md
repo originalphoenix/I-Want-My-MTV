@@ -18,6 +18,7 @@ Overall App Functionality
 - ANIMATIONS ANIMATIONS ANIMATIONS HECK YEAH
 - 404 Handling
 - Error Handling in General lmao
+- Fix the "Can't set headers after they are sent." error that pops up every time you accidentally friggin' refresh the page
 
 Sign Up/Sign In Pages 
 - Remove Sidebar and Header from these views?
