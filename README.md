@@ -5,12 +5,68 @@ Jukebox spun off of juketube with a better layout and actually works.
 
 Design Inspiration: https://www.behance.net/gallery/19435591/Songoroo
 
+API 
+- Users that create playlists also delete them
+- Users that create playlists can only edit them
+- Lock down GET so that only the app can make requests to it
+- Need some way of relating "favorites" to a user account, not sure how yet :/ 
+
+Overall App Functionality
+- Ability to pull up user profiles & playlists via direct link
+- Get rid of that weird # thing in URLs
+- Responsiveness
+- ANIMATIONS ANIMATIONS ANIMATIONS HECK YEAH
+- 404 Handling
+- Error Handling in General lmao
+
+Sign Up/Sign In Pages 
+- Remove Sidebar and Header from these views?
+- If Token is Set User Cannot go to Sign In or Sign Up
+- Button Changed back to Yellow (wtf??)
+- Sign Up Page needs to be full screen wizard a la typeform
+- Sign Up Photo Upload needs to work
+- Sign Up Page needs email confirmation & I am not a Robot Verification
+- STRETCH GOAL: Social Sign In/Sign Up
+
+Header/Footer Page (tv-tokyo.html)
+- ng-cloak on any angular variables
+- Hide User Account Stuff if User isn't logged in & Show Login Button
+- Search needs wired up (diff section)
+- Hook up Navigation to pages
+- Add Loading Overlay for ng-cloak (take from jukebox.html)
+
+Home Page
+- Featured Cards are broken (overlay sucks)
+- Set Playlist Card width
+- Show Playlists that have "featured" set to true
+- Most Played (add play count on playlist_load)
+- Layout should be in this order (Most Played, Your Playlists, Latest, Featured Tags)
+- Remove Half and Half at the Bottom (or maybe keep it but change the download app one)
+
+Genres Page 
+- Find all available Genres and populate
+- If someone clicks on a genre tag show that as active and populate results from other page (could be anywhere) 
+- Pagination
+
+Profile Page 
+- FAVORITES I DON'T KNOW HOW TO DO THIS HECK
+- Get length of playlists with the same author name and show it in the created
+- Fix the Create Playlist Card (needs to look less like crap)
+- Hook up the Settings Form
+
+Create Playlist Page
+- Upload Playlist Image Modal
+- Confirm Modal on Save
+- Clean up Styles
+- Play button takes person to the youtube video? or maybe fills the search box with the video preview? idk
+
 Jukebox UI/UX
 - Clean up CSS
 - Add CSS Animations to everything
 - Show Icon where play button should be while youtube video is loading
 - When youtube status is ended, show a gradient background instead of the youtube screen
 - Fix the Modal for "playlist has ended" / Style it also
+- Modal picks first playlist with similar tags
 
 App UI/UX
 - Shove angular into everything once endpoints are set up
@@ -19,9 +75,12 @@ App UI/UX
 - Create New Playlist needs to be restyled
 - More Animations MORE ANIMATIONS
 
+Polish
+- Clean up CSS
+- Clean up JS
+- Think of a Cooler Name?
+
 App Functionality
-- Manage User Tokens to Pull up Data
-- Add Settings Tab to Profile Page (only visible if the profile belongs to the logged in user) 
 - Favorites Need to Happen?
 - Search Page needs to be added and implemented
 - Profile URLs and Playlist URLs need to be shareable
@@ -30,12 +89,6 @@ App Functionality
 - 404 Handling
 - Home only displays genres that user has liked in the past
 - Drag and Drop Reordering on Playlist Page
-
-API 
-- Users that create playlists also delete them
-- Users that create playlists can only edit them
-- Lock down GET so that only the app can make requests to it
-- Need some way of relating "favorites" to a user account, not sure how yet :/ 
 
 FUNCTIONALITY
 - Ability to save playlists with album art and tags
