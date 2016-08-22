@@ -46,9 +46,9 @@ app.config(function($routeProvider) {
         });
 });
 // WE FACTORIES NOW BOI
-app.factory('userInfoService', function($http, $window,$rootScope) {
-     var token = $window.localStorage['jwtToken'];
-     $rootScope.loggedout = false;
+app.factory('userInfoService', function($http, $window, $rootScope) {
+    var token = $window.localStorage['jwtToken'];
+    $rootScope.loggedout = false;
     $http({
         method: 'GET',
         url: '/api/memberinfo',
@@ -101,24 +101,24 @@ app.service('VideosService', ['$window', '$rootScope', '$log', '$http',
             youtube.ready = true;
             service.bindPlayer('placeholder');
             service.loadPlayer();
-          //  $rootScope.$apply();
+            //  $rootScope.$apply();
         };
 
         function onYoutubeReady(event) {
-          var playlist_id = $rootScope.playlistID;
-          $http({
-              method: 'GET',
-              url: '/api/playlist/' + playlist_id
-          }).then(function successCallback(response) {
-            youtube.player.cueVideoById(response.data.songs[0].id);
-            youtube.videoId = response.data.songs[0].id;
-            youtube.videoTitle = response.data.songs[0].title;
-            youtube.player.playVideo();
-            service.archiveVideo(upcoming[0].id, upcoming[0]
-                .title);
-           service.deleteVideo(upcoming, upcoming[0].id);
+            var playlist_id = $rootScope.playlistID;
+            $http({
+                method: 'GET',
+                url: '/api/playlist/' + playlist_id
+            }).then(function successCallback(response) {
+                youtube.player.cueVideoById(response.data.songs[0].id);
+                youtube.videoId = response.data.songs[0].id;
+                youtube.videoTitle = response.data.songs[0].title;
+                youtube.player.playVideo();
+                service.archiveVideo(upcoming[0].id, upcoming[0]
+                    .title);
+                service.deleteVideo(upcoming, upcoming[0].id);
 
-          });
+            });
             $log.info('YouTube Player is ready');
             youtube.player.playVideo();
             var playButton = document.getElementById("play-button");
@@ -256,11 +256,11 @@ app.controller('mainController', function($scope, $rootScope, $http, $window, $l
             method: 'GET',
             url: '/api/playlist/' + playlist_id
         }).then(function successCallback(response) {
-          $rootScope.playlistID = response.data._id;
-          console.log($rootScope.playlistID);
-          $location.path('play');
+            $rootScope.playlistID = response.data._id;
+            console.log($rootScope.playlistID);
+            $location.path('play');
         }, function errorCallback(response) {
-          console.log('it dead');
+            console.log('it dead');
         });
     }
 });
@@ -274,94 +274,95 @@ app.controller('profileController', function($scope, $http, $window,
 
 app.controller('createController', function($scope, $rootScope, $http, $window,
     userInfoService, playlistInfoService, VideosService) {
-      init();
+    init();
 
-      function init() {
-          $scope.youtube = VideosService.getYoutube();
-          $scope.results = VideosService.getResults();
-          $scope.upcoming = VideosService.getUpcoming();
-          $scope.playlist = true;
-      }
+    function init() {
+        $scope.youtube = VideosService.getYoutube();
+        $scope.results = VideosService.getResults();
+        $scope.upcoming = VideosService.getUpcoming();
+        $scope.playlist = true;
+    }
 
 
 
-      $scope.queue = function(id, title) {
-          VideosService.queueVideo(id, title);
-      //    VideosService.deleteVideo($scope.history, id);
-          $log.info('Queued id:' + id + ' and title:' + title);
-      };
+    $scope.queue = function(id, title) {
+        VideosService.queueVideo(id, title);
+        //    VideosService.deleteVideo($scope.history, id);
+        $log.info('Queued id:' + id + ' and title:' + title);
+    };
 
-      $scope.delete = function(list, id) {
-          VideosService.deleteVideo($scope.upcoming, id);
-      };
+    $scope.delete = function(list, id) {
+        VideosService.deleteVideo($scope.upcoming, id);
+    };
 
-      $scope.search = function() {
-          $http.get('https://www.googleapis.com/youtube/v3/search', {
-              params: {
-                  key: 'AIzaSyCARc1XWs6s-bkrvh_Bdd3YPjjrWlDDSUw',
-                  type: 'video',
-                  videoEmbeddable: 'true',
-                  order: 'relevance',
-                  maxResults: '16',
-                  part: 'id,snippet',
-                  fields: 'items/id,items/snippet/title,items/snippet/description,items/snippet/thumbnails/default,items/snippet/channelTitle',
-                  q: this.query
-              }
-          }).success(function(data) {
-              $scope.results = VideosService.listResults(data);
-          }).error(function() {
-              $log.info('Search error');
-          });
-      }
+    $scope.search = function() {
+        $http.get('https://www.googleapis.com/youtube/v3/search', {
+            params: {
+                key: 'AIzaSyCARc1XWs6s-bkrvh_Bdd3YPjjrWlDDSUw',
+                type: 'video',
+                videoEmbeddable: 'true',
+                order: 'relevance',
+                maxResults: '16',
+                part: 'id,snippet',
+                fields: 'items/id,items/snippet/title,items/snippet/description,items/snippet/thumbnails/default,items/snippet/channelTitle',
+                q: this.query
+            }
+        }).success(function(data) {
+            $scope.results = VideosService.listResults(data);
+        }).error(function() {
+            $log.info('Search error');
+        });
+    }
 
-      // create a blank object to handle form data.
+    // create a blank object to handle form data.
 
-      $scope.playlist = {};
-      $scope.playlist_name = 'Playlist Name';
-      $scope.playlist_tags = 'Tag1, Tag2';
-      $scope.playlist_img = 'http://www.gsurgeon.net/wp-content/uploads/2016/01/hogu-7.jpg';
+    $scope.playlist = {};
+    $scope.playlist_name = 'Playlist Name';
+    $scope.playlist_tags = 'Tag1, Tag2';
+    $scope.playlist_img = 'http://www.gsurgeon.net/wp-content/uploads/2016/01/hogu-7.jpg';
 
-      // calling our submit function.
-      $scope.submitForm = function() {
+    // calling our submit function.
+    $scope.submitForm = function() {
 
         var tagjson = [];
         var tagSplit = $scope.playlist_tags.split(",");
         for (var i = 0; i < tagSplit.length; i++) {
-            tagjson.push({"tag":tagSplit[i]});
-          }
+            tagjson.push({
+                "tag": tagSplit[i]
+            });
+        }
 
         console.log(tagjson);
 
         var playlistPayload = {
-          'img': $scope.playlist_img,
-          'name': $scope.playlist_name,
-          'playlist_author': $rootScope.username,
-          'songs' : $scope.upcoming,
-          'tags' : tagjson,
+            'img': $scope.playlist_img,
+            'name': $scope.playlist_name,
+            'playlist_author': $rootScope.username,
+            'songs': $scope.upcoming,
+            'tags': tagjson,
         }
-          playlistPayload = JSON.stringify(playlistPayload);
-          console.log(playlistPayload);
-         $http({
-              method: 'POST',
-              url: '/api/playlist',
-              data: playlistPayload,
-              headers: {
-                  'Content-Type': 'application/json'
-              }
-          }).success(function(data) {
-              if (data.errors) {
-                  // Showing errors.
-                  $scope.errorName = data.errors;
-              } else {
-                  $scope.message = data.message;
-              }
-          });
-      };
+        playlistPayload = JSON.stringify(playlistPayload);
+        console.log(playlistPayload);
+        $http({
+            method: 'POST',
+            url: '/api/playlist',
+            data: playlistPayload,
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).success(function(data) {
+            if (data.errors) {
+                // Showing errors.
+                $scope.errorName = data.errors;
+            } else {
+                $scope.message = data.message;
+            }
+        });
+    };
 
 });
 
-app.controller('genreController', function($scope) {
-});
+app.controller('genreController', function($scope) {});
 app.controller('signupController', function($scope, $http) {
     // create a blank object to handle form data.
     $scope.user = {};
@@ -408,25 +409,26 @@ app.controller('signinController', function($scope, $http, $location, $window) {
 
 // Controller
 app.controller('VideosController', function($route, $scope, $rootScope, $http, $log, userInfoService, playlistInfoService, VideosService) {
-  $scope.loadPlaylist = function(playlist_id, next) {
-      $http({
-          method: 'GET',
-          url: '/api/playlist/' + playlist_id
-      }).then(function successCallback(response) {
-          VideosService.onYouTubeIframeAPIReady();
-          $scope.upcoming.splice(0);
-          var json = JSON.stringify(response.data.songs);
-          $.each($.parseJSON(json), function() {
-              VideosService.queueVideo(this.id,
-                  this.title);
-          });
-          $('#overlay-playlist').removeClass('open');
-      }, function errorCallback(response) {
-          console.log('holy shit it broke');
-      });
-  }
+    $scope.loadPlaylist = function(playlist_id, next) {
+        $http({
+            method: 'GET',
+            url: '/api/playlist/' + playlist_id
+        }).then(function successCallback(response) {
+            VideosService.onYouTubeIframeAPIReady();
+            $scope.upcoming.splice(0);
+            var json = JSON.stringify(response.data.songs);
+            $.each($.parseJSON(json), function() {
+                VideosService.queueVideo(this.id,
+                    this.title);
+            });
+            $('#overlay-playlist').removeClass('open');
+        }, function errorCallback(response) {
+            console.log('holy shit it broke');
+        });
+    }
 
     init();
+
     function init() {
         $scope.youtube = VideosService.getYoutube();
         $scope.results = VideosService.getResults();
@@ -480,37 +482,42 @@ app.controller('VideosController', function($route, $scope, $rootScope, $http, $
     });
 
     $scope.$on('$locationChangeStart', function(event) {
-      $route.reload();
-      $scope.upcoming.splice(0);
-      $scope.history.splice(0);
-      $rootScope.PlaylistID = 0;
+        $route.reload();
+        $scope.upcoming.splice(0);
+        $scope.history.splice(0);
+        $rootScope.PlaylistID = 0;
     });
 
     $scope.historyView = function() {
-      var $this = $(this);
-      $this.toggleClass("active");
-      consloe.log('history');
-      if ($this.hasClass("active")) {
-        $this.html("<i class=\"material-icons\">queue_music</i>");
-        $("#history").show();
-        $("#upcoming").hide();
-      } else {
-        $this.html("<i class=\"material-icons\">history</i>");
-        $("#history").hide();
-        $("#upcoming").show();
-    }};
+        var $this = $(this);
+        $this.toggleClass("active");
+        consloe.log('history');
+        if ($this.hasClass("active")) {
+            $this.html("<i class=\"material-icons\">queue_music</i>");
+            $("#history").show();
+            $("#upcoming").hide();
+        } else {
+            $this.html("<i class=\"material-icons\">history</i>");
+            $("#history").hide();
+            $("#upcoming").show();
+        }
+    };
 
-    $scope.searchView = function() { $('#overlay-search').toggleClass('open') };
+    $scope.searchView = function() {
+        $('#overlay-search').toggleClass('open')
+    };
 
-    $scope.playlistView = function() { $('#overlay-playlist').toggleClass('open'); };
+    $scope.playlistView = function() {
+        $('#overlay-playlist').toggleClass('open');
+    };
 
     $scope.minimalView = function() {
-         $('#sidebar').toggle()
-         $('.menu-button').toggle()
-         $('#minimal-animale').toggleClass('show')
-         $('#player').toggleClass('full')
+        $('#sidebar').toggle()
+        $('.menu-button').toggle()
+        $('#minimal-animale').toggleClass('show')
+        $('#player').toggleClass('full')
 
-        };
+    };
 
 
     $("#nextPlaylistModal").on('shown.bs.modal', function() {
