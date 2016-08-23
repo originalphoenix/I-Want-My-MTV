@@ -30,7 +30,7 @@ Sign Up/Sign In Pages
 Header/Footer Page (tv-tokyo.html)
 - ng-cloak on any angular variables
 - Search needs wired up (diff section)
-- Hook up Navigation to pages
+- Add ability to put favorite tags in the sidebar
 - Add Loading Overlay for ng-cloak (take from jukebox.html)
 
 Home Page
