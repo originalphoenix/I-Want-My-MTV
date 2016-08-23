@@ -381,7 +381,17 @@ app.controller('createController', function($scope, $rootScope, $http, $window,
 
 });
 
-app.controller('genreController', function($scope) {});
+app.controller('genreController', function($scope, $http, userInfoService, playlistInfoService) {
+  $scope.customPlaylists = [];
+  playlistInfoService.getPlaylists().success(function(data) {
+      $scope.customPlaylists = data;
+      $scope.playlists = response.data;
+      angular.forEach($scope.playlists, function(tag){
+           console.log(playlists.tags);
+       })
+  });
+    });
+
 app.controller('signupController', function($scope, $http, $rootScope) {
   angular.element('body').addClass("gradient-bg-darkest");
   $rootScope.hideit = true;

@@ -147,12 +147,11 @@ apiRoutes.post('/playlist', function(req, res) {
           favorites: req.body.favorites,
         });
 
-
         playlist.save(function(err) {
           if (err) {
             return res.json({success: false, msg: 'Failed'});
           }
-          res.json({success: true, msg: 'Congrats'});
+          return res.json({success: true, msg: 'Congrats'});
         });
     });
 
@@ -170,8 +169,8 @@ apiRoutes.get('/playlist', function(req, res) {
 apiRoutes.get('/playlist/:playlist_id', function(req, res) {
         Playlist.findById(req.params.playlist_id, function(err, playlist) {
             if (err)
-                res.send(err);
-                res.json(playlist);
+                return res.send(err);
+                return res.json(playlist);
             });
         });
 
