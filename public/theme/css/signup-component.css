@@ -124,6 +124,20 @@ button.fs-continue,
 	pointer-events: none;
 }
 
+#signup-submit {
+	width: 25%;
+	display:none;
+	margin: 0 auto;
+	border: 2px solid white;
+	margin-top: 40vh;
+	margin-left: 40%;
+	color: white;
+}
+
+#signup-submit:hover {
+	background-color: #F7CAC9;
+}
+
 .fs-form-wrap input:focus,
 .fs-form-wrap button:focus {
 	outline: none;
@@ -131,7 +145,6 @@ button.fs-continue,
 
 /* Hide the submit button */
 .fs-form .fs-submit {
-	display: none;
 }
 
 /* Fields */

@@ -38,7 +38,7 @@
       <div class="fs-title">
         <h1>tokki.tv - Sign Up<h1>
       </div>
-      <form id="myform" class="fs-form fs-form-full" autocomplete="off">
+      <form name="user-form" ng-submit="submitForm()" class="fs-form fs-form-full" autocomplete="off" id="userForm">
         <ol class="fs-fields">
           <li>
             <label class="fs-field-label fs-anim-upper" for="q1" data-info="Keep it unique, no one is quite like you.">What's your handle?</label>
@@ -50,7 +50,7 @@
           </li>
           <li>
             <label class="fs-field-label fs-anim-upper" for="q3" data-info="Not actually required, but it'd be nice!">Last Name, too</label>
-            <input placeholder="Jean" id="q3" name="q3" class="form-control input-lg no-border fs-anim-lower" ng-model="user.firstname">
+            <input placeholder="Jean" id="q3" name="q3" class="form-control input-lg no-border fs-anim-lower" ng-model="user.lastname">
           </li>
           <li>
             <label class="fs-field-label fs-anim-upper" for="q4" data-info="We won't send you spam, we promise...">What's your email address?</label>
@@ -67,14 +67,13 @@
           <li>
             <label class="fs-field-label fs-anim-upper" for="q7" data-info="This won't be graded, but you should know better by now.">Pick a Password</label>
             <input placeholder="*******" id="q7" name="q7" class="form-control input-lg no-border fs-anim-lower" ng-model="user.password">
-            <input placeholder="Confirm *******" id="q7" name="q7" class="form-control input-lg no-border fs-anim-lower" ng-model="user.password">
           </li>
           <li>
             <label class="fs-field-label fs-anim-upper" for="q8" data-info="End Robot Discrimination">Are you a robot?</label>
             <input placeholder="Beep Boop" id="q" name="q7" class="form-control input-lg no-border fs-anim-lower">
           </li>
         </ol><!-- /fs-fields -->
-        <button class="fs-submit" type="submit">Send answers</button>
+        <button type="submit" class="btn btn-lg btn-pink lt b-white b-2x btn-block" id="signup-submit"><i class="icon-arrow-right pull-right"></i><span class="m-r-n-lg">Sign me the heck up</span></button>
       </form><!-- /fs-form -->
     </div><!-- /fs-form-wrap -->
   </section>
@@ -93,9 +92,6 @@
     } );
 
     new FForm( formWrap, {
-      onReview : function() {
-        classie.add( document.body, 'overview' ); // for demo purposes only
-      }
     } );
   })();
   </script>

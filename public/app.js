@@ -49,7 +49,6 @@ app.config(function($routeProvider) {
 //USER AUTH
 // WE FACTORIES NOW BOI
 app.factory('userInfoService', function($http, $window, $rootScope) {
-  $rootScope.hideit = false;
   return {
     getUserInfo: function() {$http({
         method: 'GET',
@@ -61,9 +60,7 @@ app.factory('userInfoService', function($http, $window, $rootScope) {
     }).success(function(data) {
         if (data.errors) {
             $scope.errorName = data.errors;
-            $rootScope.loggedout = true;
         } else {
-            $rootScope.loggedout = false;
             $rootScope.username = data.username;
             $rootScope.firstname = data.firstname;
             $rootScope.lastname = data.lastname;
@@ -253,6 +250,8 @@ app.service('VideosService', ['$window', '$rootScope', '$log', '$http',
 // create the controller and inject Angular's $scope
 app.controller('mainController', function($scope, $rootScope, $http, $window, $location, $route,
     userInfoService, playlistInfoService) {
+    $rootScope.hideit = false;
+    $rootScope.loggedIn = $window.localStorage['jwtToken'];
     userInfoService.getUserInfo();
     $scope.customPlaylists = [];
     playlistInfoService.getPlaylists().success(function(data) {
