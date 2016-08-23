@@ -34,12 +34,8 @@ Header/Footer Page (tv-tokyo.html)
 - Add Loading Overlay for ng-cloak (take from jukebox.html)
 
 Home Page
-- Featured Cards are broken (overlay sucks)
-- Set Playlist Card width
 - Show Playlists that have "featured" set to true
 - Most Played (add play count on playlist_load)
-- Layout should be in this order (Most Played, Your Playlists, Latest, Featured Tags)
-- Remove Half and Half at the Bottom (or maybe keep it but change the download app one)
 
 Genres Page 
 - Find all available Genres and populate
