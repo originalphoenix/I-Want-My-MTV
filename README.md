@@ -21,17 +21,14 @@ Overall App Functionality
 - Fix the "Can't set headers after they are sent." error that pops up every time you accidentally friggin' refresh the page
 
 Sign Up/Sign In Pages 
-- Remove Sidebar and Header from these views?
 - If Token is Set User Cannot go to Sign In or Sign Up
-- Button Changed back to Yellow (wtf??)
-- Sign Up Page needs to be full screen wizard a la typeform
+- Sign Up Page needs Photo Uploads to POST (currently doesn't POST)
 - Sign Up Photo Upload needs to work
 - Sign Up Page needs email confirmation & I am not a Robot Verification
 - STRETCH GOAL: Social Sign In/Sign Up
 
 Header/Footer Page (tv-tokyo.html)
 - ng-cloak on any angular variables
-- Hide User Account Stuff if User isn't logged in & Show Login Button
 - Search needs wired up (diff section)
 - Hook up Navigation to pages
 - Add Loading Overlay for ng-cloak (take from jukebox.html)
