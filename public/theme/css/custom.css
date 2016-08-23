@@ -19,6 +19,14 @@
   animation: PantoneColors 6s ease infinite;
 }
 
+.gradient-bg-darkest {
+  background: linear-gradient(220deg, rgba(247, 202, 201, 1), rgba(146, 168, 209, 1));
+  background-size: 400% 400%;
+  -webkit-animation: PantoneColors 6s ease infinite;
+  -moz-animation: PantoneColors 6s ease infinite;
+  animation: PantoneColors 6s ease infinite;
+}
+
 .tab-pane {
   padding: 5%;
 }
@@ -51,6 +59,13 @@
   padding-right: 5px;
 }
 
+.btn-pink {
+  background-color: #F7CAC9;
+}
+
+.btn-pink:hover {
+  background-color: white;
+}
 
 /* Overlay */
 .overlay {

@@ -11,6 +11,7 @@
       <link rel="stylesheet" href="theme/css/font-awesome.min.css" type="text/css" />
       <link rel="stylesheet" href="theme/css/simple-line-icons.css" type="text/css" />
       <link rel="stylesheet" href="theme/css/font.css" type="text/css" />
+      <link rel="stylesheet" href="theme/css/signup-component.css" type="text/css" />
       <link rel="stylesheet" href="theme/css/app.css" type="text/css" />
       <link rel="stylesheet" href="theme/css/custom.css" type="text/css" />
       <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
@@ -23,7 +24,7 @@
    </head>
    <body class="">
       <section class="vbox">
-      <header class="bg-white-only header header-md navbar navbar-fixed-top-xs">
+      <header class="bg-white-only header header-md navbar navbar-fixed-top-xs" ng-hide="hideit">
          <div class="navbar-header aside bg-info nav-xs">
             <a class="btn btn-link visible-xs" data-toggle="class:nav-off-screen,open" data-target="#nav,html">
             <i class="icon-list"></i>
@@ -84,7 +85,7 @@
       <section>
       <section class="hbox stretch" id="page-container">
       <!-- .aside -->
-      <aside class="bg-light dk nav-xs aside hidden-print" id="nav">
+      <aside class="bg-light dk nav-xs aside hidden-print" id="nav" ng-hide="hideit">
          <section class="vbox">
             <section class="w-f-md scrollable">
                <div class="slim-scroll" data-height="auto" data-disable-fade-out="true" data-distance="0" data-size="10px" data-railOpacity="0.2">
@@ -195,6 +196,10 @@
       <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-route.js"></script>
       <script src="theme/js/theme.js"></script>
       <script src="theme/js/app.js"></script>
+      <script src="theme/js/modernizr.custom.js"></script>
+      <script src="theme/js/classie.js"></script>
+      <script src="theme/js/selectFx.js"></script>
+      <script src="theme/js/fullscreenForm.js"></script>
       <script src="app.js"></script> <!-- Angular App, more important -->
       <script src="js/xeditable.min.js"></script>
       <script src="theme/js/slimscroll/jquery.slimscroll.min.js"></script>

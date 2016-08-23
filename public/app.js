@@ -49,6 +49,7 @@ app.config(function($routeProvider) {
 //USER AUTH
 // WE FACTORIES NOW BOI
 app.factory('userInfoService', function($http, $window, $rootScope) {
+  $rootScope.hideit = false;
   return {
     getUserInfo: function() {$http({
         method: 'GET',
@@ -382,7 +383,9 @@ app.controller('createController', function($scope, $rootScope, $http, $window,
 });
 
 app.controller('genreController', function($scope) {});
-app.controller('signupController', function($scope, $http) {
+app.controller('signupController', function($scope, $http, $rootScope) {
+  angular.element('body').addClass("gradient-bg-darkest");
+  $rootScope.hideit = true;
     // create a blank object to handle form data.
     $scope.user = {};
     // calling our submit function.
@@ -405,7 +408,9 @@ app.controller('signupController', function($scope, $http) {
         });
     };
 });
-app.controller('signinController', function($scope, $http, $location, $window, userInfoService) {
+app.controller('signinController', function($scope, $rootScope, $http, $location, $window, userInfoService) {
+  angular.element('body').addClass("gradient-bg");
+  $rootScope.hideit = true;
     $scope.user = {};
     $scope.submitForm = function() {
         $http({
