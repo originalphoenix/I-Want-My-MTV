@@ -67,6 +67,15 @@
   background-color: white;
 }
 
+.nav > li > a > span {
+  color: white;
+}
+
+.nav > li:hover > a > span {
+  color: #788188;
+}
+
+
 /* Overlay */
 .overlay {
 	position: absolute;
@@ -745,6 +754,7 @@ margin-bottom: 0px;
 
 .card {
   min-width: 240px;
+  width: 280px;
   margin: 0 auto;
   box-shadow: 0 12px 15px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
   margin-bottom: 3em;
@@ -922,6 +932,9 @@ margin-bottom: 0px;
     transition: z-index 0s 0.2s;
   }
 
+.featured_card {
+  width: 100%;
+}
 
 .card .featured_card_image img {
   width: 100%;
@@ -932,7 +945,8 @@ p.featured_playlist_name {
   position: absolute;
   color: white;
   z-index: 100;
-  margin-top: 32%;
+  bottom: 0;
+  margin-bottom: 0;
   font-family: Lato;
   font-size: 32px;
   text-align: center;

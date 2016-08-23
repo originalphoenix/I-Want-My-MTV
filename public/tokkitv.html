@@ -57,6 +57,11 @@
             </div>
          </form>
          <div class="navbar-right hidden-full">
+           <ul class="nav navbar-nav m-n hidden-xs nav-user user" ng-hide="loggedIn">
+              <li>
+                 <a href="#/signin" class="dropdown-toggle bg clear" target="_self">Sign In</a>
+              </li>
+            </ul>
             <ul class="nav navbar-nav m-n hidden-xs nav-user user" ng-show="loggedIn">
                <li class="dropdown">
                   <a href="#" class="dropdown-toggle bg clear" data-toggle="dropdown" target="_self">
@@ -107,9 +112,15 @@
                            <span class="font-bold">Genres</span>
                            </a>
                         </li>
+                        <li>
+                           <a href="genres">
+                           <i class="icon-playlist icon text-success"></i>
+                           <span class="font-bold">Create Playlist</span>
+                           </a>
+                        </li>
                         <li class="m-b hidden-nav-xs"></li>
                      </ul>
-                     <ul class="nav text-sm">
+                     <ul class="nav text-sm" ng-show="loggedIn">
                         <li class="hidden-nav-xs padder m-t m-b-sm text-xs">
                            <span class="pull-right"><a href="#"><i class="icon-plus i-lg"></i></a></span>
                            Favorites
@@ -117,13 +128,13 @@
                         <li>
                            <a href="#">
                            <i class="icon-music-tone icon text-success-lter"></i>
-                           <span>Hip-Hop</span>
+                           <span>kpop</span>
                            </a>
                         </li>
                         <li>
                            <a href="#">
-                           <i class="icon-playlist icon text-success-lter"></i>
-                           <span>Jazz</span>
+                           <i class="icon-music-tone icon text-success-lter"></i>
+                           <span>vaporwave</span>
                            </a>
                         </li>
                      </ul>
@@ -134,10 +145,9 @@
             <footer class="footer hidden-xs no-padder text-center-nav-xs" ng-show="loggedIn">
                <div class="bg hidden-xs ">
                   <div class="dropdown dropup wrapper-sm clearfix">
-                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" target="_self">
                      <span class="thumb-sm avatar pull-left m-l-xs">
-                     <img data-ng-src="{{profilepic}}" class="dker" alt="...">
-                     <i class="on b-black"></i>
+                     <img data-ng-src="{{profilepic}}" alt="...">
                      </span>
                      <span class="hidden-nav-xs clear">
                      <span class="block m-l">
@@ -155,18 +165,9 @@
                         <li>
                            <a href="profile.html">Profile</a>
                         </li>
-                        <li>
-                           <a href="#">
-                           <span class="badge bg-danger pull-right">3</span>
-                           Notifications
-                           </a>
-                        </li>
-                        <li>
-                           <a href="docs.html">Help</a>
-                        </li>
                         <li class="divider"></li>
                         <li>
-                           <a href="modal.lockme.html" data-toggle="ajaxModal" >Logout</a>
+                          <a target="_self" ng-click="logout()">Logout</a>
                         </li>
                      </ul>
                   </div>

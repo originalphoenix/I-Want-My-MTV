@@ -994,6 +994,7 @@ body.container {
   }
   .header-md .navbar-brand {
     line-height: 60px;
+    width: 100%;
   }
   .header-md .navbar-brand img {
     max-height: 30px;

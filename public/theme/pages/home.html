@@ -10,7 +10,7 @@
    </h2>
   <div class="row m-t-lg m-b-lg">
       <div class="col-sm-6">
-        <div class="card" ng-click="loadPlaylist(playlist.url)">
+        <div class="card featured_card" ng-click="loadPlaylist(playlist.url)">
            <div class="card_image featured_card_image">
              <p class="cardContentJob featured_playlist_name">情報デスクVIRTUAL</p>
               <img src="https://levels.io/wp-content/uploads/2015/10/maxresdefault-3.jpg" alt="" class="image">
@@ -20,7 +20,7 @@
         </div>
       </div>
       <div class="col-sm-6">
-        <div class="card" ng-click="loadPlaylist(playlist.url)">
+        <div class="card featured_card" ng-click="loadPlaylist(playlist.url)">
            <div class="card_image featured_card_image">
              <p class="cardContentJob featured_playlist_name">From Boombap to Bibimbap</p>
               <img src="https://67.media.tumblr.com/228713250791f0f6b96fd3ec24366f69/tumblr_o0jhb8QYlL1tfpvc0o2_1280.jpg" alt="" class="image">
@@ -30,8 +30,57 @@
         </div>
      </div>
       </div>
-
    </div>
+
+<!-- Most Played-->
+
+   <h2 class="font-thin m-b">Popularity No Contest</h2>
+   <div class="row row-sm">
+     <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2" ng-repeat="playlist in customPlaylists">
+       <div class="card">
+          <div class="card_image">
+             <img data-ng-src="{{playlist.img}}" alt="" class="image">
+             <i class="material-icons" onClick="favorite(this);">
+             favorite_border</i>
+          </div>
+          <div class="cardContent">
+             <button class="cardContentButton" ng-click="loadPlaylist(playlist._id)"><i class="material-icons">play_arrow</i></button>
+             <p class="cardContentName">{{playlist.name}}</p>
+             <p class="cardContentJob">{{playlist.playlist_author}}</p>
+             <p class="cardContentJob">Tags: <span class="label label-primary" ng-repeat="genre in playlist.tags">{{genre.tag}}</span></p>
+          </div>
+        </div>
+    </div>
+</div>
+
+<!-- Playlist Row Ended -->
+
+
+<!-- Playlist by User -->
+
+   <h2 class="font-thin m-b">Your Playlists</h2>
+   <div class="row row-sm">
+     <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2" ng-repeat="playlist in customPlaylists | filter: username">
+       <div class="card">
+          <div class="card_image">
+             <img data-ng-src="{{playlist.img}}" alt="" class="image">
+             <i class="material-icons" onClick="favorite(this);">
+             favorite_border</i>
+          </div>
+          <div class="cardContent">
+             <button class="cardContentButton" ng-click="loadPlaylist(playlist._id)"><i class="material-icons">play_arrow</i></button>
+             <p class="cardContentName">{{playlist.name}}</p>
+             <p class="cardContentJob">{{playlist.playlist_author}}</p>
+             <p class="cardContentJob">Tags: <span class="label label-primary" ng-repeat="genre in playlist.tags">{{genre.tag}}</span></p>
+          </div>
+        </div>
+    </div>
+</div>
+
+<!-- Playlist Row Ended -->
+
+<!-- Should Make this an NG Repeat with 3 favorite tags as filter -->
+
    <h2 class="font-thin m-b">Tag Spotlight: <span class="label label-primary">kpop</span></h2>
    <div class="row row-sm">
      <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2" ng-repeat="playlist in customPlaylists | filter: 'kpop'">
@@ -47,9 +96,12 @@
              <p class="cardContentJob">{{playlist.playlist_author}}</p>
              <p class="cardContentJob">Tags: <span class="label label-primary" ng-repeat="genre in playlist.tags">{{genre.tag}}</span></p>
           </div>
-</div>
+        </div>
     </div>
 </div>
+
+<!-- Playlist Row Ended -->
+
 <h2 class="font-thin m-b">Tag Spotlight: <span class="label label-primary">vaporwave</span></h2>
 <div class="row row-sm">
   <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2" ng-repeat="playlist in customPlaylists | filter: 'vaporwave'">
@@ -78,10 +130,10 @@
          </div>
       </div>
       <div class="col-sm-6">
-         <div class="bg-black wrapper-md r">
+         <div class="bg-primary wrapper-md r" style="background-color: #F7CAC9">
             <a href="#">
-            <span class="h4 m-b-xs block"><i class="icon-cloud-download i-lg"></i> Download our app</span>
-            <span class="text-muted">Get the apps for desktop and mobile to start listening music at anywhere and anytime.</span>
+            <span class="h4 m-b-xs block" style="color: white;"><i class="icon-info i-lg"></i> Who the heck is Tokki.tv</span>
+            <span>Learn about what this is, and who even made it.</span>
             </a>
          </div>
       </div>

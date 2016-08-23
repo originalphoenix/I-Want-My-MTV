@@ -387,6 +387,7 @@ app.controller('signupController', function($scope, $http, $rootScope) {
   $rootScope.hideit = true;
     // create a blank object to handle form data.
     $scope.user = {};
+    $scope.user.profilepic = '/images/placeholder-pic.jpg'
     // calling our submit function.
     $scope.submitForm = function() {
         // Posting data to php file

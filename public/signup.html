@@ -42,7 +42,7 @@
         <ol class="fs-fields">
           <li>
             <label class="fs-field-label fs-anim-upper" for="q1" data-info="Keep it unique, no one is quite like you.">What's your handle?</label>
-            <input placeholder="l33th4cker" id="q1" name="q1" class="form-control input-lg no-border fs-anim-lower" ng-model="user.name">
+            <input placeholder="l33th4cker" id="q1" name="q1" class="form-control input-lg no-border fs-anim-lower" ng-model="user.username" required>
           </li>
           <li>
             <label class="fs-field-label fs-anim-upper" for="q2">Okay, how about your first name?</label>
@@ -66,7 +66,7 @@
           </li>
           <li>
             <label class="fs-field-label fs-anim-upper" for="q7" data-info="This won't be graded, but you should know better by now.">Pick a Password</label>
-            <input placeholder="*******" id="q7" name="q7" class="form-control input-lg no-border fs-anim-lower" ng-model="user.password">
+            <input placeholder="*******" id="q7" name="q7" class="form-control input-lg no-border fs-anim-lower" ng-model="user.password" required>
           </li>
           <li>
             <label class="fs-field-label fs-anim-upper" for="q8" data-info="End Robot Discrimination">Are you a robot?</label>
