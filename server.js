@@ -25,12 +25,8 @@ app.use(passport.initialize());
 app.use(express.static(__dirname + '/public'));
 
 // demo Route (GET http://localhost:8080)
-app.get('/jukebox', function(req, res) {
-  res.sendFile(path.join(__dirname + '/public/jukebox.html'));
-});
-
 app.get('/', function(req, res) {
-  res.sendFile(path.join(__dirname + '/public/tv-tokyo.html'));
+  res.sendFile(path.join(__dirname + '/public/tokkitv.html'));
 });
 
 // connect to database
