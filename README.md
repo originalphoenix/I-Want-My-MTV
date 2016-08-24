@@ -16,9 +16,7 @@ Overall App Functionality
 - Get rid of that weird # thing in URLs
 - Responsiveness
 - ANIMATIONS ANIMATIONS ANIMATIONS HECK YEAH
-- 404 Handling
 - Error Handling in General lmao
-- Fix the "Can't set headers after they are sent." error that pops up every time you accidentally friggin' refresh the page
 
 Sign Up/Sign In Pages 
 - If Token is Set User Cannot go to Sign In or Sign Up
@@ -61,17 +59,9 @@ Jukebox UI/UX
 - Fix the Modal for "playlist has ended" / Style it also
 - Modal picks first playlist with similar tags
 
-App UI/UX
-- Shove angular into everything once endpoints are set up
-- Create Playlist Page still is ugly but I don't know what to do.
-- Fixed Width for Playlist Cards
-- Create New Playlist needs to be restyled
-- More Animations MORE ANIMATIONS
-
 Polish
 - Clean up CSS
 - Clean up JS
-- Think of a Cooler Name?
 
 App Functionality
 - Favorites Need to Happen?
@@ -79,7 +69,6 @@ App Functionality
 - Profile URLs and Playlist URLs need to be shareable
 - If Genre is clicked, genre page needs to pull up that genre automatically
 - Genre only picks from all available tags
-- 404 Handling
 - Home only displays genres that user has liked in the past
 - Drag and Drop Reordering on Playlist Page
 
