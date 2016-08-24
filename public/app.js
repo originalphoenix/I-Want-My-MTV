@@ -1,4 +1,4 @@
-var app = angular.module('JukeTubeApp', ['ngRoute', 'xeditable']);
+var app = angular.module('JukeTubeApp', ['ngRoute', 'xeditable', 'ui.filters']);
 // Run
 app.run(function() {
     var tag = document.createElement('script');
@@ -42,7 +42,7 @@ app.config(function($routeProvider) {
         // route for the genre page
         .when('/genres', {
             templateUrl: 'theme/pages/genres.html',
-            controller: 'VideosController'
+            controller: 'genreController'
         });
 });
 
@@ -383,14 +383,16 @@ app.controller('createController', function($scope, $rootScope, $http, $window,
 
 app.controller('genreController', function($scope, $http, userInfoService, playlistInfoService) {
   $scope.customPlaylists = [];
-  playlistInfoService.getPlaylists().success(function(data) {
-      $scope.customPlaylists = data;
-      $scope.playlists = response.data;
-      angular.forEach($scope.playlists, function(tag){
-           console.log(playlists.tags);
+  $scope.musicGenres = []
+  playlistInfoService.getPlaylists().success(function(response) {
+      $scope.customPlaylists = response;
+       angular.forEach($scope.customPlaylists, function(tags){
+         angular.forEach(tags.tags, function(genre){
+           $scope.musicGenres.push({tag: genre.tag});
+  });
+});
        })
   });
-    });
 
 app.controller('signupController', function($scope, $http, $rootScope) {
   angular.element('body').addClass("gradient-bg-darkest");

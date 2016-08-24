@@ -3,75 +3,9 @@
                 <aside class="aside bg-light ltest" id="sidebar">
                   <section class="vbox animated fadeInUp">
                     <section class="scrollable hover">
-                      <div class="list-group no-radius no-border no-bg m-t-n-xxs m-b-none auto">
-                        <a href="genres.html" class="list-group-item">
-                          All
-                        </a>
-                        <a href="genres.html" class="list-group-item">
-                          acoustic
-                        </a>
-                        <a href="genres.html" class="list-group-item">
-                          ambient
-                        </a>
-                        <a href="genres.html" class="list-group-item">
-                          blues
-                        </a>
-                        <a href="genres.html" class="list-group-item">
-                          classical
-                        </a>
-                        <a href="genres.html" class="list-group-item">
-                          country
-                        </a>
-                        <a href="genres.html" class="list-group-item">
-                          electronic
-                        </a>
-                        <a href="genres.html" class="list-group-item">
-                          emo
-                        </a>
-                        <a href="genres.html" class="list-group-item">
-                          folk
-                        </a>
-                        <a href="genres.html" class="list-group-item">
-                          hardcore
-                        </a>
-                        <a href="genres.html" class="list-group-item">
-                          hip hop
-                        </a>
-                        <a href="genres.html" class="list-group-item">
-                          indie
-                        </a>
-                        <a href="genres.html" class="list-group-item active">
-                          kpop
-                        </a>
-                        <a href="genres.html" class="list-group-item">
-                          latin
-                        </a>
-                        <a href="genres.html" class="list-group-item">
-                          metal
-                        </a>
-                        <a href="genres.html" class="list-group-item">
-                          pop
-                        </a>
-                        <a href="genres.html" class="list-group-item">
-                          pop punk
-                        </a>
-                        <a href="genres.html" class="list-group-item">
-                          punk
-                        </a>
-                        <a href="genres.html" class="list-group-item">
-                          reggae
-                        </a>
-                        <a href="genres.html" class="list-group-item">
-                          rnb
-                        </a>
-                        <a href="genres.html" class="list-group-item">
-                          rock
-                        </a>
-                        <a href="genres.html" class="list-group-item">
-                          soul
-                        </a>
-                        <a href="genres.html" class="list-group-item">
-                          world
+                      <div class="list-group no-radius no-border no-bg m-t-n-xxs m-b-none auto" ng-repeat= "things in musicGenres | unique: 'tag'">
+                        <a href="#" class="list-group-item">
+                          {{things.tag}}
                         </a>
                       </div>
                     </section>
@@ -83,10 +17,10 @@
                     <section class="scrollable padder-lg">
                       <h2 class="font-thin m-b">KPop</h2>
                       <div class="row row-sm">
-                        <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2" ng-repeat="playlist in customPlaylists | filter: 'kpop'">
+                        <div class="col-xs-6 col-sm-4 col-md-3 col-lg-3" ng-repeat="playlist in customPlaylists">
                           <div class="card">
                              <div class="card_image">
-                                <img src="{{playlist.img}}" alt="" class="image">
+                                <img data-ng-src="{{playlist.img}}" alt="" class="image">
                                 <i class="material-icons" onClick="favorite(this);">
                                 favorite_border</i>
                              </div>
@@ -96,7 +30,7 @@
                                 <p class="cardContentJob">{{playlist.playlist_author}}</p>
                                 <p class="cardContentJob">Tags: <span class="label label-primary" ng-repeat="genre in playlist.tags">{{genre.tag}}</span></p>
                              </div>
-                   </div>
+                           </div>
                        </div>
                    </div>
                       <ul class="pagination pagination">
