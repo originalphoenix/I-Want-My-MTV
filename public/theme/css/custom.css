@@ -75,7 +75,12 @@
   color: #788188;
 }
 
-
+pre.ascii {
+  color: white;
+  background: transparent;
+  border: none;
+  margin-top: 5%;
+}
 /* Overlay */
 .overlay {
 	position: absolute;

@@ -43,6 +43,9 @@ app.config(function($routeProvider) {
         .when('/genres', {
             templateUrl: 'theme/pages/genres.html',
             controller: 'genreController'
+        })
+        .otherwise({
+          templateUrl: 'theme/pages/404.html',
         });
 });
 
