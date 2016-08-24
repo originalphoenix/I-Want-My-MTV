@@ -528,20 +528,42 @@ app.controller('VideosController', function($route, $scope, $rootScope, $http, $
         $rootScope.PlaylistID = 0;
     });
 
-    $scope.historyView = function() {
-        var $this = $(this);
-        $this.toggleClass("active");
-        consloe.log('history');
-        if ($this.hasClass("active")) {
-            $this.html("<i class=\"material-icons\">queue_music</i>");
-            $("#history").show();
-            $("#upcoming").hide();
-        } else {
-            $this.html("<i class=\"material-icons\">history</i>");
-            $("#history").hide();
-            $("#upcoming").show();
-        }
+    $scope.nextSong = function() {
+      $scope.launch($scope.upcoming[0].id, $scope.upcoming[0].title);
     };
+
+    $scope.lastSong = function() {
+      $scope.launch($scope.history[1].id, $scope.history[1].title);
+    };
+
+    $scope.addPlaylist = function(playlist_id) {
+      $http({
+          method: 'GET',
+          url: '/api/playlist/' + playlist_id
+      }).then(function successCallback(response) {
+        var json = JSON.stringify(response.data.songs);
+        $.each($.parseJSON(json), function() {
+            VideosService.queueVideo(this.id,
+                this.title);
+        });
+   $('#overlay-playlist').removeClass('open');
+  });
+}
+
+    $('#history-button').click(function() {
+            var $this = $(this);
+            $this.toggleClass("active");
+
+            if ($this.hasClass("active")) {
+              $this.html("<i class=\"material-icons\">queue_music</i>");
+              $("#history").show();
+              $("#upcoming").hide();
+            } else {
+              $this.html("<i class=\"material-icons\">history</i>");
+              $("#history").hide();
+              $("#upcoming").show();
+     }
+           });
 
     $scope.searchView = function() {
         $('#overlay-search').toggleClass('open')
@@ -554,6 +576,7 @@ app.controller('VideosController', function($route, $scope, $rootScope, $http, $
     $scope.minimalView = function() {
         $('#sidebar').toggle()
         $('.menu-button').toggle()
+        $('.slimScrollDiv').toggle()
         $('#minimal-animale').toggleClass('show')
         $('#player').toggleClass('full')
 

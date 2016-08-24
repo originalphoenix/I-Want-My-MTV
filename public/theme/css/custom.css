@@ -57,6 +57,7 @@
 .item .top > div > span {
   padding-left: 5px;
   padding-right: 5px;
+  cursor: pointer;
 }
 
 .btn-pink {
@@ -81,6 +82,11 @@ pre.ascii {
   border: none;
   margin-top: 5%;
 }
+
+ol#history {
+	display: none;
+}
+
 /* Overlay */
 .overlay {
 	position: absolute;
@@ -759,7 +765,7 @@ margin-bottom: 0px;
 
 .card {
   min-width: 240px;
-  width: 280px;
+  width: 250px;
   margin: 0 auto;
   box-shadow: 0 12px 15px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
   margin-bottom: 3em;
@@ -856,6 +862,7 @@ margin-bottom: 0px;
   -o-transition-duration: 0.2s;
   -ms-transition-duration: 0.2s;
   transition-duration: 0.2s;
+  line-height: 1;
 }
 .card .cardContent .cardContentButton i {
   -webkit-transition-duration: 0.2s;
