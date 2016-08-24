@@ -38,7 +38,6 @@ Home Page
 - Most Played (add play count on playlist_load)
 
 Genres Page 
-- Find all available Genres and populate
 - If someone clicks on a genre tag show that as active and populate results from other page (could be anywhere) 
 - Pagination
 
