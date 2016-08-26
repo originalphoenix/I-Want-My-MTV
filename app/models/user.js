@@ -4,6 +4,21 @@ var bcrypt = require('bcrypt');
 
 // Thanks to http://blog.matoski.com/articles/jwt-express-node-mongoose/
 
+var favoritePlaylistSchema = Schema({
+  playlist_id: String,
+  user_id: String,
+})
+
+var favoriteTagSchema = Schema({
+  tag: String,
+  user_id: String,
+})
+
+var lastPlayedSchema = Schema({
+  playlist_id: String,
+  timestamp: [Date],
+})
+
 // set up a mongoose model
 var UserSchema = new Schema({
     username: {
@@ -24,7 +39,11 @@ var UserSchema = new Schema({
     password: {
         type: String,
         required: true
-    }
+    },
+    favoritePlaylists: [favoritePlaylistSchema],
+    favoriteTag: [favoriteTagSchema],
+    history: [lastPlayedSchema]
+
 });
 
 UserSchema.pre('save', function(next) {

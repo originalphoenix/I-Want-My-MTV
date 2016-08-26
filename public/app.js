@@ -400,7 +400,6 @@ app.controller('createController', function($scope, $rootScope, $http, $window,
 
 app.controller('genreController', function($scope, $http, userInfoService, playlistInfoService) {
   $scope.genreFilters = {};
-  console.log($scope.genreFilters);
   $scope.customPlaylists = [];
   $scope.musicGenres = []
   playlistInfoService.getPlaylists().success(function(response) {
