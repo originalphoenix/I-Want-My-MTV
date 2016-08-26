@@ -87,6 +87,19 @@ ol#history {
 	display: none;
 }
 
+h2.similar-playlists {
+  color: white;
+font-family: "Lato", sans-serif;
+text-align: left;
+margin-top: 20px;
+margin-bottom: 20px;
+}
+
+.now-playing-container {
+  max-height: 350px;
+  overflow: hidden;
+}
+
 /* Overlay */
 .overlay {
 	position: absolute;
@@ -181,19 +194,26 @@ ol#history {
 }
 
 .video-controls {
-	text-align: center;
-	color: white;
+  text-align: center;
+      color: white;
+      padding-top: 30px;
+      padding-bottom: 30px;
+      cursor: pointer;
+
 }
 
 .video-controls > span > i {
 	font-size: 32px;
 	vertical-align: middle;
-	cursor: pointer;
 }
 
 span.play-pause > i {
 	font-size: 60px;
 	vertical-align: middle
+}
+
+h2.playlist-title {
+  text-align: center;
 }
 
 #playlist {

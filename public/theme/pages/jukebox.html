@@ -3,7 +3,7 @@
    <aside class="col-sm-3 no-padder" id="sidebar">
       <section class="vbox animated fadeInUp">
          <section class="scrollable">
-            <div class="m-t-n-xxs item pos-rlt">
+            <div class="m-t-n-xxs item pos-rlt now-playing-container">
                <div class="top text-right wrapper">
                   <div class="pull-left">
                      <span id="history-button"><i class="material-icons">history</i></span>
@@ -16,17 +16,18 @@
                   </div>
                </div>
                <div class="bottom gd bg-info wrapper-lg">
+                 <h2 class="font-thin playlist-title">{{ youtube.videoTitle }}<br></h2>
                   <div class="video-controls" ng-cloak>
-                     <span class="h2 font-thin">{{ youtube.videoTitle }}<br>
+                     <span class="h2 font-thin">
                      <span><i class="material-icons" ng-click="lastSong()">skip_previous</i></span>
                      <span class="play-pause" id="play-button"><i class="material-icons">play_arrow</i></span>
                      <span class="play-pause" id="pause-button"><i class="material-icons">pause</i></span>
                      <!-- <p><i class="material-icons">pause</i></p> -->
                      <span><i class="material-icons" ng-click="nextSong()">skip_next</i></span>
                   </div>
-                  <span class="h4 font-thin">in playlistname</span>
+                  <span class="h4 font-thin">in {{playlist_name}}</span>
                </div>
-               <img class="img-full" src="http://www.gsurgeon.net/wp-content/uploads/2016/01/hogu-7.jpg" alt="...">
+               <img class="img-full" data-ng-src="{{playlist_img}}" alt="...">
             </div>
             <ol class="list-group list-group-lg no-radius no-border no-bg m-t-n-xxs m-b-none auto" id="upcoming">
                <li class="list-group-item" data-ng-repeat="video in upcoming">
@@ -77,27 +78,36 @@
          <input id="query" name="q" type="text" placeholder="Search for a YouTube video..." data-ng-model="query">
          <input id="submit" type="image" alt="Search" style="display: none;">
       </form>
-      <div id="results">
-         <div class="video" data-ng-repeat="video in results" >
-            <div class="row" data-ng-click="queue(video.id, video.title)" target="_self">
-               <div class="col-md-2">
-                  <img class="video-image" data-ng-src="{{ video.thumbnail }}">
-               </div>
-               <div class="col-md-10">
-                  <p class="video-title">{{ video.title }}</p>
-                  <p class="video-author">{{ video.author }}</p>
-               </div>
-            </div>
-         </div>
-      </div>
+      <ul class="list-group list-group-lg no-bg auto m-b-none m-t-n-xxs">
+        <li class="list-group-item clearfix" data-ng-repeat="video in results">
+          <a data-ng-click="queue(video.id, video.title)" class="jp-play-me pull-right m-t-sm m-l text-md">
+            <i class="material-icons">add</i>
+          </a>
+          <a class="pull-left thumb-sm m-r">
+            <img data-ng-src="{{ video.thumbnail }}" alt="...">
+          </a>
+          <a class="clear">
+            <span class="block text-ellipsis">{{ video.title }}</span>
+            <small class="text-muted">{{ video.author }}</small>
+          </a>
+        </li>
+      </ul>
    </nav>
 </div>
 <div class="overlay" id="overlay-playlist">
    <a href="javascript:void(0)" id="close-playlist" class="overlay-close"><i class="material-icons">clear</i></a>
    <nav class="overlay-menu" style="width: 75%;">
       <form id="search">
-         <p><input id="query" name="q" type="text" placeholder="Search by tag" ng-model="name">
+         <p><input id="query" name="q" type="text" placeholder="Search for a playlist" ng-model="name">
       </form>
+      <h2 class="font-thin m-b similar-playlists">Similar Playlists you might like<span class="musicbar animate inline m-l-sm" style="width:20px;height:20px">
+         <span class="bar1 a1 bg-primary lter"></span>
+         <span class="bar2 a2 bg-info lt"></span>
+         <span class="bar3 a3 bg-success"></span>
+         <span class="bar4 a4 bg-warning dk"></span>
+         <span class="bar5 a5 bg-danger dker"></span>
+         </span>
+      </h2>
       <div class="row">
          <div class="col-md-4" ng-repeat="playlist in customPlaylists | filter: name ">
             <div class="card">

@@ -1,4 +1,4 @@
-var app = angular.module('JukeTubeApp', ['ngRoute', 'xeditable', 'ui.filters']);
+var app = angular.module('JukeTubeApp', ['ngRoute', 'xeditable', 'ui.filters', 'angularFileUpload']);
 // Run
 app.run(function() {
     var tag = document.createElement('script');
@@ -281,6 +281,20 @@ app.controller('mainController', function($scope, $rootScope, $http, $window, $l
 });
 app.controller('profileController', function($scope, $http, $window,
     userInfoService, playlistInfoService) {
+    var uploader = $scope.uploader = new FileUploader({
+              url: 'upload.php'
+      });
+
+      uploader.filters.push({
+    name: 'imageFilter',
+    fn: function(item /*{File|FileLikeObject}*/, options) {
+        var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
+        return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+    }
+});
+uploader.onSuccessItem = function(fileItem, response, status, headers) {
+     console.info('onSuccessItem', fileItem, response, status, headers);
+ };
     $scope.customPlaylists = [];
     playlistInfoService.getPlaylists().success(function(data) {
         $scope.customPlaylists = data;
@@ -385,6 +399,8 @@ app.controller('createController', function($scope, $rootScope, $http, $window,
 });
 
 app.controller('genreController', function($scope, $http, userInfoService, playlistInfoService) {
+  $scope.genreFilters = {};
+  console.log($scope.genreFilters);
   $scope.customPlaylists = [];
   $scope.musicGenres = []
   playlistInfoService.getPlaylists().success(function(response) {
@@ -455,13 +471,17 @@ app.controller('VideosController', function($route, $scope, $rootScope, $http, $
             url: '/api/playlist/' + playlist_id
         }).then(function successCallback(response) {
             VideosService.onYouTubeIframeAPIReady();
+
             $scope.upcoming.splice(0);
             var json = JSON.stringify(response.data.songs);
             $.each($.parseJSON(json), function() {
                 VideosService.queueVideo(this.id,
                     this.title);
             });
-            $('#overlay-playlist').removeClass('open');
+            $scope.playlist_img = response.data.img;
+            $scope.playlist_name = response.data.name;
+            $scope.playlist_genres = response.data.tags;
+            console.log($scope.playlist_img)
         }, function errorCallback(response) {
             console.log('holy shit it broke');
         });

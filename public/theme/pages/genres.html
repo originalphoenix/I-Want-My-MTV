@@ -4,7 +4,7 @@
                   <section class="vbox animated fadeInUp">
                     <section class="scrollable hover">
                       <div class="list-group no-radius no-border no-bg m-t-n-xxs m-b-none auto" ng-repeat= "things in musicGenres | unique: 'tag'">
-                        <a href="#" class="list-group-item">
+                        <a ng-click="genreFilters.playlist.tags.tag = things.tag" class="list-group-item">
                           {{things.tag}}
                         </a>
                       </div>
@@ -15,9 +15,9 @@
                 <section style="background: white;">
                   <section class="vbox gradient-bg">
                     <section class="scrollable padder-lg">
-                      <h2 class="font-thin m-b">KPop</h2>
+                      <h2 class="font-thin m-b">Genre</h2>
                       <div class="row row-sm">
-                        <div class="col-xs-6 col-sm-4 col-md-3 col-lg-3" ng-repeat="playlist in customPlaylists">
+                        <div class="col-xs-6 col-sm-4 col-md-3 col-lg-3" ng-repeat="playlist in customPlaylists | filter: genreFilters.playlists.tags.tag">
                           <div class="card">
                              <div class="card_image">
                                 <img data-ng-src="{{playlist.img}}" alt="" class="image">
