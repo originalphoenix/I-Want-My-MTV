@@ -418,16 +418,16 @@ app.controller('signupController', function($scope, $http, $rootScope) {
   $rootScope.hideit = true;
     // create a blank object to handle form data.
     $scope.user = {};
-    $scope.user.profilepic = '/images/placeholder-pic.jpg'
+    console.log($scope.user);
     // calling our submit function.
     $scope.submitForm = function() {
         // Posting data to php file
         $http({
             method: 'POST',
             url: '/api/signup',
-            data: $scope.user, //forms user object
+            data: JSON.stringify($scope.user), //forms user object
             headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
+                'Content-Type': 'application/json'
             }
         }).success(function(data) {
             if (data.errors) {
@@ -435,6 +435,7 @@ app.controller('signupController', function($scope, $http, $rootScope) {
                 $scope.errorName = data.errors;
             } else {
                 $scope.message = data.message;
+                $location.path('#/signin');
             }
         });
     };

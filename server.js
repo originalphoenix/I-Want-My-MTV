@@ -40,6 +40,7 @@ var apiRoutes = express.Router();
 
 // create a new user account (POST http://localhost:8080/api/signup)
 apiRoutes.post('/signup', function(req, res) {
+  console.log(req.body);
   if (!req.body.username || !req.body.password) {
     res.json({success: false, msg: 'Please pass name and password.'});
   } else {
@@ -47,13 +48,12 @@ apiRoutes.post('/signup', function(req, res) {
       username: req.body.username,
       firstname: req.body.firstname,
       lastname: req.body.lastname,
-      profilepic: req.body.profilepic,
+      profilepic: '/images/placeholder-pic.jpg',
       location: req.body.location,
       about: req.body.about,
       email: req.body.email,
       password: req.body.password
     });
-    console.log(newUser);
     // save the user
     newUser.save(function(err) {
       if (err) {
