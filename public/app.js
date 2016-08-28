@@ -49,7 +49,30 @@ app.config(function($routeProvider) {
         });
 });
 
-//USER AUTH
+//DIRECTIVES
+
+app.directive('focus', function($timeout, $parse) {
+  return {
+    restrict: 'A',
+    link: function(scope, element, attrs) {
+        scope.$watch(attrs.focus, function(newValue, oldValue) {
+            if (newValue) { element[0].focus(); }
+        });
+        element.bind("blur", function(e) {
+            $timeout(function() {
+                scope.$apply(attrs.focus + "=false");
+            }, 0);
+        });
+        element.bind("focus", function(e) {
+            $timeout(function() {
+              $('#overlay-search-main').toggleClass('open');
+                scope.$apply(attrs.focus + "=true");
+            }, 0);
+        })
+    }
+  }
+});
+
 // WE FACTORIES NOW BOI
 app.factory('userInfoService', function($http, $window, $rootScope) {
   return {
@@ -277,7 +300,12 @@ app.controller('mainController', function($scope, $rootScope, $http, $window, $l
     $window.localStorage.removeItem('jwtToken');
     userInfoService.getUserInfo();
     $window.location.reload(); //This is not the angular way, but it's my way, think of a better way soon
-    }
+  }
+  $scope.searchModel = "ahaha"
+  $scope.searchView = function() {
+    console.log('test');
+  };
+
 });
 app.controller('profileController', function($scope, $http, $window,
     userInfoService, playlistInfoService) {
@@ -607,9 +635,6 @@ app.controller('VideosController', function($route, $scope, $rootScope, $http, $
      }
            });
 
-    $scope.searchView = function() {
-        $('#overlay-search').toggleClass('open')
-    };
 
     $scope.playlistView = function() {
         $('#overlay-playlist').toggleClass('open');
