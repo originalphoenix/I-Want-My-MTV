@@ -100,6 +100,21 @@ margin-bottom: 20px;
   overflow: hidden;
 }
 
+.modal-content {
+  border-radius: 0;
+color: white;
+background: #92A8D1;
+}
+
+.modal-header {
+border-bottom: none;
+text-align: center;
+}
+
+.modal-footer {
+  border-top: none;
+}
+
 /* Overlay */
 .overlay {
 	position: absolute;

@@ -281,24 +281,47 @@ app.controller('mainController', function($scope, $rootScope, $http, $window, $l
 });
 app.controller('profileController', function($scope, $http, $window,
     userInfoService, playlistInfoService) {
-    var uploader = $scope.uploader = new FileUploader({
+/*    var uploader = $scope.uploader = new FileUploader({
               url: 'upload.php'
       });
 
       uploader.filters.push({
     name: 'imageFilter',
-    fn: function(item /*{File|FileLikeObject}*/, options) {
+    fn: function(item /*{File|FileLikeObject}, options) {
         var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
         return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
     }
 });
 uploader.onSuccessItem = function(fileItem, response, status, headers) {
      console.info('onSuccessItem', fileItem, response, status, headers);
- };
+ }; */
     $scope.customPlaylists = [];
     playlistInfoService.getPlaylists().success(function(data) {
         $scope.customPlaylists = data;
     });
+
+    // create a blank object to handle form data.
+    $scope.user = {};
+    // calling our submit function.
+    $scope.submitForm = function() {
+        // Posting data to php file
+        $http({
+            method: 'UPDATE',
+            url: '/api/memberinfo' + $rootScope.username,
+            data: JSON.stringify($scope.user), //forms user object
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).success(function(data) {
+            if (data.errors) {
+                // Showing errors.
+                $scope.errorName = data.errors;
+            } else {
+                $scope.message = data.message;
+            }
+        });
+    };
+
     $scope.logout = function() {
     $window.localStorage.removeItem('jwtToken');
     }
@@ -417,7 +440,6 @@ app.controller('signupController', function($scope, $http, $rootScope) {
   $rootScope.hideit = true;
     // create a blank object to handle form data.
     $scope.user = {};
-    console.log($scope.user);
     // calling our submit function.
     $scope.submitForm = function() {
         // Posting data to php file
