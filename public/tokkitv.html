@@ -159,7 +159,11 @@
                      </a>
                      <ul class="dropdown-menu animated fadeInRight aside text-left">
                         <li>
-                           <a href="#/profile">Profile</a>
+                           <span class="arrow bottom hidden-nav-xs"></span>
+                           <a href="#">Settings</a>
+                        </li>
+                        <li>
+                           <a href="profile.html">Profile</a>
                         </li>
                         <li class="divider"></li>
                         <li>
@@ -178,6 +182,30 @@
          <!-- angular templating -->
          <!-- this is where content will be injected -->
          <div ng-view style="height: 100%; overflow-y:scroll;"></div>
+
+         <div class="overlay" id="overlay-search-main">
+            <a href="javascript:void(0)" id="close-search" class="overlay-close"><i class="material-icons">clear</i></a>
+            <nav class="overlay-menu">
+               <form id="search" data-ng-submit="search()">
+                  <input id="query" name="q" type="text" placeholder="Search for a YouTube video..." data-ng-model="query">
+                  <input id="submit" type="image" alt="Search" style="display: none;">
+               </form>
+               <ul class="list-group list-group-lg no-bg auto m-b-none m-t-n-xxs">
+                 <li class="list-group-item clearfix" data-ng-repeat="video in results">
+                   <a data-ng-click="queue(video.id, video.title)" class="jp-play-me pull-right m-t-sm m-l text-md">
+                     <i class="material-icons">add</i>
+                   </a>
+                   <a class="pull-left thumb-sm m-r">
+                     <img data-ng-src="{{ video.thumbnail }}" alt="...">
+                   </a>
+                   <a class="clear">
+                     <span class="block text-ellipsis">{{ video.title }}</span>
+                     <small class="text-muted">{{ video.author }}</small>
+                   </a>
+                 </li>
+               </ul>
+            </nav>
+         </div>
          <!-- Modal -->
    <div class="modal fade" id="favoriteTagsModal" tabindex="-1" role="dialog" aria-labelledby="favoriteTagsModalLabel">
      <div class="modal-dialog" role="document">

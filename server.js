@@ -57,7 +57,6 @@ apiRoutes.post('/signup', function(req, res) {
     // save the user
     newUser.save(function(err) {
       if (err) {
-        console.log(err);
         return res.json({success: false, msg: 'Username already exists.'});
       }
       res.json({success: true, msg: 'Successful created new user.'});
@@ -112,6 +111,39 @@ apiRoutes.get('/memberinfo', passport.authenticate('jwt', { session: false}), fu
 });
 
 // route to a restricted info (GET http://localhost:8080/api/memberinfo)
+apiRoutes.put('/memberinfo', passport.authenticate('jwt', { session: false}), function(req, res) {
+  var token = getToken(req.headers);
+  if (token) {
+    var decoded = jwt.decode(token, config.secret);
+    User.findOne({
+      username: decoded.username
+    }, function(err, user) {
+        if (err) throw err;
+
+        if (!user) {
+          return res.status(403).send({success: false, msg: 'Authentication failed. User not found.'});
+        } else {
+          User.username = req.body.username;
+          User.firstname = req.body.firstname;
+          User.lastname = req.body.lastname,;
+          User.location = req.body.location,
+          User.about = req.body.about,
+          User.email = req.body.email,
+          User.password = req.body.password
+          User.save(function(err) {
+              if (err)
+                  res.send(err);
+
+              res.json({ message: 'Playlist updated!' });
+          });
+
+        }
+    });
+  } else {
+    return res.status(403).send({success: false, msg: 'No token provided.'});
+  }
+});
+
 
 // If you don't define the playlist schema in line, it throws a gigantic fit, don't know why, don't even ask me tbh
 

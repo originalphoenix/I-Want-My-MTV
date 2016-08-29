@@ -115,15 +115,6 @@ text-align: center;
   border-top: none;
 }
 
-#overlay-search-main {
-  width: 100%;
-}
-
-aside#nav {
-  z-index: 1000;
-  position: relative;
-}
-
 /* Overlay */
 .overlay {
 	position: absolute;

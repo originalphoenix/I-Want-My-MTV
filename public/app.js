@@ -301,17 +301,13 @@ app.controller('mainController', function($scope, $rootScope, $http, $window, $l
     userInfoService.getUserInfo();
     $window.location.reload(); //This is not the angular way, but it's my way, think of a better way soon
   }
-  $rootScope.closeSearch =
-  function() {$('#overlay-search-main').removeClass('open');
-  console.log('closed');
-}
-  $rootScope.searchModel = ""
+  $scope.searchModel = "ahaha"
   $scope.searchView = function() {
     console.log('test');
   };
 
 });
-app.controller('profileController', function($scope, $rootScope, $location, $http, $window,
+app.controller('profileController', function($scope, $http, $window,
     userInfoService, playlistInfoService) {
 /*    var uploader = $scope.uploader = new FileUploader({
               url: 'upload.php'
@@ -331,18 +327,7 @@ uploader.onSuccessItem = function(fileItem, response, status, headers) {
     playlistInfoService.getPlaylists().success(function(data) {
         $scope.customPlaylists = data;
     });
-    $scope.loadPlaylist = function(playlist_id, next) {
-        $http({
-            method: 'GET',
-            url: '/api/playlist/' + playlist_id
-        }).then(function successCallback(response) {
-            $rootScope.playlistID = response.data._id;
-            console.log($rootScope.playlistID);
-            $location.path('play');
-        }, function errorCallback(response) {
-            console.log('it dead');
-        });
-    }
+
     // create a blank object to handle form data.
     $scope.user = {};
     // calling our submit function.
@@ -464,7 +449,7 @@ app.controller('createController', function($scope, $rootScope, $http, $window,
 
 });
 
-app.controller('genreController', function($scope, $rootScope, $http, $location, userInfoService, playlistInfoService) {
+app.controller('genreController', function($scope, $http, userInfoService, playlistInfoService) {
   $scope.genreFilters = {};
   $scope.customPlaylists = [];
   $scope.musicGenres = []
@@ -476,18 +461,6 @@ app.controller('genreController', function($scope, $rootScope, $http, $location,
   });
 });
        })
-       $scope.loadPlaylist = function(playlist_id, next) {
-           $http({
-               method: 'GET',
-               url: '/api/playlist/' + playlist_id
-           }).then(function successCallback(response) {
-               $rootScope.playlistID = response.data._id;
-               console.log($rootScope.playlistID);
-               $location.path('play');
-           }, function errorCallback(response) {
-               console.log('it dead');
-           });
-       }
   });
 
 app.controller('signupController', function($scope, $http, $rootScope) {
@@ -543,24 +516,22 @@ app.controller('signinController', function($scope, $rootScope, $http, $location
 // Controller
 app.controller('VideosController', function($route, $scope, $rootScope, $http, $log, userInfoService, playlistInfoService, VideosService) {
     $scope.loadPlaylist = function(playlist_id, next) {
-      console.log('playlist loaded');
         $http({
             method: 'GET',
-            url: '/api/playlist/' + $rootScope.playlistID
+            url: '/api/playlist/' + playlist_id
         }).then(function successCallback(response) {
-          console.log(response);
             VideosService.onYouTubeIframeAPIReady();
-            $scope.playlist_img = response.data.img;
-            $scope.playlist_name = response.data.name;
-            $scope.playlist_genres = response.data.tags;
-            //$scope.upcoming.splice(0);
+
+            $scope.upcoming.splice(0);
             var json = JSON.stringify(response.data.songs);
             $.each($.parseJSON(json), function() {
                 VideosService.queueVideo(this.id,
                     this.title);
-              console.log('doing a for each');
-
             });
+            $scope.playlist_img = response.data.img;
+            $scope.playlist_name = response.data.name;
+            $scope.playlist_genres = response.data.tags;
+            console.log($scope.playlist_img)
         }, function errorCallback(response) {
             console.log('holy shit it broke');
         });
@@ -625,7 +596,6 @@ app.controller('VideosController', function($route, $scope, $rootScope, $http, $
         $scope.upcoming.splice(0);
         $scope.history.splice(0);
         $rootScope.PlaylistID = 0;
-        console.log($rootScope.PlaylistID);
     });
 
     $scope.nextSong = function() {
