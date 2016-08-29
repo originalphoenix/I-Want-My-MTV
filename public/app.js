@@ -365,6 +365,7 @@ app.controller('createController', function($scope, $rootScope, $http, $window,
         $scope.upcoming = VideosService.getUpcoming();
         $scope.playlist = true;
     }
+    $scope.playlist_img = 'http://www.gsurgeon.net/wp-content/uploads/2016/01/hogu-7.jpg';
 
     $scope.submit = function() {
           if ($scope.form.file.$valid && $scope.file) {
@@ -381,6 +382,8 @@ app.controller('createController', function($scope, $rootScope, $http, $window,
 }
             }).then(function (resp) {
                 console.log('Success ' + resp.config.data.file.name + 'uploaded. Response: ' + resp.data);
+                $scope.playlist_img = resp.data.imgurl;
+                console.log($scope.playlist_img);
             }, function (resp) {
                 console.log('Error status: ' + resp.status);
             }, function (evt) {
@@ -423,7 +426,6 @@ app.controller('createController', function($scope, $rootScope, $http, $window,
     $scope.playlist = {};
     $scope.playlist_name = 'Playlist Name';
     $scope.playlist_tags = 'Tag1, Tag2';
-    $scope.playlist_img = 'http://www.gsurgeon.net/wp-content/uploads/2016/01/hogu-7.jpg';
 
     // calling our submit function.
     $scope.submitForm = function() {
