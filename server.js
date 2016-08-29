@@ -3,6 +3,8 @@ var express     = require('express');
 var app         = express();
 var bodyParser  = require('body-parser');
 var morgan      = require('morgan');
+var multer      = require('multer');
+var cloudinary = require('cloudinary')
 var mongoose    = require('mongoose');
 var passport	= require('passport');
 var config      = require('./config/database'); // get db config file
@@ -11,6 +13,13 @@ var User        = require('./app/models/user'); // get the mongoose model
 var port        = process.env.PORT || 8080;
 var jwt         = require('jwt-simple');
 var path        = require('path');
+
+cloudinary.config({
+  cloud_name: 'tokkitv',
+  api_key: '271341468239996',
+  api_secret: 'usmiuBpU33Lcvavf8quADMhicSo'
+});
+
 
 // get our request parameters
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -110,39 +119,6 @@ apiRoutes.get('/memberinfo', passport.authenticate('jwt', { session: false}), fu
   }
 });
 
-// route to a restricted info (GET http://localhost:8080/api/memberinfo)
-apiRoutes.put('/memberinfo', passport.authenticate('jwt', { session: false}), function(req, res) {
-  var token = getToken(req.headers);
-  if (token) {
-    var decoded = jwt.decode(token, config.secret);
-    User.findOne({
-      username: decoded.username
-    }, function(err, user) {
-        if (err) throw err;
-
-        if (!user) {
-          return res.status(403).send({success: false, msg: 'Authentication failed. User not found.'});
-        } else {
-          User.username = req.body.username;
-          User.firstname = req.body.firstname;
-          User.lastname = req.body.lastname,;
-          User.location = req.body.location,
-          User.about = req.body.about,
-          User.email = req.body.email,
-          User.password = req.body.password
-          User.save(function(err) {
-              if (err)
-                  res.send(err);
-
-              res.json({ message: 'Playlist updated!' });
-          });
-
-        }
-    });
-  } else {
-    return res.status(403).send({success: false, msg: 'No token provided.'});
-  }
-});
 
 
 // If you don't define the playlist schema in line, it throws a gigantic fit, don't know why, don't even ask me tbh
@@ -257,6 +233,25 @@ getToken = function (headers) {
   }
 };
 
+
+app.use(multer({dest:'./uploads/'}).single('photo'));
+module.exports = {
+
+uploadImage: function(req, res, next) {
+   if(req.files.file) {
+     cloudinary.uploader.upload(req.files.file.path, function(result) {
+       if (result.url) {
+         req.imageLink = result.url
+         next();
+       } else {
+         res.json(error);
+       }
+     });
+   } else {
+     next();
+   }
+ }
+};
 
 // connect the api routes under /api/*
 app.use('/api', apiRoutes);

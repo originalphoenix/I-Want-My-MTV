@@ -1,4 +1,4 @@
-var app = angular.module('JukeTubeApp', ['ngRoute', 'xeditable', 'ui.filters', 'angularFileUpload']);
+var app = angular.module('JukeTubeApp', ['ngRoute', 'xeditable', 'ui.filters']);
 // Run
 app.run(function() {
     var tag = document.createElement('script');
