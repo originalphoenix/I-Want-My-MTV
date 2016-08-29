@@ -1,4 +1,4 @@
-var app = angular.module('JukeTubeApp', ['ngRoute', 'xeditable', 'ui.filters']);
+var app = angular.module('JukeTubeApp', ['ngRoute', 'xeditable', 'ui.filters', 'ngFileUpload']);
 // Run
 app.run(function() {
     var tag = document.createElement('script');
@@ -356,7 +356,7 @@ uploader.onSuccessItem = function(fileItem, response, status, headers) {
 });
 
 app.controller('createController', function($scope, $rootScope, $http, $window,
-    userInfoService, playlistInfoService, VideosService) {
+    userInfoService, playlistInfoService, VideosService, Upload) {
     init();
 
     function init() {
@@ -366,7 +366,28 @@ app.controller('createController', function($scope, $rootScope, $http, $window,
         $scope.playlist = true;
     }
 
+    $scope.submit = function() {
+          if ($scope.form.file.$valid && $scope.file) {
+            $scope.upload($scope.file);
+          }
+        };
 
+        // upload on file select or drop
+        $scope.upload = function (file) {
+            Upload.upload({
+                url: '/upload',
+                arrayKey: '', // default is '[i]'
+                data: {file: file,
+}
+            }).then(function (resp) {
+                console.log('Success ' + resp.config.data.file.name + 'uploaded. Response: ' + resp.data);
+            }, function (resp) {
+                console.log('Error status: ' + resp.status);
+            }, function (evt) {
+                var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
+            });
+        };
 
     $scope.queue = function(id, title) {
         VideosService.queueVideo(id, title);

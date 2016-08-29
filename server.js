@@ -234,24 +234,24 @@ getToken = function (headers) {
 };
 
 
-app.use(multer({dest:'./uploads/'}).single('photo'));
-module.exports = {
+var upload = multer({ dest: 'upload/'});
+var fs = require('fs');
+var type = upload.single('file');
 
-uploadImage: function(req, res, next) {
-   if(req.files.file) {
-     cloudinary.uploader.upload(req.files.file.path, function(result) {
-       if (result.url) {
-         req.imageLink = result.url
-         next();
-       } else {
-         res.json(error);
-       }
-     });
-   } else {
-     next();
-   }
- }
-};
+app.post('/upload', upload.single('file'), function (req,res,next) {
+  if(req.file) {
+    cloudinary.uploader.upload(req.file.path, function(result) {
+      if (result.url) {
+        res.json({ success: true, imgurl: result.url });
+      } else {
+        res.json(error);
+      }
+    });
+  } else {
+    next();
+  }
+});
+
 
 // connect the api routes under /api/*
 app.use('/api', apiRoutes);
