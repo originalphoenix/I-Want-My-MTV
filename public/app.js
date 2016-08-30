@@ -139,6 +139,8 @@ app.service('VideosService', ['$window', '$rootScope', '$log', '$http',
                 method: 'GET',
                 url: '/api/playlist/' + playlist_id
             }).then(function successCallback(response) {
+              console.log('everything is going according to keikaku');
+              console.log('TN: keikaku means plan');
                 youtube.player.cueVideoById(response.data.songs[0].id);
                 youtube.videoId = response.data.songs[0].id;
                 youtube.videoTitle = response.data.songs[0].title;
@@ -307,22 +309,20 @@ app.controller('mainController', function($scope, $rootScope, $http, $window, $l
   };
 
 });
-app.controller('profileController', function($scope, $http, $window,
+app.controller('profileController', function($scope, $rootScope, $location, $http, $window,
     userInfoService, playlistInfoService) {
-/*    var uploader = $scope.uploader = new FileUploader({
-              url: 'upload.php'
-      });
-
-      uploader.filters.push({
-    name: 'imageFilter',
-    fn: function(item /*{File|FileLikeObject}, options) {
-        var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
-        return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
-    }
-});
-uploader.onSuccessItem = function(fileItem, response, status, headers) {
-     console.info('onSuccessItem', fileItem, response, status, headers);
- }; */
+      $scope.loadPlaylist = function(playlist_id, next) {
+          $http({
+              method: 'GET',
+              url: '/api/playlist/' + playlist_id
+          }).then(function successCallback(response) {
+              $rootScope.playlistID = response.data._id;
+              console.log($rootScope.playlistID);
+              $location.path('play');
+          }, function errorCallback(response) {
+              console.log('it dead');
+          });
+      }
     $scope.customPlaylists = [];
     playlistInfoService.getPlaylists().success(function(data) {
         $scope.customPlaylists = data;
@@ -383,7 +383,7 @@ app.controller('createController', function($scope, $rootScope, $http, $window,
             }).then(function (resp) {
                 console.log('Success ' + resp.config.data.file.name + 'uploaded. Response: ' + resp.data);
                 $scope.playlist_img = resp.data.imgurl;
-                console.log($scope.playlist_img);
+                $('#pictureModal').modal('hide');
             }, function (resp) {
                 console.log('Error status: ' + resp.status);
             }, function (evt) {
@@ -424,6 +424,7 @@ app.controller('createController', function($scope, $rootScope, $http, $window,
     // create a blank object to handle form data.
 
     $scope.playlist = {};
+    $scope.playlist_author = $rootScope.username;
     $scope.playlist_name = 'Playlist Name';
     $scope.playlist_tags = 'Tag1, Tag2';
 
@@ -438,17 +439,15 @@ app.controller('createController', function($scope, $rootScope, $http, $window,
             });
         }
 
-        console.log(tagjson);
 
         var playlistPayload = {
             'img': $scope.playlist_img,
             'name': $scope.playlist_name,
-            'playlist_author': $rootScope.username,
+            'playlist_author': $scope.playlist_author,
             'songs': $scope.upcoming,
             'tags': tagjson,
         }
         playlistPayload = JSON.stringify(playlistPayload);
-        console.log(playlistPayload);
         $http({
             method: 'POST',
             url: '/api/playlist',
@@ -472,7 +471,7 @@ app.controller('createController', function($scope, $rootScope, $http, $window,
 
 });
 
-app.controller('genreController', function($scope, $http, userInfoService, playlistInfoService) {
+app.controller('genreController', function($scope, $rootScope, $location, $http, userInfoService, playlistInfoService) {
   $scope.genreFilters = {};
   $scope.customPlaylists = [];
   $scope.musicGenres = []
@@ -484,6 +483,18 @@ app.controller('genreController', function($scope, $http, userInfoService, playl
   });
 });
        })
+       $scope.loadPlaylist = function(playlist_id, next) {
+           $http({
+               method: 'GET',
+               url: '/api/playlist/' + playlist_id
+           }).then(function successCallback(response) {
+               $rootScope.playlistID = response.data._id;
+               console.log($rootScope.playlistID);
+               $location.path('play');
+           }, function errorCallback(response) {
+               console.log('it dead');
+           });
+       }
   });
 
 app.controller('signupController', function($scope, $http, $rootScope) {
@@ -541,20 +552,17 @@ app.controller('VideosController', function($route, $scope, $rootScope, $http, $
     $scope.loadPlaylist = function(playlist_id, next) {
         $http({
             method: 'GET',
-            url: '/api/playlist/' + playlist_id
+            url: '/api/playlist/' + $rootScope.playlistID
         }).then(function successCallback(response) {
             VideosService.onYouTubeIframeAPIReady();
-
-            $scope.upcoming.splice(0);
+            $scope.playlist_img = response.data.img;
+            $scope.playlist_name = response.data.name;
+            $scope.playlist_genres = response.data.tags;
             var json = JSON.stringify(response.data.songs);
             $.each($.parseJSON(json), function() {
                 VideosService.queueVideo(this.id,
                     this.title);
             });
-            $scope.playlist_img = response.data.img;
-            $scope.playlist_name = response.data.name;
-            $scope.playlist_genres = response.data.tags;
-            console.log($scope.playlist_img)
         }, function errorCallback(response) {
             console.log('holy shit it broke');
         });

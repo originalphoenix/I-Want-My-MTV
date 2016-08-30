@@ -814,6 +814,7 @@ margin-bottom: 0px;
   padding-bottom: 8%;
   overflow: hidden;
 	background-color: white;
+  min-height: 150px;
 }
 .card .cardContent .titleSocial {
   opacity: 0;
