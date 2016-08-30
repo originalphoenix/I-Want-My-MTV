@@ -119,6 +119,41 @@ apiRoutes.get('/memberinfo', passport.authenticate('jwt', { session: false}), fu
   }
 });
 
+apiRoutes.patch('/memberinfo', passport.authenticate('jwt', { session: false}), function(req, res) {
+  var token = getToken(req.headers);
+  if (token) {
+    var decoded = jwt.decode(token, config.secret);
+    User.findOne({
+      username: decoded.username
+    }, function(err, user) {
+        if (err) throw err;
+
+        if (!user) {
+          return res.status(403).send({success: false, msg: 'Authentication failed. User not found.'});
+        } else {
+          var userinfo = {};
+          var username = req.body.username
+
+          if (req.body.firstname) userinfo.firstname = req.body.firstname;
+          if (req.body.lastname) userinfo.lastname = req.body.lastname;
+          if (req.body.profilepic) userinfo.profilepic = req.body.profilepic;
+          if (req.body.location) userinfo.location = req.body.location;
+          if (req.body.about) userinfo.about = req.body.about;
+          if (req.body.email) userinfo.email = req.body.email;
+          if (req.body.password)  userinfo.password = req.body.password;
+          if (req.body.favoritePlaylists) userinfo.favoritePlaylists = req.body.favoritePlaylists;
+          if (req.body.favoriteTag) userinfo.favoriteTag = req.body.favoriteTag;
+
+          User.update({username: username}, userinfo, function(err, numberAffected, rawResponse) {
+             return res.json(success: true, msg: 'user updated successfully');
+          });
+
+        }
+    });
+  } else {
+    return res.status(403).send({success: false, msg: 'No token provided.'});
+  }
+});
 
 
 // If you don't define the playlist schema in line, it throws a gigantic fit, don't know why, don't even ask me tbh
@@ -201,7 +236,7 @@ apiRoutes.get('/playlist/:playlist_id', function(req, res) {
 
                      playlist.save(function(err) {
                          if (err)
-                             res.send(err);
+                             res.send(playlist);
 
                          res.json({ message: 'Playlist updated!' });
                      });

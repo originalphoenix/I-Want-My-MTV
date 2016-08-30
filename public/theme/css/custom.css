@@ -1043,6 +1043,9 @@ margin-bottom: 0px;
 .card .featured_card_image img {
   width: 100%;
   height: auto;
+  background-size: cover;
+background-repeat: no-repeat;
+background-position: 50% 50%;
 }
 
 p.featured_playlist_name {
