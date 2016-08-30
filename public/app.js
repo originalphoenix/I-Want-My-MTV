@@ -45,58 +45,61 @@ app.config(function($routeProvider) {
             controller: 'genreController'
         })
         .otherwise({
-          templateUrl: 'theme/pages/404.html',
+            templateUrl: 'theme/pages/404.html',
         });
 });
 
 //DIRECTIVES
 
 app.directive('focus', function($timeout, $parse) {
-  return {
-    restrict: 'A',
-    link: function(scope, element, attrs) {
-        scope.$watch(attrs.focus, function(newValue, oldValue) {
-            if (newValue) { element[0].focus(); }
-        });
-        element.bind("blur", function(e) {
-            $timeout(function() {
-                scope.$apply(attrs.focus + "=false");
-            }, 0);
-        });
-        element.bind("focus", function(e) {
-            $timeout(function() {
-              $('#overlay-search-main').toggleClass('open');
-                scope.$apply(attrs.focus + "=true");
-            }, 0);
-        })
+    return {
+        restrict: 'A',
+        link: function(scope, element, attrs) {
+            scope.$watch(attrs.focus, function(newValue, oldValue) {
+                if (newValue) {
+                    element[0].focus();
+                }
+            });
+            element.bind("blur", function(e) {
+                $timeout(function() {
+                    scope.$apply(attrs.focus + "=false");
+                }, 0);
+            });
+            element.bind("focus", function(e) {
+                $timeout(function() {
+                    $('#overlay-search-main').toggleClass('open');
+                    scope.$apply(attrs.focus + "=true");
+                }, 0);
+            })
+        }
     }
-  }
 });
 
 // WE FACTORIES NOW BOI
 app.factory('userInfoService', function($http, $window, $rootScope) {
-  return {
-    getUserInfo: function() {$http({
-        method: 'GET',
-        url: '/api/memberinfo',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'Authorization': $window.localStorage['jwtToken']
+    return {
+        getUserInfo: function() {
+            $http({
+                method: 'GET',
+                url: '/api/memberinfo',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'Authorization': $window.localStorage['jwtToken']
+                }
+            }).success(function(data) {
+                if (data.errors) {
+                    $scope.errorName = data.errors;
+                } else {
+                    $rootScope.username = data.username;
+                    $rootScope.firstname = data.firstname;
+                    $rootScope.lastname = data.lastname;
+                    $rootScope.profilepic = data.profilepic;
+                    $rootScope.location = data.location;
+                    $rootScope.about = data.about;
+                }
+            });
         }
-    }).success(function(data) {
-        if (data.errors) {
-            $scope.errorName = data.errors;
-        } else {
-            $rootScope.username = data.username;
-            $rootScope.firstname = data.firstname;
-            $rootScope.lastname = data.lastname;
-            $rootScope.profilepic = data.profilepic;
-            $rootScope.location = data.location;
-            $rootScope.about = data.about;
-        }
-    });
-  }
-};
+    };
 });
 app.factory('playlistInfoService', function($http) {
     return {
@@ -139,8 +142,8 @@ app.service('VideosService', ['$window', '$rootScope', '$log', '$http',
                 method: 'GET',
                 url: '/api/playlist/' + playlist_id
             }).then(function successCallback(response) {
-              console.log('everything is going according to keikaku');
-              console.log('TN: keikaku means plan');
+                console.log('everything is going according to keikaku');
+                console.log('TN: keikaku means plan');
                 youtube.player.cueVideoById(response.data.songs[0].id);
                 youtube.videoId = response.data.songs[0].id;
                 youtube.videoTitle = response.data.songs[0].title;
@@ -298,31 +301,31 @@ app.controller('mainController', function($scope, $rootScope, $http, $window, $l
         });
     }
     $rootScope.logout = function() {
-    console.log('who the fuck is scraeming log off at my house. show yourself, coward. I will never log off')
-    $window.localStorage.removeItem('jwtToken');
-    userInfoService.getUserInfo();
-    $window.location.reload(); //This is not the angular way, but it's my way, think of a better way soon
-  }
-  $scope.searchModel = "ahaha"
-  $scope.searchView = function() {
-    console.log('test');
-  };
+        console.log('who the fuck is scraeming log off at my house. show yourself, coward. I will never log off')
+        $window.localStorage.removeItem('jwtToken');
+        userInfoService.getUserInfo();
+        $window.location.reload(); //This is not the angular way, but it's my way, think of a better way soon
+    }
+    $scope.searchModel = "ahaha"
+    $scope.searchView = function() {
+        console.log('test');
+    };
 
 });
 app.controller('profileController', function($scope, $rootScope, $location, $http, $window,
     userInfoService, playlistInfoService) {
-      $scope.loadPlaylist = function(playlist_id, next) {
-          $http({
-              method: 'GET',
-              url: '/api/playlist/' + playlist_id
-          }).then(function successCallback(response) {
-              $rootScope.playlistID = response.data._id;
-              console.log($rootScope.playlistID);
-              $location.path('play');
-          }, function errorCallback(response) {
-              console.log('it dead');
-          });
-      }
+    $scope.loadPlaylist = function(playlist_id, next) {
+        $http({
+            method: 'GET',
+            url: '/api/playlist/' + playlist_id
+        }).then(function successCallback(response) {
+            $rootScope.playlistID = response.data._id;
+            console.log($rootScope.playlistID);
+            $location.path('play');
+        }, function errorCallback(response) {
+            console.log('it dead');
+        });
+    }
     $scope.customPlaylists = [];
     playlistInfoService.getPlaylists().success(function(data) {
         $scope.customPlaylists = data;
@@ -351,7 +354,7 @@ app.controller('profileController', function($scope, $rootScope, $location, $htt
     };
 
     $scope.logout = function() {
-    $window.localStorage.removeItem('jwtToken');
+        $window.localStorage.removeItem('jwtToken');
     }
 });
 
@@ -368,29 +371,30 @@ app.controller('createController', function($scope, $rootScope, $http, $window,
     $scope.playlist_img = 'http://www.gsurgeon.net/wp-content/uploads/2016/01/hogu-7.jpg';
 
     $scope.submit = function() {
-          if ($scope.form.file.$valid && $scope.file) {
+        if ($scope.form.file.$valid && $scope.file) {
             $scope.upload($scope.file);
-          }
-        };
+        }
+    };
 
-        // upload on file select or drop
-        $scope.upload = function (file) {
-            Upload.upload({
-                url: '/upload',
-                arrayKey: '', // default is '[i]'
-                data: {file: file,
-}
-            }).then(function (resp) {
-                console.log('Success ' + resp.config.data.file.name + 'uploaded. Response: ' + resp.data);
-                $scope.playlist_img = resp.data.imgurl;
-                $('#pictureModal').modal('hide');
-            }, function (resp) {
-                console.log('Error status: ' + resp.status);
-            }, function (evt) {
-                var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-                console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
-            });
-        };
+    // upload on file select or drop
+    $scope.upload = function(file) {
+        Upload.upload({
+            url: '/upload',
+            arrayKey: '', // default is '[i]'
+            data: {
+                file: file,
+            }
+        }).then(function(resp) {
+            console.log('Success ' + resp.config.data.file.name + 'uploaded. Response: ' + resp.data);
+            $scope.playlist_img = resp.data.imgurl;
+            $('#pictureModal').modal('hide');
+        }, function(resp) {
+            console.log('Error status: ' + resp.status);
+        }, function(evt) {
+            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+            console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
+        });
+    };
 
     $scope.queue = function(id, title) {
         VideosService.queueVideo(id, title);
@@ -466,40 +470,42 @@ app.controller('createController', function($scope, $rootScope, $http, $window,
     };
 
     $scope.logout = function() {
-    $window.localStorage.removeItem('jwtToken');
+        $window.localStorage.removeItem('jwtToken');
     }
 
 });
 
 app.controller('genreController', function($scope, $rootScope, $location, $http, userInfoService, playlistInfoService) {
-  $scope.genreFilters = {};
-  $scope.customPlaylists = [];
-  $scope.musicGenres = []
-  playlistInfoService.getPlaylists().success(function(response) {
-      $scope.customPlaylists = response;
-       angular.forEach($scope.customPlaylists, function(tags){
-         angular.forEach(tags.tags, function(genre){
-           $scope.musicGenres.push({tag: genre.tag});
-  });
+    $scope.genreFilters = {};
+    $scope.customPlaylists = [];
+    $scope.musicGenres = []
+    playlistInfoService.getPlaylists().success(function(response) {
+        $scope.customPlaylists = response;
+        angular.forEach($scope.customPlaylists, function(tags) {
+            angular.forEach(tags.tags, function(genre) {
+                $scope.musicGenres.push({
+                    tag: genre.tag
+                });
+            });
+        });
+    })
+    $scope.loadPlaylist = function(playlist_id, next) {
+        $http({
+            method: 'GET',
+            url: '/api/playlist/' + playlist_id
+        }).then(function successCallback(response) {
+            $rootScope.playlistID = response.data._id;
+            console.log($rootScope.playlistID);
+            $location.path('play');
+        }, function errorCallback(response) {
+            console.log('it dead');
+        });
+    }
 });
-       })
-       $scope.loadPlaylist = function(playlist_id, next) {
-           $http({
-               method: 'GET',
-               url: '/api/playlist/' + playlist_id
-           }).then(function successCallback(response) {
-               $rootScope.playlistID = response.data._id;
-               console.log($rootScope.playlistID);
-               $location.path('play');
-           }, function errorCallback(response) {
-               console.log('it dead');
-           });
-       }
-  });
 
 app.controller('signupController', function($scope, $http, $rootScope) {
-  angular.element('body').addClass("gradient-bg-darkest");
-  $rootScope.hideit = true;
+    angular.element('body').addClass("gradient-bg-darkest");
+    $rootScope.hideit = true;
     // create a blank object to handle form data.
     $scope.user = {};
     // calling our submit function.
@@ -524,8 +530,8 @@ app.controller('signupController', function($scope, $http, $rootScope) {
     };
 });
 app.controller('signinController', function($scope, $rootScope, $http, $location, $window, userInfoService) {
-  angular.element('body').addClass("gradient-bg");
-  $rootScope.hideit = true;
+    angular.element('body').addClass("gradient-bg");
+    $rootScope.hideit = true;
     $scope.user = {};
     $scope.submitForm = function() {
         $http({
@@ -630,41 +636,41 @@ app.controller('VideosController', function($route, $scope, $rootScope, $http, $
     });
 
     $scope.nextSong = function() {
-      $scope.launch($scope.upcoming[0].id, $scope.upcoming[0].title);
+        $scope.launch($scope.upcoming[0].id, $scope.upcoming[0].title);
     };
 
     $scope.lastSong = function() {
-      $scope.launch($scope.history[1].id, $scope.history[1].title);
+        $scope.launch($scope.history[1].id, $scope.history[1].title);
     };
 
     $scope.addPlaylist = function(playlist_id) {
-      $http({
-          method: 'GET',
-          url: '/api/playlist/' + playlist_id
-      }).then(function successCallback(response) {
-        var json = JSON.stringify(response.data.songs);
-        $.each($.parseJSON(json), function() {
-            VideosService.queueVideo(this.id,
-                this.title);
+        $http({
+            method: 'GET',
+            url: '/api/playlist/' + playlist_id
+        }).then(function successCallback(response) {
+            var json = JSON.stringify(response.data.songs);
+            $.each($.parseJSON(json), function() {
+                VideosService.queueVideo(this.id,
+                    this.title);
+            });
+            $('#overlay-playlist').removeClass('open');
         });
-   $('#overlay-playlist').removeClass('open');
-  });
-}
+    }
 
     $('#history-button').click(function() {
-            var $this = $(this);
-            $this.toggleClass("active");
+        var $this = $(this);
+        $this.toggleClass("active");
 
-            if ($this.hasClass("active")) {
-              $this.html("<i class=\"material-icons\">queue_music</i>");
-              $("#history").show();
-              $("#upcoming").hide();
-            } else {
-              $this.html("<i class=\"material-icons\">history</i>");
-              $("#history").hide();
-              $("#upcoming").show();
-     }
-           });
+        if ($this.hasClass("active")) {
+            $this.html("<i class=\"material-icons\">queue_music</i>");
+            $("#history").show();
+            $("#upcoming").hide();
+        } else {
+            $this.html("<i class=\"material-icons\">history</i>");
+            $("#history").hide();
+            $("#upcoming").show();
+        }
+    });
 
 
     $scope.playlistView = function() {
@@ -691,9 +697,9 @@ app.controller('VideosController', function($route, $scope, $rootScope, $http, $
     });
 
     $scope.logout = function() {
-    $window.localStorage.removeItem('jwtToken');
-    console.log('who the fuck is scraeming log off at my house. show yourself, coward. I will never log off')
-    $route.reload();
+        $window.localStorage.removeItem('jwtToken');
+        console.log('who the fuck is scraeming log off at my house. show yourself, coward. I will never log off')
+        $route.reload();
     }
 
 });
