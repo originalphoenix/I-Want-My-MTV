@@ -178,6 +178,62 @@ text-align: center;
 	display: block;
 }
 
+.editable-click {
+  color: white;
+  border-bottom: dashed 1px white;
+}
+
+.editable-click:hover {
+  color: #545a5f;
+  border-bottom: dashed 1px white;
+
+}
+
+#playlist_name > form > span > input {
+    background: transparent;
+    border: none;
+    font-size: 30px;
+    font-weight: 200;
+}
+
+#playlist_name {
+  margin-bottom: 10px;
+}
+
+#playlist_name > form > span > input:focus {
+  outline-color: transparent;
+  outline-style: none;
+}
+
+#playlist_tags > span > form > span > input {
+    background: transparent;
+    border: none;
+    font-size: 18px;
+    font-weight: 200;
+}
+
+#playlist_tags > span > form > span > input:focus {
+  outline-color: transparent;
+  outline-style: none;
+}
+
+
+.editable-buttons {
+  vertical-align: middle;
+}
+
+.editable-buttons button {
+    margin-left: 5px;
+    background: #F7CAC9;
+    border: none;
+    font-size: 14px;
+    font-weight: normal;
+    padding: 5px;
+  }
+
+  .editable-buttons button:first-child {
+      background: #89ABE3;
+    }
 
 /* Custom CSS for JukeTube Goes Here */
 

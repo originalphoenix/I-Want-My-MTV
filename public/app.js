@@ -370,6 +370,7 @@ app.controller('createController', function($scope, $rootScope, $http, $window,
     }
     $scope.playlist_img = 'http://www.gsurgeon.net/wp-content/uploads/2016/01/hogu-7.jpg';
 
+
     $scope.submit = function() {
         if ($scope.form.file.$valid && $scope.file) {
             $scope.upload($scope.file);
@@ -442,8 +443,6 @@ app.controller('createController', function($scope, $rootScope, $http, $window,
                 "tag": tagSplit[i]
             });
         }
-
-
         var playlistPayload = {
             'img': $scope.playlist_img,
             'name': $scope.playlist_name,

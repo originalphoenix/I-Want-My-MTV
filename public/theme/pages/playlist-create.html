@@ -8,9 +8,12 @@
               <a data-toggle="modal" data-target="#pictureModal" target="_self"><i class="material-icons" style="color: white; padding: 10px; cursor: pointer;">mode_edit</i></a>
             </div>
             <div class="bottom gd bg-info wrapper-lg">
-              <span class="h2 font-thin" editable-text="playlist_name">{{ playlist_name || "Playlist Name" }}</span> <i class="material-icons">mode_edit</i><br>
-              <span class="h4 font-thin">Tags: <span contenteditable="true" editable-text="playlist_tags"> {{ playlist_tags}} </span></span> <i class="material-icons">mode_edit</i>
-
+              <div id="playlist_name">
+              <span class="h2 font-thin" editable-text="playlist_name" data-mode="popup">{{ playlist_name || "Playlist Name" }}</span><br>
+            </div>
+            <div id="playlist_tags">
+              <span class="h4 font-thin">Tags: <span contenteditable="true" editable-text="playlist_tags"> {{ playlist_tags}} </span></span>
+            </div>
             </div>
             <img class="img-full" ng-src="{{playlist_img}}" alt="...">
           </div>
@@ -60,7 +63,7 @@
     </section>
       </section>
     </section>
-    <div class="menu-button" id="save" ng-click="submitForm()"><i class="material-icons">done</i>
+    <div class="menu-button" id="save" data-toggle="modal" data-target="#previewModal" target="_self"><i class="material-icons">done</i>
     </div>
   </section>
 </section>
@@ -72,22 +75,54 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Upload new Playlist Cover Photo</h4>
+        <h2 class="font-thin m-b" id="myModalLabel">Playlist Cover Art</h2>
       </div>
       <div class="modal-body">
+        <p>Some Guidelines to have your cover art looking good: square images, no text, awesome art.</p>
+      </div>
+      <div class="modal-footer">
         <div class="form-group">
           <div class="col-sm-12">
-            <button type="button" class="button" ngf-select="upload($file)" name="photos">Upload on file select</div>
+            <button type="button" class="btn btn-lg btn-pink lt b-white b-2x btn-block" ngf-select="upload($file)" name="photos">Choose your art.</div>
           </div>
         </div>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
     </div>
   </div>
-</div>
+
+
+  <!-- Preview Modal -->
+  <div class="modal fade" id="previewModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h2 class="font-thin m-b" id="myModalLabel">Does everything look good?</h2>
+        </div>
+        <div class="modal-body">
+          <div class="card">
+             <div class="card_image">
+                <img ng-src="{{playlist_img}}" alt="" class="image">
+                <i class="material-icons" onClick="favorite(this);">
+                favorite_border</i>
+             </div>
+             <div class="cardContent">
+                <button class="cardContentButton"><i class="material-icons">play_arrow</i></button>
+                <p class="cardContentName">{{playlist_name}}</p>
+                <p class="cardContentJob">{{username}}</p>
+                <p class="cardContentJob">Tags: {{playlist_tags}}</span></p>
+             </div>
+           </div>
+       </div>
+        <div class="modal-footer">
+          <div class="form-group">
+            <div class="col-sm-12">
+              <button type="button" class="btn btn-lg btn-pink lt b-white b-2x btn-block" ng-click="submitForm()">Save this Playlist, please!</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
 
 <style>
