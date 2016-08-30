@@ -46,9 +46,7 @@ Profile Page
 - Hook up the Settings Form
 
 Create Playlist Page
-- Upload Playlist Image Modal
-- Confirm Modal on Save
-- Clean up Styles
+- Save needs to return playlistID and redirect user to the new playlist
 - Play button takes person to the youtube video? or maybe fills the search box with the video preview? idk
 
 Jukebox UI/UX
