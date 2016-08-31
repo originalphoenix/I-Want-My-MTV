@@ -83,7 +83,9 @@
       <div class="modal-footer">
         <div class="form-group">
           <div class="col-sm-12">
-            <button type="button" class="btn btn-lg btn-pink lt b-white b-2x btn-block" ngf-select="upload($file)" name="photos">Choose your art.</div>
+            <div class="dropfile visible-lg" ngf-drop="upload($file)" name="photos">
+              <small>Drag and Drop!</small>
+            </div>
           </div>
         </div>
       </div>

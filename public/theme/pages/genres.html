@@ -43,6 +43,28 @@
                         <li><a href="#">5</a></li>
                         <li><a href="#"><i class="fa fa-chevron-right"></i></a></li>
                       </ul>
+                      <div class="overlay" id="overlay-search-main">
+                         <a href="#" target="_self" id="close-search-main" class="overlay-close" ng-click="overlayClose"><i class="material-icons">clear</i></a>
+                         <div class="container" style="margin-top: 10%;">
+                           <div class="row">
+                              <div class="col-md-3" ng-repeat="playlist in customPlaylists | filter: searchModel ">
+                                 <div class="card">
+                                    <div class="card_image">
+                                       <img data-ng-src="{{playlist.img}}" alt="" class="image">
+                                       <i class="material-icons" onClick="favorite(this);">
+                                       favorite_border</i>
+                                    </div>
+                                    <div class="cardContent">
+                                       <button class="cardContentButton" ng-click="addPlaylist(playlist._id)"><i class="material-icons">add</i></button>
+                                       <p class="cardContentName">{{playlist.name}}</p>
+                                       <p class="cardContentJob">{{playlist.playlist_author}}</p>
+                                       <p class="cardContentJob">Tags: <span class="label label-primary" ng-repeat="genre in playlist.tags">{{genre.tag}}</span></p>
+                                    </div>
+                        </div>
+                        </div>
+                        </div>
+                      </div>
+                      </div>
                     </section>
                   </section>
                 </section>

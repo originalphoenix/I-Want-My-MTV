@@ -16,13 +16,13 @@
                         <div class="row text-center">
                             <div class="col-xs-6">
                                 <a href="#">
-                                    <span class="m-b-xs h4 block">245</span>
+                                    <span class="m-b-xs h4 block">{{customPlaylists.length}}</span>
                                     <small class="text-muted">Favorited</small>
                                 </a>
                             </div>
                             <div class="col-xs-6">
                                 <a href="#">
-                                    <span class="m-b-xs h4 block">55</span>
+                                    <span class="m-b-xs h4 block">{{customPlaylists.length}}</span>
                                     <small class="text-muted">Created</small>
                                 </a>
                             </div>
@@ -114,7 +114,15 @@
                         <div class="wrapper">
                             <div class="row">
                               <div class="col-md-12">
-                                <form role="form">
+                                <div class="alert alert-danger" ng-show="error">
+                                  <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                  <i class="fa fa-ban-circle"></i><strong>What did you do?</strong> Try to fill out this form better this time!.
+                                </div>
+                                <div class="alert alert-success" ng-show="success">
+                                  <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                  <i class="fa fa-ok-sign"></i><strong>Everything went according to plan</strong> Your Profile was updated!</a>.
+                                </div>
+                                <form role="form" data-validate="parsley" ng-submit="submitForm()" name="profile">
                                   <div class="form-group">
                                     <div class="col-sm-2">
                                     <label class="control-label">Current Profile Photo</label>
@@ -122,46 +130,70 @@
                                   </div>
                                     <div class="col-sm-10">
                                       <label class="control-label">New Profile Photo</label>
-                                      <div class="dropfile visible-lg" nvFileDrop>
-                                        <small>Drag and Drop!</small>
+                                      <div class="dropfile visible-lg" ngf-drop="upload($file)" name="photos" id="photoDropZone">
+                                        <small ng-bind="profilePicMessage"></small>
                                       </div>
                                     </div>
                                   </div>
                                   <div class="clearfix"></div>
                                   <div class="form-group">
                                     <label>First Name</label>
-                                    <input type="text" class="form-control" placeholder="First Name" ng-model="user.firstname">
+                                    <input type="text" class="form-control" placeholder="First Name" ng-attr-placeholder="{{firstname}}" ng-model="user.firstname">
                                   </div>
                                   <div class="form-group">
                                     <label>Last Name</label>
-                                    <input type="text" class="form-control" placeholder="Last Name" ng-model="user.lastname">
+                                    <input type="text" class="form-control" placeholder="Last Name" ng-attr-placeholder="{{lastname}}" ng-model="user.lastname">
                                   </div>
                                   <div class="form-group">
                                     <label>Current Location</label>
-                                    <input type="text" class="form-control" placeholder="Location" ng-model="user.location">
+                                    <input type="text" class="form-control" placeholder="Location" ng-attr-placeholder="{{location}}" ng-model="user.location">
                                   </div>
                                   <div class="form-group">
-                                    <label>Email address</label>
-                                    <input type="email" class="form-control" placeholder="Enter email" ng-model="user.email">
+                                    <label>Email</label>
+                                    <input type="text" class="form-control" data-type="email" ng-attr-placeholder="{{email}}" ng-model="user.email">
                                   </div>
                                   <div class="form-group">
                                     <label>About You</label>
-                                    <input type="text" class="form-control" placeholder="Enter email" ng-model="user.about">
+                                    <input type="text" class="form-control" ng-attr-placeholder="{{about}}" ng-model="user.about">
                                   </div>
-                                  <div class="form-group">
-                                    <label>Password</label>
-                                    <input type="password" class="form-control" placeholder="Password" ng-model="user.password">
+                                  <div class="form-group pull-in clearfix">
+                                    <div class="col-sm-6">
+                                      <label>Enter new password</label>
+                                      <input type="password" class="form-control" id="pwd" ng-model="user.password">
+                                    </div>
+                                    <div class="col-sm-6">
+                                      <label>Confirm new password</label>
+                                      <input type="password" class="form-control" data-equalto="#pwd">
+                                    </div>
                                   </div>
-                                  <div class="form-group">
-                                    <label>Password Again</label>
-                                    <input type="password" class="form-control" placeholder="Password">
-                                  </div>
-                                  <button type="submit" class="btn btn-sm btn-default">Submit</button>
+                                  <button type="submit" class="btn btn-lg btn-pink lt b-white b-2x btn-block"  ng-disabled="profile.$invalid" ng-show="profile.$dirty">Submit</button>
                                 </form>
                               </div>
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="overlay" id="overlay-search-main">
+                   <a href="#" target="_self" id="close-search-main" class="overlay-close" ng-click="overlayClose"><i class="material-icons">clear</i></a>
+                   <div class="container" style="margin-top: 10%;">
+                     <div class="row">
+                        <div class="col-md-3" ng-repeat="playlist in customPlaylists | filter: searchModel ">
+                           <div class="card">
+                              <div class="card_image">
+                                 <img data-ng-src="{{playlist.img}}" alt="" class="image">
+                                 <i class="material-icons" onClick="favorite(this);">
+                                 favorite_border</i>
+                              </div>
+                              <div class="cardContent">
+                                 <button class="cardContentButton" ng-click="addPlaylist(playlist._id)"><i class="material-icons">add</i></button>
+                                 <p class="cardContentName">{{playlist.name}}</p>
+                                 <p class="cardContentJob">{{playlist.playlist_author}}</p>
+                                 <p class="cardContentJob">Tags: <span class="label label-primary" ng-repeat="genre in playlist.tags">{{genre.tag}}</span></p>
+                              </div>
+                  </div>
+                  </div>
+                  </div>
+                </div>
                 </div>
             </section>
         </section>

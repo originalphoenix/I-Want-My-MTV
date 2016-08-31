@@ -30,8 +30,7 @@
             <i class="icon-list"></i>
             </a>
             <a href="#/" class="navbar-brand text-lt" style="background-color: #F7CAC9">
-            <i class="icon-earphones"></i>
-            <img src="images/logo.png" alt="." class="hide">
+            <img src="images/logo.png" alt=".">
             <span class="hidden-nav-xs m-l-sm">tokki.tv</span>
             </a>
             <a class="btn btn-link visible-xs" data-toggle="dropdown" data-target=".user">
@@ -182,50 +181,6 @@
          <!-- angular templating -->
          <!-- this is where content will be injected -->
          <div ng-view style="height: 100%; overflow-y:scroll;"></div>
-
-         <div class="overlay" id="overlay-search-main">
-            <a href="javascript:void(0)" id="close-search" class="overlay-close"><i class="material-icons">clear</i></a>
-            <nav class="overlay-menu">
-               <form id="search" data-ng-submit="search()">
-                  <input id="query" name="q" type="text" placeholder="Search for a YouTube video..." data-ng-model="query">
-                  <input id="submit" type="image" alt="Search" style="display: none;">
-               </form>
-               <ul class="list-group list-group-lg no-bg auto m-b-none m-t-n-xxs">
-                 <li class="list-group-item clearfix" data-ng-repeat="video in results">
-                   <a data-ng-click="queue(video.id, video.title)" class="jp-play-me pull-right m-t-sm m-l text-md">
-                     <i class="material-icons">add</i>
-                   </a>
-                   <a class="pull-left thumb-sm m-r">
-                     <img data-ng-src="{{ video.thumbnail }}" alt="...">
-                   </a>
-                   <a class="clear">
-                     <span class="block text-ellipsis">{{ video.title }}</span>
-                     <small class="text-muted">{{ video.author }}</small>
-                   </a>
-                 </li>
-               </ul>
-            </nav>
-         </div>
-         <!-- Modal -->
-   <div class="modal fade" id="favoriteTagsModal" tabindex="-1" role="dialog" aria-labelledby="favoriteTagsModalLabel">
-     <div class="modal-dialog" role="document">
-       <div class="modal-content">
-         <div class="modal-header">
-           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-           <h2 class="font-thin m-b" id="myModalLabel">Add a Favorite Genre</h2>
-         </div>
-         <div class="modal-body">
-           <div class="form-group">
-             <label>What genre is that?</label>
-             <input type="text" class="form-control" placeholder="Go ahead, play favorites.">
-           </div>
-         </div>
-         <div class="modal-footer">
-           <button type="button" class="btn btn-lg btn-pink lt b-white b-2x btn-block">Good Choice!</button>
-         </div>
-       </div>
-     </div>
-   </div>
        </section>
    </section>
       </section>
@@ -243,6 +198,10 @@
       <script src="js/ng-file-upload-shim.min.js"></script>
       <script src="theme/js/theme.js"></script>
       <script src="theme/js/app.js"></script>
+      <!-- parsley -->
+    <script src="theme/js/parsley/parsley.min.js"></script>
+    <script src="theme/js/parsley/parsley.extend.js"></script>
+
       <script src="theme/js/modernizr.custom.js"></script>
       <script src="theme/js/classie.js"></script>
       <script src="theme/js/selectFx.js"></script>

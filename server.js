@@ -145,7 +145,7 @@ apiRoutes.patch('/memberinfo', passport.authenticate('jwt', { session: false}), 
           if (req.body.favoriteTag) userinfo.favoriteTag = req.body.favoriteTag;
 
           User.update({username: username}, userinfo, function(err, numberAffected, rawResponse) {
-             return res.json(success: true, msg: 'user updated successfully');
+             return res.json({success: true, msg: 'user updated successfully'});
           });
 
         }

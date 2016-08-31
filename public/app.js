@@ -93,6 +93,7 @@ app.factory('userInfoService', function($http, $window, $rootScope) {
                     $rootScope.username = data.username;
                     $rootScope.firstname = data.firstname;
                     $rootScope.lastname = data.lastname;
+                    $rootScope.email = data.email;
                     $rootScope.profilepic = data.profilepic;
                     $rootScope.location = data.location;
                     $rootScope.about = data.about;
@@ -306,14 +307,40 @@ app.controller('mainController', function($scope, $rootScope, $http, $window, $l
         userInfoService.getUserInfo();
         $window.location.reload(); //This is not the angular way, but it's my way, think of a better way soon
     }
-    $scope.searchModel = "ahaha"
+    $rootScope.searchModel = "";
+    $scope.overlayClose = function() {
+      $('#overlay-search-main').removeClass('open');
+    }
     $scope.searchView = function() {
         console.log('test');
+    };
+    $scope.user = {};
+    $scope.user.favoriteTag = [];
+    // calling our submit function.
+    $scope.submitTags = function() {
+      $scope.user.username = $rootScope.username;
+        // Posting data to php file
+        $http({
+            method: 'PATCH',
+            url: '/api/memberinfo',
+            data: JSON.stringify($scope.user), //forms user object
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': $window.localStorage['jwtToken']
+            }
+        }).success(function(data) {
+            if (data.errors) {
+                // Showing errors.
+                $scope.errorName = data.errors;
+            } else {
+                $scope.message = data.message;
+            }
+        });
     };
 
 });
 app.controller('profileController', function($scope, $rootScope, $location, $http, $window,
-    userInfoService, playlistInfoService) {
+    userInfoService, playlistInfoService, Upload) {
     $scope.loadPlaylist = function(playlist_id, next) {
         $http({
             method: 'GET',
@@ -326,28 +353,64 @@ app.controller('profileController', function($scope, $rootScope, $location, $htt
             console.log('it dead');
         });
     }
+    $rootScope.searchModel = "";
+    $scope.profilePicMessage = "Upload a new profile pic"
+    $scope.overlayClose = function() {
+      $('#overlay-search-main').removeClass('open');
+    }
     $scope.customPlaylists = [];
     playlistInfoService.getPlaylists().success(function(data) {
         $scope.customPlaylists = data;
     });
 
+    $scope.upload = function(file) {
+        Upload.upload({
+            url: '/upload',
+            arrayKey: '', // default is '[i]'
+            data: {
+                file: file,
+            }
+        }).then(function(resp) {
+            $('#photoDropZone').addClass('success');
+            $('#photoDropZone').removeClass('loading');
+            $scope.user.profilepic = resp.data.imgurl;
+            $scope.profilePicMessage = 'Success the cloud is pleased with your offering of:' + resp.config.data.file.name; + "Submit this form to update your profile."
+          //  form.$setDirty();
+        }, function(resp) {
+          $('#photoDropZone').addClass('error');
+            $scope.profilePicMessage = 'You have angered the cloud: ' + resp.status;
+        }, function(evt) {
+          $('#photoDropZone').addClass('loading');
+            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+            $scope.profilePicMessage = 'Pushing it up into the cloud...'
+        });
+    };
+
+    $scope.error = false;
+    $scope.success = false;
     // create a blank object to handle form data.
     $scope.user = {};
+    $scope.user.username = $rootScope.username;
     // calling our submit function.
     $scope.submitForm = function() {
         // Posting data to php file
         $http({
-            method: 'UPDATE',
-            url: '/api/memberinfo' + $rootScope.username,
+            method: 'PATCH',
+            url: '/api/memberinfo',
             data: JSON.stringify($scope.user), //forms user object
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': $window.localStorage['jwtToken']
             }
         }).success(function(data) {
             if (data.errors) {
                 // Showing errors.
-                $scope.errorName = data.errors;
+                $scope.error = true;
+                $scope.success = false;
+                $scope.message = data.errors;
             } else {
+                $scope.success = true;
+                $scope.error = false;
                 $scope.message = data.message;
             }
         });
@@ -369,13 +432,6 @@ app.controller('createController', function($scope, $rootScope, $http, $window,
         $scope.playlist = true;
     }
     $scope.playlist_img = 'http://www.gsurgeon.net/wp-content/uploads/2016/01/hogu-7.jpg';
-
-
-    $scope.submit = function() {
-        if ($scope.form.file.$valid && $scope.file) {
-            $scope.upload($scope.file);
-        }
-    };
 
     // upload on file select or drop
     $scope.upload = function(file) {
