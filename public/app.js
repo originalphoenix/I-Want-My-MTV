@@ -531,7 +531,7 @@ app.controller('createController', function($scope, $rootScope, $http, $window,
 });
 
 app.controller('genreController', function($scope, $rootScope, $location, $http, userInfoService, playlistInfoService) {
-    $scope.genreFilters = {};
+    $scope.filters = { };
     $scope.customPlaylists = [];
     $scope.musicGenres = []
     playlistInfoService.getPlaylists().success(function(response) {
