@@ -27,7 +27,6 @@ Sign Up/Sign In Pages
 
 Header/Footer Page (tv-tokyo.html)
 - ng-cloak on any angular variables
-- Search needs wired up (diff section)
 - Add ability to put favorite tags in the sidebar
 - Add Loading Overlay for ng-cloak (take from jukebox.html)
 
@@ -36,14 +35,10 @@ Home Page
 - Most Played (add play count on playlist_load)
 
 Genres Page 
-- If someone clicks on a genre tag show that as active and populate results from other page (could be anywhere) 
-- Pagination
 
 Profile Page 
 - FAVORITES I DON'T KNOW HOW TO DO THIS HECK
-- Get length of playlists with the same author name and show it in the created
 - Fix the Create Playlist Card (needs to look less like crap)
-- Hook up the Settings Form
 
 Create Playlist Page
 - Save needs to return playlistID and redirect user to the new playlist
@@ -56,6 +51,8 @@ Jukebox UI/UX
 - When youtube status is ended, show a gradient background instead of the youtube screen
 - Fix the Modal for "playlist has ended" / Style it also
 - Modal picks first playlist with similar tags
+
+======
 
 Polish
 - Clean up CSS
