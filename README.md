@@ -60,10 +60,7 @@ Polish
 
 App Functionality
 - Favorites Need to Happen?
-- Search Page needs to be added and implemented
 - Profile URLs and Playlist URLs need to be shareable
-- If Genre is clicked, genre page needs to pull up that genre automatically
-- Genre only picks from all available tags
 - Home only displays genres that user has liked in the past
 - Drag and Drop Reordering on Playlist Page
 
