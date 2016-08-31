@@ -49,6 +49,7 @@ app.config(function($routeProvider) {
         });
 });
 
+
 //DIRECTIVES
 
 app.directive('focus', function($timeout, $parse) {
@@ -74,6 +75,8 @@ app.directive('focus', function($timeout, $parse) {
         }
     }
 });
+
+
 
 // WE FACTORIES NOW BOI
 app.factory('userInfoService', function($http, $window, $rootScope) {
@@ -155,6 +158,7 @@ app.service('VideosService', ['$window', '$rootScope', '$log', '$http',
 
             });
             $log.info('YouTube Player is ready');
+            $('#preloader').hide();
             youtube.player.playVideo();
             var playButton = document.getElementById("play-button");
             playButton.addEventListener("click", function() {
@@ -282,6 +286,13 @@ app.service('VideosService', ['$window', '$rootScope', '$log', '$http',
 // create the controller and inject Angular's $scope
 app.controller('mainController', function($scope, $rootScope, $http, $window, $location, $route,
     userInfoService, playlistInfoService) {
+    $rootScope.$on('$routeChangeStart', function() {
+        $('#preloader').show();
+           });
+
+    $rootScope.$on('$viewContentLoaded', function(){
+        $('#preloader').fadeOut( "slow" );
+});
     $rootScope.hideit = false;
     $rootScope.loggedIn = $window.localStorage['jwtToken'];
     userInfoService.getUserInfo();
@@ -531,6 +542,7 @@ app.controller('createController', function($scope, $rootScope, $http, $window,
 });
 
 app.controller('genreController', function($scope, $rootScope, $location, $http, userInfoService, playlistInfoService) {
+
     $scope.filters = { };
     $scope.customPlaylists = [];
     $scope.musicGenres = []
@@ -610,6 +622,7 @@ app.controller('signinController', function($scope, $rootScope, $http, $location
 
 // Controller
 app.controller('VideosController', function($route, $scope, $rootScope, $http, $log, userInfoService, playlistInfoService, VideosService) {
+
     $scope.loadPlaylist = function(playlist_id, next) {
         $http({
             method: 'GET',
