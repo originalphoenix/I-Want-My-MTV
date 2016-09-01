@@ -3,7 +3,10 @@ Money for Nothing, Chicks for Free Youtube Jukebox
 
 Jukebox spun off of juketube with a better layout and actually works.
 
-Design Inspiration: https://www.behance.net/gallery/19435591/Songoroo
+Bugs 
+- Refresh literally breaks angular, heck if I know why
+- If minimalism is enabled on jukebox then it reflects the whole site
+- Sometimes Jukebox gets angry during switching?
 
 API 
 - Users that create playlists also delete them
@@ -23,24 +26,28 @@ Sign Up/Sign In Pages
 - Sign Up Page needs Photo Uploads to POST (currently doesn't POST)
 - Sign Up Photo Upload needs to work
 - Sign Up Page needs email confirmation & I am not a Robot Verification
+- Sign Up Page redirects to login page on successful submission
+- Add validation for passwords (also hide passwords)
+- Fix Continue Button to match everything else
 - STRETCH GOAL: Social Sign In/Sign Up
 
 Header/Footer Page (tv-tokyo.html)
 - ng-cloak on any angular variables
 - Add ability to put favorite tags in the sidebar
-- Add Loading Overlay for ng-cloak (take from jukebox.html)
 
 Home Page
-- Show Playlists that have "featured" set to true
 - Most Played (add play count on playlist_load)
 
 Genres Page 
 
 Profile Page 
 - FAVORITES I DON'T KNOW HOW TO DO THIS HECK
+- Created.length and Favorites.length
+- Need Ability to Go Directly to Active Tab
 - Fix the Create Playlist Card (needs to look less like crap)
 
 Create Playlist Page
+- Search bar to have same UI as signup inputs
 - Save needs to return playlistID and redirect user to the new playlist
 - Play button takes person to the youtube video? or maybe fills the search box with the video preview? idk
 
@@ -58,17 +65,3 @@ Polish
 - Clean up CSS
 - Clean up JS
 
-App Functionality
-- Favorites Need to Happen?
-- Profile URLs and Playlist URLs need to be shareable
-- Home only displays genres that user has liked in the past
-- Drag and Drop Reordering on Playlist Page
-
-FUNCTIONALITY
-- Ability to save playlists with album art and tags
-- Ability to loop playlists from the start
-- Load next playlist via tags
-- Add Favorites
-- Live Search from youtube
-- Give weight to "official" and "MV" 
-- Drag and Drop Reordering
