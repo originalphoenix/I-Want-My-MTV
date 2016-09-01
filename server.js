@@ -3,6 +3,8 @@ var express     = require('express');
 var app         = express();
 var bodyParser  = require('body-parser');
 var morgan      = require('morgan');
+var multer      = require('multer');
+var cloudinary = require('cloudinary')
 var mongoose    = require('mongoose');
 var passport	= require('passport');
 var config      = require('./config/database'); // get db config file
@@ -10,6 +12,14 @@ var User        = require('./app/models/user'); // get the mongoose model
 // var Playlist     = require('./app/models/playlists');
 var port        = process.env.PORT || 8080;
 var jwt         = require('jwt-simple');
+var path        = require('path');
+
+cloudinary.config({
+  cloud_name: 'tokkitv',
+  api_key: '271341468239996',
+  api_secret: 'usmiuBpU33Lcvavf8quADMhicSo'
+});
+
 
 // get our request parameters
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -20,17 +30,12 @@ app.use(morgan('dev'));
 // Use the passport package in our application
 app.use(passport.initialize());
 
-/* set static files location
+// set static files location
 app.use(express.static(__dirname + '/public'));
-
-// set up home page
-app.get('*', function(req, res) {
-	res.sendFile(path.join(__dirname + '/public/index.html'));
-}); */
 
 // demo Route (GET http://localhost:8080)
 app.get('/', function(req, res) {
-  res.send('Hello! The API is at http://localhost:' + port + '/api');
+  res.sendFile(path.join(__dirname + '/public/tokkitv.html'));
 });
 
 // connect to database
@@ -44,11 +49,18 @@ var apiRoutes = express.Router();
 
 // create a new user account (POST http://localhost:8080/api/signup)
 apiRoutes.post('/signup', function(req, res) {
-  if (!req.body.name || !req.body.password) {
+  console.log(req.body);
+  if (!req.body.username || !req.body.password) {
     res.json({success: false, msg: 'Please pass name and password.'});
   } else {
     var newUser = new User({
-      name: req.body.name,
+      username: req.body.username,
+      firstname: req.body.firstname,
+      lastname: req.body.lastname,
+      profilepic: '/images/placeholder-pic.jpg',
+      location: req.body.location,
+      about: req.body.about,
+      email: req.body.email,
       password: req.body.password
     });
     // save the user
@@ -64,12 +76,12 @@ apiRoutes.post('/signup', function(req, res) {
 // route to authenticate a user (POST http://localhost:8080/api/authenticate)
 apiRoutes.post('/authenticate', function(req, res) {
   User.findOne({
-    name: req.body.name
+    username: req.body.name
   }, function(err, user) {
     if (err) throw err;
 
     if (!user) {
-      res.send({success: false, msg: 'Authentication failed.'});
+      res.send({success: false, msg: 'Authentication failed user does not exist'});
     } else {
       // check if password matches
       user.comparePassword(req.body.password, function (err, isMatch) {
@@ -92,20 +104,59 @@ apiRoutes.get('/memberinfo', passport.authenticate('jwt', { session: false}), fu
   if (token) {
     var decoded = jwt.decode(token, config.secret);
     User.findOne({
-      name: decoded.name
+      username: decoded.username
     }, function(err, user) {
         if (err) throw err;
 
         if (!user) {
           return res.status(403).send({success: false, msg: 'Authentication failed. User not found.'});
         } else {
-          res.json({success: true, msg: 'Welcome in the member area ' + user.name + '!'});
+          res.json(user);
         }
     });
   } else {
     return res.status(403).send({success: false, msg: 'No token provided.'});
   }
 });
+
+apiRoutes.patch('/memberinfo', passport.authenticate('jwt', { session: false}), function(req, res) {
+  var token = getToken(req.headers);
+  if (token) {
+    var decoded = jwt.decode(token, config.secret);
+    User.findOne({
+      username: decoded.username
+    }, function(err, user) {
+        if (err) throw err;
+
+        if (!user) {
+          return res.status(403).send({success: false, msg: 'Authentication failed. User not found.'});
+        } else {
+          var userinfo = {};
+          var username = req.body.username
+
+          if (req.body.firstname) userinfo.firstname = req.body.firstname;
+          if (req.body.lastname) userinfo.lastname = req.body.lastname;
+          if (req.body.profilepic) userinfo.profilepic = req.body.profilepic;
+          if (req.body.location) userinfo.location = req.body.location;
+          if (req.body.about) userinfo.about = req.body.about;
+          if (req.body.email) userinfo.email = req.body.email;
+          if (req.body.password)  userinfo.password = req.body.password;
+          if (req.body.favoritePlaylists) userinfo.favoritePlaylists = req.body.favoritePlaylists;
+          if (req.body.favoriteTag) userinfo.favoriteTag = req.body.favoriteTag;
+
+          User.update({username: username}, userinfo, function(err, numberAffected, rawResponse) {
+             return res.json({success: true, msg: 'user updated successfully'});
+          });
+
+        }
+    });
+  } else {
+    return res.status(403).send({success: false, msg: 'No token provided.'});
+  }
+});
+
+
+// If you don't define the playlist schema in line, it throws a gigantic fit, don't know why, don't even ask me tbh
 
 var Schema = mongoose.Schema
 
@@ -114,9 +165,8 @@ var tagSchema = Schema({
 })
 
 var songSchema = Schema({
-  s_index: Number,
-  s_id: String,
-  s_title: String
+  id: String,
+  title: String
 })
 
 var playlistSchema = Schema({
@@ -143,12 +193,11 @@ apiRoutes.post('/playlist', function(req, res) {
           favorites: req.body.favorites,
         });
 
-
         playlist.save(function(err) {
           if (err) {
             return res.json({success: false, msg: 'Failed'});
           }
-          res.json({success: true, msg: 'Congrats'});
+          return res.json({success: true, playlist_id: playlist._id});
         });
     });
 
@@ -166,8 +215,8 @@ apiRoutes.get('/playlist', function(req, res) {
 apiRoutes.get('/playlist/:playlist_id', function(req, res) {
         Playlist.findById(req.params.playlist_id, function(err, playlist) {
             if (err)
-                res.send(err);
-                res.json(playlist);
+                return res.send(err);
+                return res.json(playlist);
             });
         });
 
@@ -182,10 +231,12 @@ apiRoutes.get('/playlist/:playlist_id', function(req, res) {
                          playlist.playlist_author = req.body.playlist_author;
                          playlist.tags = req.body.tags;
                          playlist.songs = req.body.songs;
+                         playlist.play_count = req.body.play_count;
+                         playlist.favorites = req.body.favorites;
 
                      playlist.save(function(err) {
                          if (err)
-                             res.send(err);
+                             res.send(playlist);
 
                          res.json({ message: 'Playlist updated!' });
                      });
@@ -216,6 +267,25 @@ getToken = function (headers) {
     return null;
   }
 };
+
+
+var upload = multer({ dest: 'upload/'});
+var fs = require('fs');
+var type = upload.single('file');
+
+app.post('/upload', upload.single('file'), function (req,res,next) {
+  if(req.file) {
+    cloudinary.uploader.upload(req.file.path, function(result) {
+      if (result.url) {
+        res.json({ success: true, imgurl: result.url });
+      } else {
+        res.json(error);
+      }
+    });
+  } else {
+    next();
+  }
+});
 
 
 // connect the api routes under /api/*

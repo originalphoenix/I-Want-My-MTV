@@ -1,0 +1,97 @@
+<style>
+.vbox > header.header-md ~ section {
+  top: 0px;
+}
+</style>
+
+
+  <section id="content" class="animated fadeInDown" style="height:100%">
+<!--    <div class="container aside-xl">
+      <a class="navbar-brand block" href="index.html"><span class="h1">NeoTV.tokyo</span></a>
+      <section class="m-b-lg">
+        <header class="wrapper text-center">
+          <strong>Create, Save, and Share Your TV</strong>
+        </header>
+        <form name="user-form" ng-submit="submitForm()">
+          <div class="form-group">
+            <input placeholder="Username" class="form-control input-lg no-border" ng-model="user.name">
+          </div>
+          <div class="form-group">
+            <input type="email" placeholder="Email" class="form-control input-lg no-border" ng-model="user.email">
+          </div>
+          <div class="form-group">
+             <input type="password" placeholder="Password" class="form-control input-lg no-border" ng-model="user.password">
+          </div>
+          <div class="checkbox i-checks m-b">
+            <label class="m-l">
+              <input type="checkbox" checked=""><i></i> Agree the <a href="#">terms and policy</a>
+            </label>
+          </div>
+          <button type="submit" class="btn btn-lg btn-warning lt b-white b-2x btn-block"><i class="icon-arrow-right pull-right"></i><span class="m-r-n-lg">Sign up</span></button>
+          <div class="line line-dashed"></div>
+          <p class="text-muted text-center"><small>Already have an account?</small></p>
+          <a href="signin.html" class="btn btn-lg btn-info btn-block">Sign in</a>
+        </form>
+      </section>
+    </div> -->
+    <div class="fs-form-wrap" id="fs-form-wrap">
+      <div class="fs-title">
+        <h1>tokki.tv - Sign Up<h1>
+      </div>
+      <form name="user-form" ng-submit="submitForm()" class="fs-form fs-form-full" autocomplete="off" id="userForm">
+        <ol class="fs-fields">
+          <li>
+            <label class="fs-field-label fs-anim-upper" for="q1" data-info="Keep it unique, no one is quite like you.">What's your handle?</label>
+            <input placeholder="l33th4cker" id="q1" name="q1" class="form-control input-lg no-border fs-anim-lower" ng-model="user.username" required>
+          </li>
+          <li>
+            <label class="fs-field-label fs-anim-upper" for="q2">Okay, how about your first name?</label>
+            <input placeholder="Billie" id="q2" name="q2" class="form-control input-lg no-border fs-anim-lower" ng-model="user.firstname">
+          </li>
+          <li>
+            <label class="fs-field-label fs-anim-upper" for="q3" data-info="Not actually required, but it'd be nice!">Last Name, too</label>
+            <input placeholder="Jean" id="q3" name="q3" class="form-control input-lg no-border fs-anim-lower" ng-model="user.lastname">
+          </li>
+          <li>
+            <label class="fs-field-label fs-anim-upper" for="q4" data-info="We won't send you spam, we promise...">What's your email address?</label>
+            <input class="fs-anim-lower" id="q4" name="q4" type="email" placeholder="ratat@tat.com"  ng-model="user.email" required/>
+          </li>
+          <li>
+            <label class="fs-field-label fs-anim-upper" for="q5">Where are you from?</label>
+            <input placeholder="Everytown, USA" id="q5" name="q5" class="form-control input-lg no-border fs-anim-lower" ng-model="user.location">
+          </li>
+          <li>
+            <label class="fs-field-label fs-anim-upper" for="q6" data-info="Tell us about yourself!">A few words for the audience</label>
+            <input placeholder="A few interesting words." id="q6" name="q6" class="form-control input-lg no-border fs-anim-lower" ng-model="user.about">
+          </li>
+          <li>
+            <label class="fs-field-label fs-anim-upper" for="q7" data-info="This won't be graded, but you should know better by now.">Pick a Password</label>
+            <input placeholder="*******" id="q7" name="q7" class="form-control input-lg no-border fs-anim-lower" ng-model="user.password" required>
+          </li>
+          <li>
+            <label class="fs-field-label fs-anim-upper" for="q8" data-info="End Robot Discrimination">Are you a robot?</label>
+            <input placeholder="Beep Boop" id="q" name="q7" class="form-control input-lg no-border fs-anim-lower">
+          </li>
+        </ol><!-- /fs-fields -->
+        <button type="submit" class="btn btn-lg btn-pink lt b-white b-2x btn-block" id="signup-submit"><i class="icon-arrow-right pull-right"></i><span class="m-r-n-lg">Sign me the heck up</span></button>
+      </form><!-- /fs-form -->
+    </div><!-- /fs-form-wrap -->
+  </section>
+  <!-- footer -->
+  <script>
+  (function() {
+    var formWrap = document.getElementById( 'fs-form-wrap' );
+
+    [].slice.call( document.querySelectorAll( 'select.cs-select' ) ).forEach( function(el) {
+      new SelectFx( el, {
+        stickyPlaceholder: false,
+        onChange: function(val){
+          document.querySelector('span.cs-placeholder').style.backgroundColor = val;
+        }
+      });
+    } );
+
+    new FForm( formWrap, {
+    } );
+  })();
+  </script>
