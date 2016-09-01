@@ -197,7 +197,7 @@ apiRoutes.post('/playlist', function(req, res) {
           if (err) {
             return res.json({success: false, msg: 'Failed'});
           }
-          return res.json({success: true, msg: 'Congrats'});
+          return res.json({success: true, playlist_id: playlist._id});
         });
     });
 

@@ -9,21 +9,21 @@
       </span>
    </h2>
   <div class="row m-t-lg m-b-lg">
-      <div class="col-sm-6">
-        <div class="card featured_card" ng-click="loadPlaylist(playlist.url)">
-           <div class="card_image featured_card_image">
-             <p class="cardContentJob featured_playlist_name">情報デスクVIRTUAL</p>
-              <img src="https://levels.io/wp-content/uploads/2015/10/maxresdefault-3.jpg" alt="" class="image">
-              <i class="material-icons" onclick="favorite(this);">
-              favorite_border</i>
-           </div>
-        </div>
+    <div class="col-sm-6" ng-repeat="playlist in customPlaylists | filter: 'Interstella 5555'">
+      <div class="card featured_card" ng-click="loadPlaylist(playlist._id)">
+         <div class="card_image featured_card_image">
+           <p class="cardContentJob featured_playlist_name">{{playlist.name}}</p>
+            <img data-ng-src="{{playlist.img}}" alt="" class="image">
+            <i class="material-icons" onclick="favorite(this);">
+            favorite_border</i>
+         </div>
       </div>
-      <div class="col-sm-6">
-        <div class="card featured_card" ng-click="loadPlaylist(playlist.url)">
+   </div>
+      <div class="col-sm-6" ng-repeat="playlist in customPlaylists | filter: 'Boombap to Bibimbap'">
+        <div class="card featured_card" ng-click="loadPlaylist(playlist._id)">
            <div class="card_image featured_card_image">
-             <p class="cardContentJob featured_playlist_name">From Boombap to Bibimbap</p>
-              <img src="https://67.media.tumblr.com/228713250791f0f6b96fd3ec24366f69/tumblr_o0jhb8QYlL1tfpvc0o2_1280.jpg" alt="" class="image">
+             <p class="cardContentJob featured_playlist_name">{{playlist.name}}</p>
+              <img data-ng-src="{{playlist.img}}" alt="" class="image">
               <i class="material-icons" onclick="favorite(this);">
               favorite_border</i>
            </div>

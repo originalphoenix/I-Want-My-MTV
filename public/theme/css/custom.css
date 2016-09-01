@@ -96,8 +96,13 @@ margin-bottom: 20px;
 }
 
 .now-playing-container {
-  max-height: 350px;
+  height: 350px;
   overflow: hidden;
+}
+
+.now-playing-container > img {
+  height: 100%;
+  width: auto;
 }
 
 .modal-content {
@@ -157,7 +162,7 @@ text-align: center;
 #preloader {
   width: 100%;
   height: 100%;
-  z-index: 100;
+  z-index: 10000;
   position: absolute;
 }
 
@@ -1034,6 +1039,8 @@ margin-bottom: 0px;
 	text-align: left;
 	font-weight: 200;
   padding-top: 15px;
+  white-space: nowrap;
+  overflow: hidden;
 }
 .card .cardContent .cardContentJob {
   color: #2B2B2B;
@@ -1070,7 +1077,7 @@ margin-bottom: 0px;
     padding-top: 10px;
 }
 .card .card_image img {
-  width: 100%;
+  min-width: 100%;
   height: 100%;
 }
 

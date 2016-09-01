@@ -109,7 +109,7 @@
          </span>
       </h2>
       <div class="row">
-         <div class="col-md-4" ng-repeat="playlist in customPlaylists | filter: name ">
+         <div class="col-md-4" ng-repeat="playlist in customPlaylists | filter: name | limitTo: 3 ">
             <div class="card">
                <div class="card_image">
                   <img data-ng-src="{{playlist.img}}" alt="" class="image">

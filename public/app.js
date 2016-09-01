@@ -147,7 +147,6 @@ app.service('VideosService', ['$window', '$rootScope', '$log', '$http',
                 url: '/api/playlist/' + playlist_id
             }).then(function successCallback(response) {
                 console.log('everything is going according to keikaku');
-                console.log('TN: keikaku means plan');
                 youtube.player.cueVideoById(response.data.songs[0].id);
                 youtube.videoId = response.data.songs[0].id;
                 youtube.videoTitle = response.data.songs[0].title;
@@ -244,7 +243,7 @@ app.service('VideosService', ['$window', '$rootScope', '$log', '$http',
                     author: data.items[i].snippet.channelTitle
                 });
             }
-            return results;
+            return results.reverse();
         }
         this.queueVideo = function(id, title) {
             upcoming.push({
@@ -322,9 +321,6 @@ app.controller('mainController', function($scope, $rootScope, $http, $window, $l
     $scope.overlayClose = function() {
       $('#overlay-search-main').removeClass('open');
     }
-    $scope.searchView = function() {
-        console.log('test');
-    };
     $scope.user = {};
     $scope.user.favoriteTag = [];
     // calling our submit function.
@@ -628,7 +624,6 @@ app.controller('VideosController', function($route, $scope, $rootScope, $http, $
             method: 'GET',
             url: '/api/playlist/' + $rootScope.playlistID
         }).then(function successCallback(response) {
-            VideosService.onYouTubeIframeAPIReady();
             $scope.playlist_img = response.data.img;
             $scope.playlist_name = response.data.name;
             $scope.playlist_genres = response.data.tags;
@@ -651,6 +646,7 @@ app.controller('VideosController', function($route, $scope, $rootScope, $http, $
         $scope.history = VideosService.getHistory();
         $scope.playlist = true;
         $scope.loadPlaylist($rootScope.playlistID);
+        VideosService.onYouTubeIframeAPIReady();
     }
 
     $scope.launch = function(id, title) {
@@ -676,7 +672,7 @@ app.controller('VideosController', function($route, $scope, $rootScope, $http, $
                 key: 'AIzaSyCARc1XWs6s-bkrvh_Bdd3YPjjrWlDDSUw',
                 type: 'video',
                 videoEmbeddable: 'true',
-                order: 'relevance',
+                order: 'viewCount',
                 maxResults: '16',
                 part: 'id,snippet',
                 fields: 'items/id,items/snippet/title,items/snippet/description,items/snippet/thumbnails/default,items/snippet/channelTitle',
@@ -753,7 +749,9 @@ app.controller('VideosController', function($route, $scope, $rootScope, $http, $
         $('#player').toggleClass('full')
 
     };
-
+    $scope.searchView = function() {
+      $('#overlay-search').toggleClass('open');
+    };
 
     $("#nextPlaylistModal").on('shown.bs.modal', function() {
         setTimeout(function() {

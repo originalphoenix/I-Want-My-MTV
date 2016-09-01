@@ -131,9 +131,6 @@
       <div class="overlay" id="overlay-playlist">
          <a href="javascript:void(0)" id="close-playlist" class="overlay-close"><i class="material-icons">clear</i></a>
          <nav class="overlay-menu" style="width: 75%;">
-           <form id="search">
-              <p><input id="query" name="q" type="text" placeholder="Search by tag" ng-model="name">
-           </form>
             <div class="row">
                <div class="col-md-4" ng-repeat="playlist in customPlaylists | filter: name ">
                   <div class="card">
