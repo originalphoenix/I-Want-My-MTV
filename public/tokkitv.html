@@ -3,6 +3,7 @@
    <head>
       <meta charset="utf-8" />
       <title>tokki.tv</title>
+      <base href="/">
       <meta name="description" content="app, web app, responsive, admin dashboard, admin, flat, flat ui, ui kit, off screen nav" />
       <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
       <link rel="stylesheet" href="theme/css/bootstrap.css" type="text/css" />
@@ -66,7 +67,7 @@
          <div class="navbar-right hidden-full">
            <ul class="nav navbar-nav m-n hidden-xs nav-user user" ng-hide="loggedIn">
               <li>
-                 <a href="#/signin" class="dropdown-toggle bg clear" target="_self">Sign In</a>
+                 <a href="#/signin" class="dropdown-toggle bg clear">Sign In</a>
               </li>
             </ul>
             <ul class="nav navbar-nav m-n hidden-xs nav-user user" ng-show="loggedIn">
@@ -83,7 +84,7 @@
                         <a href="#">Settings</a>
                      </li>
                      <li>
-                        <a href="#/profile">Profile</a>
+                        <a href="/profile">Profile</a>
                      </li>
                      <li class="divider"></li>
                      <li>
@@ -114,13 +115,13 @@
                            </a>
                         </li>
                         <li>
-                           <a href="#/genres">
+                           <a href="/genres">
                            <i class="icon-music-tone-alt icon text-success"></i>
                            <span class="font-bold">Genres</span>
                            </a>
                         </li>
-                        <li>
-                           <a href="#/create">
+                        <li ng-show="loggedIn">
+                           <a href="/create">
                            <i class="icon-playlist icon text-success"></i>
                            <span class="font-bold">Create Playlist</span>
                            </a>
@@ -170,7 +171,7 @@
                            <a href="#">Settings</a>
                         </li>
                         <li>
-                           <a href="profile.html">Profile</a>
+                           <a href="/profile">Profile</a>
                         </li>
                         <li class="divider"></li>
                         <li>

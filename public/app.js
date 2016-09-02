@@ -10,39 +10,69 @@ app.run(function() {
 app.config(function($httpProvider) {
     delete $httpProvider.defaults.headers.common['X-Requested-With'];
 });
+
+app.config(function ($locationProvider) {
+    $locationProvider.html5Mode({
+        enabled: true,
+        rewriteLinks: false
+    });
+});
+
+app.run(function ($rootScope, $location, $window) {
+ $rootScope.$on("$locationChangeStart", function (event, next, current) {
+       $('#preloader').show();
+       var userAuthenticated = $window.localStorage['jwtToken'];; /* Check if the user is logged in */
+      if (!userAuthenticated && next.isLogin) {
+          $rootScope.savedLocation = $location.url();
+          $location.path('/signin');
+      }
+      else if (userAuthenticated && !next.isLogin)
+      {
+        $location.path('/');
+      }
+ });
+ });
+
 // Routes
 app.config(function($routeProvider) {
     $routeProvider
     // route for the home page
         .when('/', {
             templateUrl: 'theme/pages/home.html',
-            controller: 'mainController'
+            controller: 'mainController',
+            isLogin: false
         }).when('/signup', {
             templateUrl: 'signup.html',
-            controller: 'signupController'
+            controller: 'signupController',
+            isLogin: false
         }).when('/signin', {
             templateUrl: 'signin.html',
-            controller: 'signinController'
+            controller: 'signinController',
+            isLogin: false
         })
         // route for the profile page
         .when('/profile', {
             templateUrl: 'theme/pages/profile.html',
-            controller: 'profileController'
+            controller: 'profileController',
+            isLogin: true
         })
         // route for the genre page
         .when('/create', {
             templateUrl: 'theme/pages/playlist-create.html',
-            controller: 'createController'
+            controller: 'createController',
+            isLogin: true
         })
         // route for the genre page
         .when('/play', {
             templateUrl: 'theme/pages/jukebox.html',
-            controller: 'VideosController'
+            controller: 'VideosController',
+            isLogin: false
         })
         // route for the genre page
         .when('/genres', {
             templateUrl: 'theme/pages/genres.html',
-            controller: 'genreController'
+            controller: 'genreController',
+            isLogin: false
         })
         .otherwise({
             templateUrl: 'theme/pages/404.html',
@@ -285,9 +315,6 @@ app.service('VideosService', ['$window', '$rootScope', '$log', '$http',
 // create the controller and inject Angular's $scope
 app.controller('mainController', function($scope, $rootScope, $http, $window, $location, $route,
     userInfoService, playlistInfoService) {
-    $rootScope.$on('$routeChangeStart', function() {
-        $('#preloader').show();
-           });
 
     $rootScope.$on('$viewContentLoaded', function(){
         $('#preloader').fadeOut( "slow" );
@@ -567,6 +594,9 @@ app.controller('genreController', function($scope, $rootScope, $location, $http,
 });
 
 app.controller('signupController', function($scope, $http, $rootScope) {
+  $rootScope.$on('$viewContentLoaded', function(){
+      $('#preloader').fadeOut( "slow" );
+});
     angular.element('body').addClass("gradient-bg-darkest");
     $rootScope.hideit = true;
     // create a blank object to handle form data.
@@ -593,6 +623,9 @@ app.controller('signupController', function($scope, $http, $rootScope) {
     };
 });
 app.controller('signinController', function($scope, $rootScope, $http, $location, $window, userInfoService) {
+  $rootScope.$on('$viewContentLoaded', function(){
+      $('#preloader').fadeOut( "slow" );
+});
     angular.element('body').addClass("gradient-bg");
     $rootScope.hideit = true;
     $scope.user = {};
