@@ -26,10 +26,6 @@ app.run(function ($rootScope, $location, $window) {
           $rootScope.savedLocation = $location.url();
           $location.path('/signin');
       }
-      else if (userAuthenticated && !next.isLogin)
-      {
-        $location.path('/');
-      }
  });
  });
 
@@ -455,7 +451,7 @@ app.controller('profileController', function($scope, $rootScope, $location, $htt
     }
 });
 
-app.controller('createController', function($scope, $rootScope, $http, $window,
+app.controller('createController', function($scope, $rootScope, $http, $window, $location,
     userInfoService, playlistInfoService, VideosService, Upload) {
     init();
 
@@ -512,7 +508,7 @@ app.controller('createController', function($scope, $rootScope, $http, $window,
         }).success(function(data) {
             $scope.results = VideosService.listResults(data);
         }).error(function() {
-            $log.info('Search error');
+            console.log('Search error');
         });
     }
 
@@ -553,7 +549,9 @@ app.controller('createController', function($scope, $rootScope, $http, $window,
                 // Showing errors.
                 $scope.errorName = data.errors;
             } else {
-                $scope.message = data.message;
+              $rootScope.playlistID = data.playlist_id;
+              $('#previewModal').modal('hide');
+              $location.path('/play');
             }
         });
     };
@@ -593,12 +591,12 @@ app.controller('genreController', function($scope, $rootScope, $location, $http,
     }
 });
 
-app.controller('signupController', function($scope, $http, $rootScope) {
+app.controller('signupController', function($scope, $http, $rootScope, $location) {
   $rootScope.$on('$viewContentLoaded', function(){
       $('#preloader').fadeOut( "slow" );
 });
     angular.element('body').addClass("gradient-bg-darkest");
-    $rootScope.hideit = true;
+//    $rootScope.hideit = true;
     // create a blank object to handle form data.
     $scope.user = {};
     // calling our submit function.
@@ -616,8 +614,8 @@ app.controller('signupController', function($scope, $http, $rootScope) {
                 // Showing errors.
                 $scope.errorName = data.errors;
             } else {
+                $location.path('/signin');
                 $scope.message = data.message;
-                $location.path('#/signin');
             }
         });
     };
@@ -657,6 +655,7 @@ app.controller('VideosController', function($route, $scope, $rootScope, $http, $
             method: 'GET',
             url: '/api/playlist/' + $rootScope.playlistID
         }).then(function successCallback(response) {
+          VideosService.onYouTubeIframeAPIReady();
             $scope.playlist_img = response.data.img;
             $scope.playlist_name = response.data.name;
             $scope.playlist_genres = response.data.tags;
@@ -679,7 +678,6 @@ app.controller('VideosController', function($route, $scope, $rootScope, $http, $
         $scope.history = VideosService.getHistory();
         $scope.playlist = true;
         $scope.loadPlaylist($rootScope.playlistID);
-        VideosService.onYouTubeIframeAPIReady();
     }
 
     $scope.launch = function(id, title) {

@@ -89,7 +89,7 @@ ol#history {
 
 h2.similar-playlists {
   color: white;
-font-family: "Lato", sans-serif;
+font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
 text-align: left;
 margin-top: 20px;
 margin-bottom: 20px;
@@ -101,8 +101,8 @@ margin-bottom: 20px;
 }
 
 .now-playing-container > img {
-  height: 100%;
-  width: auto;
+  min-height: 100%;
+  min-width: 100%;
 }
 
 .modal-content {
@@ -347,7 +347,7 @@ h2.playlist-title {
 #playlist {
 	color: #2B2B2B;
 	margin-top: 15%;
-	font-family: 'Lato', sans-serif;
+	font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
 	font-weight: 200px;
 	font-size: 1.2em;
 	height: 100%;
@@ -618,7 +618,7 @@ margin-bottom: 5px;
 	height: 10%;
 	top: 10%;
 	font-size: 50px;
-	font-family: 'Vollkorn', serif;
+	font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
 	font-weight: 400;
 	text-align: center;
 	width: 50%;
@@ -760,7 +760,7 @@ input:-webkit-autofill:active {
 
 p.video-title {
 	color: #788188;
-font-family: 'Lato';
+font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
 font-size: 24px;
 text-align: left;
 margin-bottom: 0px;
@@ -769,7 +769,7 @@ font-weight: 200;
 
 p.video-author {
 	color: #788188;
-font-family: 'Lato';
+font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
 font-size: 18px;
 text-align: left;
 margin-bottom: 0px;
@@ -901,7 +901,7 @@ margin-bottom: 0px;
   margin: 0 auto;
   box-shadow: 0 12px 15px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
   margin-bottom: 3em;
-	font-family: 'Lato';
+	font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 .card .cardContent {
   position: relative;
@@ -1097,7 +1097,7 @@ p.featured_playlist_name {
   z-index: 100;
   bottom: 0;
   margin-bottom: 0;
-  font-family: Lato;
+  font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 32px;
   text-align: center;
   background-color: rgba(255,255,255,0.5);
@@ -1150,13 +1150,13 @@ p.featured_playlist_name {
 }
 
 #minimal-animale > h1 {
-font-family: 'Lato';
+font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
 text-shadow: 0 2px 4px rgba(0,0,0,0.5);
 color: white;
 }
 
 #minimal-animale > h4 {
-font-family: 'Lato';
+font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
 color: white;
 text-shadow: 0 2px 4px rgba(0,0,0,0.5);
 }
