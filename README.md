@@ -7,6 +7,8 @@ Bugs
 - Refresh literally breaks angular, heck if I know why
 - If minimalism is enabled on jukebox then it reflects the whole site
 - Sometimes Jukebox gets angry during switching?
+- Front End Validation via Parsley Broke
+- Need to think about how to enforce unique usernames
 
 API 
 - Users that create playlists also delete them
@@ -16,7 +18,6 @@ API
 
 Overall App Functionality
 - Ability to pull up user profiles & playlists via direct link
-- Get rid of that weird # thing in URLs
 - Responsiveness
 - ANIMATIONS ANIMATIONS ANIMATIONS HECK YEAH
 - Error Handling in General lmao
@@ -47,8 +48,7 @@ Profile Page
 - Fix the Create Playlist Card (needs to look less like crap)
 
 Create Playlist Page
-- Search bar to have same UI as signup inputs
-- Save needs to return playlistID and redirect user to the new playlist
+- Redirect to Create keeps modal backdrop, why
 - Play button takes person to the youtube video? or maybe fills the search box with the video preview? idk
 
 Jukebox UI/UX
