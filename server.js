@@ -133,7 +133,12 @@ apiRoutes.patch('/memberinfo', passport.authenticate('jwt', { session: false}), 
         } else {
           var userinfo = {};
           var username = req.body.username
+          var favoriteTagArray = user.favoriteTag;
+          favoriteTagArray.push({tag: req.body.favoriteTag });
 
+          var favoritePlaylistArray = user.favoritePlaylists;
+          favoritePlaylistArray.push({tag: req.body.favoritePlaylists });
+          
           if (req.body.firstname) userinfo.firstname = req.body.firstname;
           if (req.body.lastname) userinfo.lastname = req.body.lastname;
           if (req.body.profilepic) userinfo.profilepic = req.body.profilepic;
@@ -142,9 +147,8 @@ apiRoutes.patch('/memberinfo', passport.authenticate('jwt', { session: false}), 
           if (req.body.email) userinfo.email = req.body.email;
           if (req.body.password)  userinfo.password = req.body.password;
           if (req.body.favoritePlaylists) userinfo.favoritePlaylists = req.body.favoritePlaylists;
-          if (req.body.favoriteTag) userinfo.favoriteTag = ({tag: req.body.favoriteTag });
-
-          console.log(User.favoriteTag);
+          if (req.body.favoriteTag) userinfo.favoriteTag = favoriteTagArray;
+          if (req.body.favoritePlaylists) userinfo.favoritePlaylist = favoritePlaylistArray;
 
           User.update({username: username}, userinfo, function(err, numberAffected, rawResponse) {
              return res.json({success: true, msg: 'user updated successfully'});
