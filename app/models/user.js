@@ -10,8 +10,7 @@ var favoritePlaylistSchema = Schema({
 })
 
 var favoriteTagSchema = Schema({
-  tag: String,
-  user_id: String,
+  tag: String
 })
 
 var lastPlayedSchema = Schema({
@@ -74,5 +73,4 @@ UserSchema.methods.comparePassword = function(passw, cb) {
         cb(null, isMatch);
     });
 };
-
 module.exports = mongoose.model('User', UserSchema);

@@ -172,6 +172,42 @@ text-align: center;
     padding-left: 50%;
 }
 
+
+/* RARE 15 COL LAYOUT */
+
+.col-xs-15,
+.col-sm-15,
+.col-md-15,
+.col-lg-15 {
+    position: relative;
+    min-height: 1px;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+.col-xs-15 {
+    width: 20%;
+    float: left;
+}
+@media (min-width: 768px) {
+.col-sm-15 {
+        width: 20%;
+        float: left;
+    }
+}
+@media (min-width: 992px) {
+    .col-md-15 {
+        width: 20%;
+        float: left;
+    }
+}
+@media (min-width: 1200px) {
+    .col-lg-15 {
+        width: 20%;
+        float: left;
+    }
+}
+
 /* Overlay */
 .overlay {
 	position: absolute;
@@ -781,20 +817,19 @@ margin-bottom: 0px;
   -moz-transition: 0.4s;
   transition: 0.4s;
   position: absolute;
-  right: 50px;
-  bottom: 50px;
+  right: 0px;
+  bottom: 0px;
   width: 60px;
   height: 60px;
-	    padding-top: 4px;
+  padding-top: 4px;
   text-align: center;
   line-height: 60px;
-  border-radius: 50%;
   background-color: #F7CAC9;
   color: #FFFFFF;
   font-size: 24px;
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26), 0 2px 10px 0 rgba(0, 0, 0, 0.22);
   cursor: pointer;
-	display: none;
+  display: none;
 }
 
 #save.menu-button {

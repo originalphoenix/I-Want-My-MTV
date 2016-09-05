@@ -35,7 +35,7 @@
 
    <h2 class="font-thin m-b">Popularity No Contest</h2>
    <div class="row row-sm">
-     <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2" ng-repeat="playlist in customPlaylists | limitTo:6">
+     <div class="col-xs-6 col-sm-4 col-lg-15 col-xl-2" ng-repeat="playlist in customPlaylists | limitTo:5 | orderBy : '-play_count'">
        <div class="card">
           <div class="card_image">
              <img data-ng-src="{{playlist.img}}" alt="" class="image">
@@ -59,7 +59,7 @@
 
    <h2 class="font-thin m-b" ng-show="loggedIn">Your Playlists</h2>
    <div class="row row-sm" ng-show="loggedIn">
-     <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2" ng-repeat="playlist in customPlaylists | filter: username | limitTo:6">
+     <div class="col-xs-6 col-sm-4 col-lg-15 col-xl-2" ng-repeat="playlist in customPlaylists | filter: username | limitTo:5">
        <div class="card">
           <div class="card_image">
              <img data-ng-src="{{playlist.img}}" alt="" class="image">
@@ -82,7 +82,7 @@
 
    <h2 class="font-thin m-b">Tag Spotlight: <span class="label label-primary">kpop</span></h2>
    <div class="row row-sm">
-     <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2" ng-repeat="playlist in customPlaylists | filter: 'kpop' | limitTo:6">
+     <div class="col-xs-6 col-sm-4 col-lg-15 col-xl-2" ng-repeat="playlist in customPlaylists | filter: 'kpop' | limitTo:5">
        <div class="card">
           <div class="card_image">
              <img data-ng-src="{{playlist.img}}" alt="" class="image">
@@ -103,7 +103,7 @@
 
 <h2 class="font-thin m-b">Tag Spotlight: <span class="label label-primary">vaporwave</span></h2>
 <div class="row row-sm">
-  <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2" ng-repeat="playlist in customPlaylists | filter: 'vaporwave' | limitTo:6">
+  <div class="col-xs-6 col-sm-4 col-lg-15 col-xl-2" ng-repeat="playlist in customPlaylists | filter: 'vaporwave' | limitTo:5">
     <div class="card">
        <div class="card_image">
           <img data-ng-src="{{playlist.img}}" alt="" class="image">

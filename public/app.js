@@ -18,15 +18,29 @@ app.config(function ($locationProvider) {
     });
 });
 
-app.run(function ($rootScope, $location, $window) {
+app.run(function ($rootScope, $location, $window, userInfoService) {
  $rootScope.$on("$locationChangeStart", function (event, next, current) {
        $('#preloader').show();
-       var userAuthenticated = $window.localStorage['jwtToken'];; /* Check if the user is logged in */
+      var userAuthenticated = $window.localStorage['jwtToken'];; /* Check if the user is logged in */
       if (!userAuthenticated && next.isLogin) {
           $rootScope.savedLocation = $location.url();
           $location.path('/signin');
       }
  });
+ $rootScope.$on('$viewContentLoaded', function(){
+     $('#preloader').fadeOut( "slow" );
+});
+ $rootScope.hideit = false;
+ $rootScope.loggedIn = $window.localStorage['jwtToken'];
+ userInfoService.getUserInfo();
+ $rootScope.logout = function() {
+     console.log('who the fuck is scraeming log off at my house. show yourself, coward. I will never log off')
+     $window.localStorage.removeItem('jwtToken');
+     userInfoService.getUserInfo();
+     $window.location.reload(); //This is not the angular way, but it's my way, think of a better way soon
+ }
+ $rootScope.searchModel = "";
+
  });
 
 // Routes
@@ -57,6 +71,11 @@ app.config(function($routeProvider) {
             templateUrl: 'theme/pages/playlist-create.html',
             controller: 'createController',
             isLogin: true
+        })
+        .when('/new', {
+            templateUrl: 'theme/pages/new.html',
+            controller: 'whatsNewController',
+            isLogin: false
         })
         // route for the genre page
         .when('/play', {
@@ -328,7 +347,6 @@ app.controller('mainController', function($scope, $rootScope, $http, $window, $l
             url: '/api/playlist/' + playlist_id
         }).then(function successCallback(response) {
             $rootScope.playlistID = response.data._id;
-            console.log($rootScope.playlistID);
             $location.path('play');
         }, function errorCallback(response) {
             console.log('it dead');
@@ -636,12 +654,12 @@ app.controller('signinController', function($scope, $rootScope, $http, $location
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         }).success(function(data) {
-            if (data.errors) {
-                $scope.errorName = data.errors;
+            if (data.success) {
+              $window.localStorage['jwtToken'] = data.token;
+              userInfoService.getUserInfo();
+             $location.path('/');
             } else {
-                $window.localStorage['jwtToken'] = data.token;
-                userInfoService.getUserInfo();
-                $location.path('/');
+              $scope.errorName = data.msg;
             }
         });
     };
@@ -652,7 +670,7 @@ app.controller('VideosController', function($route, $scope, $rootScope, $http, $
 
     $scope.loadPlaylist = function(playlist_id, next) {
         $http({
-            method: 'GET',
+            method: 'PATCH',
             url: '/api/playlist/' + $rootScope.playlistID
         }).then(function successCallback(response) {
           VideosService.onYouTubeIframeAPIReady();
@@ -724,6 +742,11 @@ app.controller('VideosController', function($route, $scope, $rootScope, $http, $
     });
 
     $scope.$on('$locationChangeStart', function(event) {
+      $('#sidebar').show()
+      $('.menu-button').show()
+      $('.slimScrollDiv').show()
+      $('#minimal-animale').toggleClass('hide')
+      $('#player').removeClass('full')
         $route.reload();
         $scope.upcoming.splice(0);
         $scope.history.splice(0);

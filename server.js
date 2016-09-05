@@ -91,7 +91,7 @@ apiRoutes.post('/authenticate', function(req, res) {
           // return the information including token as JSON
           res.json({success: true, token: 'JWT ' + token});
         } else {
-          res.send({success: false, msg: 'Authentication failed.'});
+          res.send({success: false, msg: 'Something you entered was not quite right. Try again!'});
         }
       });
     }
@@ -142,7 +142,9 @@ apiRoutes.patch('/memberinfo', passport.authenticate('jwt', { session: false}), 
           if (req.body.email) userinfo.email = req.body.email;
           if (req.body.password)  userinfo.password = req.body.password;
           if (req.body.favoritePlaylists) userinfo.favoritePlaylists = req.body.favoritePlaylists;
-          if (req.body.favoriteTag) userinfo.favoriteTag = req.body.favoriteTag;
+          if (req.body.favoriteTag) userinfo.favoriteTag = ({tag: req.body.favoriteTag });
+
+          console.log(User.favoriteTag);
 
           User.update({username: username}, userinfo, function(err, numberAffected, rawResponse) {
              return res.json({success: true, msg: 'user updated successfully'});
@@ -175,7 +177,7 @@ var playlistSchema = Schema({
   playlist_author: String,
   tags: [tagSchema],
   songs: [songSchema],
-  play_count: Number,
+  play_count: { type: Number, default: 0 },
   favorites: Number
 })
 
@@ -219,6 +221,14 @@ apiRoutes.get('/playlist/:playlist_id', function(req, res) {
                 return res.json(playlist);
             });
         });
+
+apiRoutes.patch('/playlist/:playlist_id', function(req, res) {
+  Playlist.findByIdAndUpdate(req.params.playlist_id, {$inc: { play_count: 1} }, function(err, playlist) {
+      if (err)
+          return res.send(err);
+          return res.json(playlist);
+      });
+  });
 
         apiRoutes.put('/playlist/:playlist_id', function(req, res) {
                  Playlist.findById(req.params.playlist_id, function(err, playlist) {
