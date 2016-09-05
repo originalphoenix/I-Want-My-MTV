@@ -15,7 +15,7 @@ var favoriteTagSchema = Schema({
 
 var lastPlayedSchema = Schema({
   playlist_id: String,
-  timestamp: [Date],
+  timestamp: { type : Date, default: Date.now },
 })
 
 // set up a mongoose model
