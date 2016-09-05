@@ -5,7 +5,6 @@ Jukebox spun off of juketube with a better layout and actually works.
 
 Bugs 
 - Refresh literally breaks angular, heck if I know why
-- If minimalism is enabled on jukebox then it reflects the whole site
 - Sometimes Jukebox gets angry during switching?
 - Front End Validation via Parsley Broke
 - Need to think about how to enforce unique usernames
@@ -29,7 +28,6 @@ Sign Up/Sign In Pages
 - Sign Up Page needs email confirmation & I am not a Robot Verification
 - Sign Up Page redirects to login page on successful submission
 - Add validation for passwords (also hide passwords)
-- Fix Continue Button to match everything else
 - STRETCH GOAL: Social Sign In/Sign Up
 
 Header/Footer Page (tv-tokyo.html)
@@ -37,7 +35,6 @@ Header/Footer Page (tv-tokyo.html)
 - Add ability to put favorite tags in the sidebar
 
 Home Page
-- Most Played (add play count on playlist_load)
 
 Genres Page 
 
