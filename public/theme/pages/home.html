@@ -43,7 +43,7 @@
              favorite_border</i>
           </div>
           <div class="cardContent">
-             <button class="cardContentButton" ng-click="loadPlaylist(playlist._id)"><i class="material-icons">play_arrow</i></button>
+            <a href="/play?playlist={{playlist._id}}"<button class="cardContentButton"><i class="material-icons">play_arrow</i></button></a>
              <p class="cardContentName">{{playlist.name}}</p>
              <p class="cardContentJob">{{playlist.playlist_author}}</p>
              <p class="cardContentJob">Tags: <span class="label label-primary" ng-repeat="genre in playlist.tags">{{genre.tag}}</span></p>
@@ -67,7 +67,7 @@
              favorite_border</i>
           </div>
           <div class="cardContent">
-             <button class="cardContentButton" ng-click="loadPlaylist(playlist._id)"><i class="material-icons">play_arrow</i></button>
+            <a href="/play?playlist={{playlist._id}}"<button class="cardContentButton"><i class="material-icons">play_arrow</i></button></a>
              <p class="cardContentName">{{playlist.name}}</p>
              <p class="cardContentJob">{{playlist.playlist_author}}</p>
              <p class="cardContentJob">Tags: <span class="label label-primary" ng-repeat="genre in playlist.tags">{{genre.tag}}</span></p>
@@ -78,11 +78,10 @@
 
 <!-- Playlist Row Ended -->
 
-<!-- Should Make this an NG Repeat with 3 favorite tags as filter -->
-
-   <h2 class="font-thin m-b">Tag Spotlight: <span class="label label-primary">kpop</span></h2>
+<div ng-repeat="tags in favoriteTags | limitTo: 3">
+   <h2 class="font-thin m-b">Tag Spotlight: <span class="label label-primary" ng-bind="filters.tag = tags.tag"></span></h2>
    <div class="row row-sm">
-     <div class="col-xs-6 col-sm-4 col-lg-15 col-xl-2" ng-repeat="playlist in customPlaylists | filter: 'kpop' | limitTo:5">
+     <div class="col-xs-6 col-sm-4 col-lg-15 col-xl-2" ng-repeat="playlist in customPlaylists | filter: filters.tag | limitTo:5">
        <div class="card">
           <div class="card_image">
              <img data-ng-src="{{playlist.img}}" alt="" class="image">
@@ -90,7 +89,7 @@
              favorite_border</i>
           </div>
           <div class="cardContent">
-             <button class="cardContentButton" ng-click="loadPlaylist(playlist._id)"><i class="material-icons">play_arrow</i></button>
+             <a href="/play?playlist={{playlist._id}}"<button class="cardContentButton"><i class="material-icons">play_arrow</i></button></a>
              <p class="cardContentName">{{playlist.name}}</p>
              <p class="cardContentJob">{{playlist.playlist_author}}</p>
              <p class="cardContentJob">Tags: <span class="label label-primary" ng-repeat="genre in playlist.tags">{{genre.tag}}</span></p>
@@ -98,27 +97,8 @@
         </div>
     </div>
 </div>
-
+</div>
 <!-- Playlist Row Ended -->
-
-<h2 class="font-thin m-b">Tag Spotlight: <span class="label label-primary">vaporwave</span></h2>
-<div class="row row-sm">
-  <div class="col-xs-6 col-sm-4 col-lg-15 col-xl-2" ng-repeat="playlist in customPlaylists | filter: 'vaporwave' | limitTo:5">
-    <div class="card">
-       <div class="card_image">
-          <img data-ng-src="{{playlist.img}}" alt="" class="image">
-          <i class="material-icons" onClick="favorite(this);">
-          favorite_border</i>
-       </div>
-       <div class="cardContent">
-          <button class="cardContentButton" ng-click="loadPlaylist(playlist._id)"><i class="material-icons">play_arrow</i></button>
-          <p class="cardContentName">{{playlist.name}}</p>
-          <p class="cardContentJob">{{playlist.playlist_author}}</p>
-          <p class="cardContentJob">Tags: <span class="label label-primary" ng-repeat="genre in playlist.tags">{{genre.tag}}</span></p>
-       </div>
-</div>
- </div>
-</div>
 
 <!-- Modal -->
 <div class="modal fade" id="favoriteTagsModal" tabindex="-1" role="dialog" aria-labelledby="favoriteTagsModalLabel">
@@ -156,7 +136,7 @@
                  favorite_border</i>
               </div>
               <div class="cardContent">
-                 <button class="cardContentButton" ng-click="addPlaylist(playlist._id)"><i class="material-icons">add</i></button>
+                <a href="/play?playlist={{playlist._id}}"<button class="cardContentButton"><i class="material-icons">play_arrow</i></button></a>
                  <p class="cardContentName">{{playlist.name}}</p>
                  <p class="cardContentJob">{{playlist.playlist_author}}</p>
                  <p class="cardContentJob">Tags: <span class="label label-primary" ng-repeat="genre in playlist.tags">{{genre.tag}}</span></p>

@@ -133,16 +133,10 @@
                            <span class="pull-right"><a data-toggle="modal" data-target="#favoriteTagsModal" target="_self"><i class="icon-plus i-lg"></i></a></span>
                            Favorites
                         </li>
-                        <li>
-                           <a href="#">
+                        <li ng-repeat="tags in favoriteTags | limitTo: 3">
+                           <a href="/genres?genre={{tags.tag}}">
                            <i class="icon-music-tone icon text-success-lter"></i>
-                           <span>kpop</span>
-                           </a>
-                        </li>
-                        <li>
-                           <a href="#">
-                           <i class="icon-music-tone icon text-success-lter"></i>
-                           <span>vaporwave</span>
+                           <span>{{tags.tag}}</span>
                            </a>
                         </li>
                      </ul>

@@ -157,6 +157,9 @@ app.factory('userInfoService', function($http, $window, $rootScope) {
                     $rootScope.profilepic = data.profilepic;
                     $rootScope.location = data.location;
                     $rootScope.about = data.about;
+                    $rootScope.favoriteTags = data.favoriteTag;
+                    $rootScope.favoritePlaylists = data.favoritePlaylists;
+                    $rootScope.playlistHistory = data.history;
                 }
             });
         }
@@ -175,8 +178,8 @@ app.factory('playlistInfoService', function($http) {
 
 
 // Service
-app.service('VideosService', ['$window', '$rootScope', '$log', '$http',
-    function($window, $rootScope, $log, $http) {
+app.service('VideosService', ['$window', '$rootScope', '$log', '$http', '$location',
+    function($window, $rootScope, $log, $http, $location) {
         var service = this;
         var youtube = {
             ready: false,
@@ -198,7 +201,8 @@ app.service('VideosService', ['$window', '$rootScope', '$log', '$http',
         };
 
         function onYoutubeReady(event) {
-            var playlist_id = $rootScope.playlistID;
+          $location.search()
+            var playlist_id = $location.search().playlist;
             $http({
                 method: 'GET',
                 url: '/api/playlist/' + playlist_id
@@ -353,13 +357,36 @@ app.controller('mainController', function($scope, $rootScope, $http, $window, $l
     playlistInfoService.getPlaylists().success(function(data) {
         $scope.customPlaylists = data;
     });
+
+    $scope.favoritePlaylist = function(playlist_id) {
+      $scope.user.username = $rootScope.username;
+      $scope.user.favoritePlaylists = playlist_id; 
+        // Posting data to php file
+        $http({
+            method: 'PATCH',
+            url: '/api/memberinfo',
+            data: JSON.stringify($scope.user), //forms user object
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': $window.localStorage['jwtToken']
+            }
+        }).success(function(data) {
+            if (data.errors) {
+                // Showing errors.
+                $scope.errorName = data.errors;
+            } else {
+                $scope.message = data.message;
+            }
+        });
+    };
+
     $scope.loadPlaylist = function(playlist_id, next) {
         $http({
             method: 'GET',
             url: '/api/playlist/' + playlist_id
         }).then(function successCallback(response) {
-            $rootScope.playlistID = response.data._id;
-            $location.path('play');
+          //  $rootScope.playlistID = response.data._id;
+            $location.path('play?playlist=' + response.data._id);
         }, function errorCallback(response) {
             console.log('it dead');
         });
@@ -581,7 +608,7 @@ app.controller('createController', function($scope, $rootScope, $http, $window, 
             } else {
               $rootScope.playlistID = data.playlist_id;
               $('#previewModal').modal('hide');
-              $location.path('/play');
+              $location.path('/play?playlist=' + data.playlist_id);
             }
         });
     };
@@ -593,8 +620,12 @@ app.controller('createController', function($scope, $rootScope, $http, $window, 
 });
 
 app.controller('genreController', function($scope, $rootScope, $location, $http, userInfoService, playlistInfoService) {
-
+    $location.search();
     $scope.filters = { };
+    if ($location.search().genre){
+      var genre = $location.search().genre
+      $scope.filters = {'tag' : $location.search().genre};
+    };
     $scope.customPlaylists = [];
     $scope.musicGenres = []
     playlistInfoService.getPlaylists().success(function(response) {
@@ -678,12 +709,12 @@ app.controller('signinController', function($scope, $rootScope, $http, $location
 });
 
 // Controller
-app.controller('VideosController', function($route, $scope, $rootScope, $http, $log, userInfoService, playlistInfoService, VideosService) {
+app.controller('VideosController', function($route, $scope, $rootScope, $http, $log, $location, userInfoService, playlistInfoService, VideosService) {
 
-    $scope.loadPlaylist = function(playlist_id, next) {
+    $scope.loadPlaylist = function() {
         $http({
             method: 'PATCH',
-            url: '/api/playlist/' + $rootScope.playlistID
+            url: '/api/playlist/' + $location.search().playlist
         }).then(function successCallback(response) {
           VideosService.onYouTubeIframeAPIReady();
             $scope.playlist_img = response.data.img;
@@ -707,7 +738,7 @@ app.controller('VideosController', function($route, $scope, $rootScope, $http, $
         $scope.upcoming = VideosService.getUpcoming();
         $scope.history = VideosService.getHistory();
         $scope.playlist = true;
-        $scope.loadPlaylist($rootScope.playlistID);
+        $scope.loadPlaylist();
     }
 
     $scope.launch = function(id, title) {

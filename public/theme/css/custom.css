@@ -1086,14 +1086,14 @@ margin-bottom: 0px;
   -o-transition: z-index 0s 0.2s;
   transition: z-index 0s 0.2s;
 }
-.card .card_image i {
+a.cardContentButton > i {
   position: absolute;
-  top: 5%;
-  left: 5%;
   color: white;
-  font-size: 30px;
+  font-size: 36px !important;
   cursor: pointer;
-    padding-top: 10px;
+  padding-top: 10px;
+  padding-left: 10px;
+  padding-top: 12px;
 }
 .card .card_image img {
   min-width: 100%;
