@@ -4,19 +4,17 @@ Money for Nothing, Chicks for Free Youtube Jukebox
 Jukebox spun off of juketube with a better layout and actually works.
 
 Bugs 
-- Refresh literally breaks angular, heck if I know why
-- Sometimes Jukebox gets angry during switching?
 - Front End Validation via Parsley Broke
 - Need to think about how to enforce unique usernames
+- Edit Server so if someone goes to direct URL it doesn't serve a bad GET request
 
 API 
 - Users that create playlists also delete them
 - Users that create playlists can only edit them
 - Lock down GET so that only the app can make requests to it
-- Need some way of relating "favorites" to a user account, not sure how yet :/ 
 
 Overall App Functionality
-- Ability to pull up user profiles & playlists via direct link
+- Ability to pull up user profiles via direct Link
 - Responsiveness
 - ANIMATIONS ANIMATIONS ANIMATIONS HECK YEAH
 - Error Handling in General lmao
@@ -32,14 +30,12 @@ Sign Up/Sign In Pages
 
 Header/Footer Page (tv-tokyo.html)
 - ng-cloak on any angular variables
-- Add ability to put favorite tags in the sidebar
 
 Home Page
 
 Genres Page 
 
 Profile Page 
-- FAVORITES I DON'T KNOW HOW TO DO THIS HECK
 - Created.length and Favorites.length
 - Need Ability to Go Directly to Active Tab
 - Fix the Create Playlist Card (needs to look less like crap)
