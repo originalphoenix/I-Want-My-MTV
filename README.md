@@ -18,9 +18,10 @@ Overall App Functionality
 - Responsiveness
 - ANIMATIONS ANIMATIONS ANIMATIONS HECK YEAH
 - Error Handling in General lmao
+- Hide-show favorite hearts depending on if the user has favorited them
+- Ability to unfavorite things
 
 Sign Up/Sign In Pages 
-- If Token is Set User Cannot go to Sign In or Sign Up
 - Sign Up Page needs Photo Uploads to POST (currently doesn't POST)
 - Sign Up Photo Upload needs to work
 - Sign Up Page needs email confirmation & I am not a Robot Verification
@@ -30,13 +31,14 @@ Sign Up/Sign In Pages
 
 Header/Footer Page (tv-tokyo.html)
 - ng-cloak on any angular variables
+- Login is a Modal Box
 
 Home Page
 
 Genres Page 
+- Sort by Alphabetical Order
 
 Profile Page 
-- Created.length and Favorites.length
 - Need Ability to Go Directly to Active Tab
 - Fix the Create Playlist Card (needs to look less like crap)
 
@@ -45,6 +47,7 @@ Create Playlist Page
 - Play button takes person to the youtube video? or maybe fills the search box with the video preview? idk
 
 Jukebox UI/UX
+- Flash of last playlist on load
 - Clean up CSS
 - Add CSS Animations to everything
 - Show Icon where play button should be while youtube video is loading
