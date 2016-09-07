@@ -1,3 +1,9 @@
+h1 {
+	font-family:"Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-weight: 200;
+	font-size: 48px;
+}
+
 /* Main form wrapper */
 .fs-form-wrap {
 	position: relative;
@@ -315,7 +321,7 @@ button.fs-continue,
 	text-align: center;
 	font-weight: 700;
 	font-size: 50%;
-	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 .fs-fields > li .fs-radio-custom span label {
@@ -546,7 +552,7 @@ button.fs-continue,
 	width: 2em;
 	font-weight: 700;
 	font-size: 2em;
-	font-family: "Lato", Helvetica, Arial, sans-serif;
+	font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
 	cursor: default;
 }
 
@@ -641,7 +647,6 @@ button.fs-submit,
 button.fs-continue {
 	padding: 0.6em 1.5em;
 	border: 3px solid #fff;
-	border-radius: 40px;
 	font-weight: 700;
 	color: rgba(255,255,255,0.4);
 }
@@ -659,10 +664,27 @@ button.fs-continue {
 
 button.fs-continue {
 	position: absolute;
-	right: 0;
+	right: 140px;
 	bottom: 0;
 	margin: 0 40px 60px 0;
 	font-size: 1.25em;
+}
+
+button.fs-back {
+	position: absolute;
+right: 0;
+bottom: 0;
+margin: 0 40px 60px 0;
+font-size: 1.25em;
+padding: 0.6em 1.5em;
+border: 3px solid #fff;
+font-weight: 700;
+color: rgba(255,255,255,0.4);
+}
+
+button.fs-back:hover {
+	background: #F2DDDE;
+	color: #fff;
 }
 
 button.fs-submit:hover,

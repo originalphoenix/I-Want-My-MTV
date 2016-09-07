@@ -33,10 +33,11 @@ app.use(passport.initialize());
 // set static files location
 app.use(express.static(__dirname + '/public'));
 
-// demo Route (GET http://localhost:8080)
-app.get('/', function(req, res) {
-  res.sendFile(path.join(__dirname + '/public/tokkitv.html'));
+app.all('/', function(req, res, next) {
+    // Just send the index.html for other files to support HTML5Mode
+    res.sendFile(path.join(__dirname + '/public/tokkitv.html'));
 });
+
 
 // connect to database
 mongoose.connect(config.database);
@@ -91,7 +92,7 @@ apiRoutes.post('/authenticate', function(req, res) {
           // return the information including token as JSON
           res.json({success: true, token: 'JWT ' + token});
         } else {
-          res.send({success: false, msg: 'Authentication failed.'});
+          res.send({success: false, msg: 'Something you entered was not quite right. Try again!'});
         }
       });
     }
@@ -134,6 +135,15 @@ apiRoutes.patch('/memberinfo', passport.authenticate('jwt', { session: false}), 
           var userinfo = {};
           var username = req.body.username
 
+          var favoriteTagArray = user.favoriteTag;
+          favoriteTagArray.push({tag: req.body.favoriteTag });
+
+          var favoritePlaylistArray = user.favoritePlaylists;
+          favoritePlaylistArray.push({playlist_id: req.body.favoritePlaylists, user_id: req.body.username });
+
+          var historyArray = user.history;
+          historyArray.push({playlist_id: req.body.historyPlaylist_id});
+
           if (req.body.firstname) userinfo.firstname = req.body.firstname;
           if (req.body.lastname) userinfo.lastname = req.body.lastname;
           if (req.body.profilepic) userinfo.profilepic = req.body.profilepic;
@@ -141,8 +151,9 @@ apiRoutes.patch('/memberinfo', passport.authenticate('jwt', { session: false}), 
           if (req.body.about) userinfo.about = req.body.about;
           if (req.body.email) userinfo.email = req.body.email;
           if (req.body.password)  userinfo.password = req.body.password;
-          if (req.body.favoritePlaylists) userinfo.favoritePlaylists = req.body.favoritePlaylists;
-          if (req.body.favoriteTag) userinfo.favoriteTag = req.body.favoriteTag;
+          if (req.body.favoriteTag) userinfo.favoriteTag = favoriteTagArray;
+          if (req.body.favoritePlaylists) userinfo.favoritePlaylists = favoritePlaylistArray;
+          if (req.body.historyPlaylist_id) userinfo.history = historyArray;
 
           User.update({username: username}, userinfo, function(err, numberAffected, rawResponse) {
              return res.json({success: true, msg: 'user updated successfully'});
@@ -175,7 +186,7 @@ var playlistSchema = Schema({
   playlist_author: String,
   tags: [tagSchema],
   songs: [songSchema],
-  play_count: Number,
+  play_count: { type: Number, default: 0 },
   favorites: Number
 })
 
@@ -219,6 +230,14 @@ apiRoutes.get('/playlist/:playlist_id', function(req, res) {
                 return res.json(playlist);
             });
         });
+
+apiRoutes.patch('/playlist/:playlist_id', function(req, res) {
+  Playlist.findByIdAndUpdate(req.params.playlist_id, {$inc: { play_count: 1} }, function(err, playlist) {
+      if (err)
+          return res.send(err);
+          return res.json(playlist);
+      });
+  });
 
         apiRoutes.put('/playlist/:playlist_id', function(req, res) {
                  Playlist.findById(req.params.playlist_id, function(err, playlist) {

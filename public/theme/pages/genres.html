@@ -25,7 +25,7 @@
                                 favorite_border</i>
                              </div>
                              <div class="cardContent">
-                                <button class="cardContentButton" ng-click="loadPlaylist(playlist._id)"><i class="material-icons">play_arrow</i></button>
+                               <a href="/play?playlist={{playlist._id}}"<button class="cardContentButton"><i class="material-icons">play_arrow</i></button></a>
                                 <p class="cardContentName">{{playlist.name}}</p>
                                 <p class="cardContentJob">{{playlist.playlist_author}}</p>
                                 <p class="cardContentJob">Tags: <span class="label label-primary" ng-repeat="genre in playlist.tags">{{genre.tag}}</span></p>
@@ -34,7 +34,7 @@
                        </div>
                    </div>
                       <div class="overlay" id="overlay-search-main">
-                         <a href="#" target="_self" id="close-search-main" class="overlay-close" ng-click="overlayClose"><i class="material-icons">clear</i></a>
+                         <a id="close-search-main" class="overlay-close" ng-click="overlayClose"><i class="material-icons">clear</i></a>
                          <div class="container" style="margin-top: 10%;">
                            <div class="row">
                               <div class="col-md-3" ng-repeat="playlist in customPlaylists | filter: searchModel ">
@@ -45,7 +45,7 @@
                                        favorite_border</i>
                                     </div>
                                     <div class="cardContent">
-                                       <button class="cardContentButton" ng-click="addPlaylist(playlist._id)"><i class="material-icons">add</i></button>
+                                      <a href="/play?playlist={{playlist._id}}"<button class="cardContentButton"><i class="material-icons">play_arrow</i></button></a>
                                        <p class="cardContentName">{{playlist.name}}</p>
                                        <p class="cardContentJob">{{playlist.playlist_author}}</p>
                                        <p class="cardContentJob">Tags: <span class="label label-primary" ng-repeat="genre in playlist.tags">{{genre.tag}}</span></p>

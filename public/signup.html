@@ -36,13 +36,15 @@
     </div> -->
     <div class="fs-form-wrap" id="fs-form-wrap">
       <div class="fs-title">
-        <h1>tokki.tv - Sign Up<h1>
+
+        <h1><img src="images/logo.png" alt=".">
+ tokki.tv - Sign Up<h1>
       </div>
       <form name="user-form" ng-submit="submitForm()" class="fs-form fs-form-full" autocomplete="off" id="userForm">
         <ol class="fs-fields">
           <li>
             <label class="fs-field-label fs-anim-upper" for="q1" data-info="Keep it unique, no one is quite like you.">What's your handle?</label>
-            <input placeholder="l33th4cker" id="q1" name="q1" class="form-control input-lg no-border fs-anim-lower" ng-model="user.username" required>
+            <input placeholder="l33th4cker" id="q1" name="q1" class="form-control input-lg no-border fs-anim-lower" ng-model="user.username" required autofocus>
           </li>
           <li>
             <label class="fs-field-label fs-anim-upper" for="q2">Okay, how about your first name?</label>
@@ -66,7 +68,7 @@
           </li>
           <li>
             <label class="fs-field-label fs-anim-upper" for="q7" data-info="This won't be graded, but you should know better by now.">Pick a Password</label>
-            <input placeholder="*******" id="q7" name="q7" class="form-control input-lg no-border fs-anim-lower" ng-model="user.password" required>
+            <input placeholder="*******" id="q7" type="password" name="q7" class="form-control input-lg no-border fs-anim-lower" ng-model="user.password" required>
           </li>
           <li>
             <label class="fs-field-label fs-anim-upper" for="q8" data-info="End Robot Discrimination">Are you a robot?</label>
@@ -81,7 +83,6 @@
   <script>
   (function() {
     var formWrap = document.getElementById( 'fs-form-wrap' );
-
     [].slice.call( document.querySelectorAll( 'select.cs-select' ) ).forEach( function(el) {
       new SelectFx( el, {
         stickyPlaceholder: false,
@@ -94,4 +95,8 @@
     new FForm( formWrap, {
     } );
   })();
+
+  $('.fs-back').click(function(){
+window.location='#/signin';
+});
   </script>

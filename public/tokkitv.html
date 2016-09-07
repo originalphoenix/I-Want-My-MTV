@@ -3,6 +3,7 @@
    <head>
       <meta charset="utf-8" />
       <title>tokki.tv</title>
+      <base href="/">
       <meta name="description" content="app, web app, responsive, admin dashboard, admin, flat, flat ui, ui kit, off screen nav" />
       <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
       <link rel="stylesheet" href="theme/css/bootstrap.css" type="text/css" />
@@ -37,7 +38,7 @@
             <a class="btn btn-link visible-xs" data-toggle="class:nav-off-screen,open" data-target="#nav,html">
             <i class="icon-list"></i>
             </a>
-            <a href="#/" class="navbar-brand text-lt" style="background-color: #F7CAC9">
+            <a href="/" class="navbar-brand text-lt" style="background-color: #F7CAC9">
             <img src="images/logo.png" alt=".">
             <span class="hidden-nav-xs m-l-sm">tokki.tv</span>
             </a>
@@ -66,7 +67,7 @@
          <div class="navbar-right hidden-full">
            <ul class="nav navbar-nav m-n hidden-xs nav-user user" ng-hide="loggedIn">
               <li>
-                 <a href="#/signin" class="dropdown-toggle bg clear" target="_self">Sign In</a>
+                 <a href="/signin" class="dropdown-toggle bg clear">Sign In</a>
               </li>
             </ul>
             <ul class="nav navbar-nav m-n hidden-xs nav-user user" ng-show="loggedIn">
@@ -80,10 +81,10 @@
                   <ul class="dropdown-menu animated fadeInRight">
                      <li>
                         <span class="arrow top"></span>
-                        <a href="#">Settings</a>
+                        <a href="/profile?user=settings">Settings</a>
                      </li>
                      <li>
-                        <a href="#/profile">Profile</a>
+                        <a href="/profile">Profile</a>
                      </li>
                      <li class="divider"></li>
                      <li>
@@ -108,19 +109,19 @@
                            Discover
                         </li>
                         <li>
-                           <a href="#">
-                           <i class="icon-disc icon text-success"></i>
-                           <span class="font-bold">What's new</span>
+                           <a href="/about">
+                           <i class="icon-info icon text-success"></i>
+                           <span class="font-bold">What's Tokki</span>
                            </a>
                         </li>
                         <li>
-                           <a href="#/genres">
+                           <a href="/genres">
                            <i class="icon-music-tone-alt icon text-success"></i>
                            <span class="font-bold">Genres</span>
                            </a>
                         </li>
-                        <li>
-                           <a href="#/create">
+                        <li ng-show="loggedIn">
+                           <a href="/create">
                            <i class="icon-playlist icon text-success"></i>
                            <span class="font-bold">Create Playlist</span>
                            </a>
@@ -132,16 +133,10 @@
                            <span class="pull-right"><a data-toggle="modal" data-target="#favoriteTagsModal" target="_self"><i class="icon-plus i-lg"></i></a></span>
                            Favorites
                         </li>
-                        <li>
-                           <a href="#">
+                        <li ng-repeat="tags in favoriteTags | limitTo: 3">
+                           <a href="/genres?genre={{tags.tag}}">
                            <i class="icon-music-tone icon text-success-lter"></i>
-                           <span>kpop</span>
-                           </a>
-                        </li>
-                        <li>
-                           <a href="#">
-                           <i class="icon-music-tone icon text-success-lter"></i>
-                           <span>vaporwave</span>
+                           <span>{{tags.tag}}</span>
                            </a>
                         </li>
                      </ul>
@@ -170,7 +165,7 @@
                            <a href="#">Settings</a>
                         </li>
                         <li>
-                           <a href="profile.html">Profile</a>
+                           <a href="/profile">Profile</a>
                         </li>
                         <li class="divider"></li>
                         <li>
@@ -207,9 +202,10 @@
       <script src="theme/js/theme.js"></script>
       <script src="theme/js/app.js"></script>
       <!-- parsley -->
-    <script src="theme/js/parsley/parsley.min.js"></script>
-    <script src="theme/js/parsley/parsley.extend.js"></script>
-
+      <script src="theme/js/parsley/parsley.min.js"></script>
+      <script src="theme/js/parsley/parsley.extend.js"></script>
+      <script src="theme/js/masonry/tiles.min.js"></script>
+      <script src="theme/js/masonry/demo.js"></script>
       <script src="theme/js/modernizr.custom.js"></script>
       <script src="theme/js/classie.js"></script>
       <script src="theme/js/selectFx.js"></script>

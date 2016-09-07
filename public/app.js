@@ -10,39 +10,88 @@ app.run(function() {
 app.config(function($httpProvider) {
     delete $httpProvider.defaults.headers.common['X-Requested-With'];
 });
+
+app.config(function ($locationProvider) {
+    $locationProvider.html5Mode({
+        enabled: true,
+        rewriteLinks: false
+    });
+});
+
+app.run(function ($rootScope, $location, $window, userInfoService) {
+ $rootScope.$on("$locationChangeStart", function (event, next, current) {
+       $('#preloader').show();
+      var userAuthenticated = $window.localStorage['jwtToken'];; /* Check if the user is logged in */
+      if (!userAuthenticated && next.isLogin) {
+          $rootScope.savedLocation = $location.url();
+          $location.path('/signin');
+      }
+ });
+ $rootScope.$on('$viewContentLoaded', function(){
+     $('#preloader').fadeOut( "slow" );
+});
+ $rootScope.hideit = false;
+ $rootScope.loggedIn = $window.localStorage['jwtToken'];
+ userInfoService.getUserInfo();
+ $rootScope.logout = function() {
+     console.log('who the fuck is scraeming log off at my house. show yourself, coward. I will never log off')
+     $window.localStorage.removeItem('jwtToken');
+     userInfoService.getUserInfo();
+     $window.location.reload(); //This is not the angular way, but it's my way, think of a better way soon
+ }
+ $rootScope.searchModel = "";
+
+ });
+
 // Routes
 app.config(function($routeProvider) {
     $routeProvider
     // route for the home page
         .when('/', {
             templateUrl: 'theme/pages/home.html',
-            controller: 'mainController'
+            controller: 'mainController',
+            isLogin: false
+        }).when('/about', {
+            templateUrl: 'theme/pages/about.html',
+            controller: 'mainController',
+            isLogin: false
         }).when('/signup', {
             templateUrl: 'signup.html',
-            controller: 'signupController'
+            controller: 'signupController',
+            isLogin: false
         }).when('/signin', {
             templateUrl: 'signin.html',
-            controller: 'signinController'
+            controller: 'signinController',
+            isLogin: false
         })
         // route for the profile page
         .when('/profile', {
             templateUrl: 'theme/pages/profile.html',
-            controller: 'profileController'
+            controller: 'profileController',
+            isLogin: true
         })
         // route for the genre page
         .when('/create', {
             templateUrl: 'theme/pages/playlist-create.html',
-            controller: 'createController'
+            controller: 'createController',
+            isLogin: true
+        })
+        .when('/new', {
+            templateUrl: 'theme/pages/new.html',
+            controller: 'whatsNewController',
+            isLogin: false
         })
         // route for the genre page
         .when('/play', {
             templateUrl: 'theme/pages/jukebox.html',
-            controller: 'VideosController'
+            controller: 'VideosController',
+            isLogin: false
         })
         // route for the genre page
         .when('/genres', {
             templateUrl: 'theme/pages/genres.html',
-            controller: 'genreController'
+            controller: 'genreController',
+            isLogin: false
         })
         .otherwise({
             templateUrl: 'theme/pages/404.html',
@@ -76,7 +125,30 @@ app.directive('focus', function($timeout, $parse) {
     }
 });
 
+app.directive('pwCheck', [function () {
+    return {
+      require: 'ngModel',
+      link: function (scope, elem, attrs, ctrl) {
+        var firstPassword = '#' + attrs.pwCheck;
+        elem.add(firstPassword).on('keyup', function () {
+          scope.$apply(function () {
+            var v = elem.val()===$(firstPassword).val();
+            ctrl.$setValidity('pwmatch', v);
+          });
+        });
+      }
+    }
+ }]);
 
+ app.filter('inArray', function($filter){
+    return function(list, arrayFilter, element){
+        if(arrayFilter){
+            return $filter("filter")(list, function(listItem){
+                return arrayFilter.indexOf(listItem[element]) != -1;
+            });
+        }
+    };
+});
 
 // WE FACTORIES NOW BOI
 app.factory('userInfoService', function($http, $window, $rootScope) {
@@ -100,6 +172,9 @@ app.factory('userInfoService', function($http, $window, $rootScope) {
                     $rootScope.profilepic = data.profilepic;
                     $rootScope.location = data.location;
                     $rootScope.about = data.about;
+                    $rootScope.favoriteTags = data.favoriteTag;
+                    $rootScope.favoritePlaylists = data.favoritePlaylists;
+                    $rootScope.playlistHistory = data.history;
                 }
             });
         }
@@ -118,8 +193,8 @@ app.factory('playlistInfoService', function($http) {
 
 
 // Service
-app.service('VideosService', ['$window', '$rootScope', '$log', '$http',
-    function($window, $rootScope, $log, $http) {
+app.service('VideosService', ['$window', '$rootScope', '$log', '$http', '$location',
+    function($window, $rootScope, $log, $http, $location) {
         var service = this;
         var youtube = {
             ready: false,
@@ -141,7 +216,8 @@ app.service('VideosService', ['$window', '$rootScope', '$log', '$http',
         };
 
         function onYoutubeReady(event) {
-            var playlist_id = $rootScope.playlistID;
+          $location.search()
+            var playlist_id = $location.search().playlist;
             $http({
                 method: 'GET',
                 url: '/api/playlist/' + playlist_id
@@ -285,9 +361,6 @@ app.service('VideosService', ['$window', '$rootScope', '$log', '$http',
 // create the controller and inject Angular's $scope
 app.controller('mainController', function($scope, $rootScope, $http, $window, $location, $route,
     userInfoService, playlistInfoService) {
-    $rootScope.$on('$routeChangeStart', function() {
-        $('#preloader').show();
-           });
 
     $rootScope.$on('$viewContentLoaded', function(){
         $('#preloader').fadeOut( "slow" );
@@ -299,14 +372,36 @@ app.controller('mainController', function($scope, $rootScope, $http, $window, $l
     playlistInfoService.getPlaylists().success(function(data) {
         $scope.customPlaylists = data;
     });
+
+    $scope.favoritePlaylist = function(playlist_id) {
+      $scope.user.username = $rootScope.username;
+      $scope.user.favoritePlaylists = playlist_id;
+        // Posting data to php file
+        $http({
+            method: 'PATCH',
+            url: '/api/memberinfo',
+            data: JSON.stringify($scope.user), //forms user object
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': $window.localStorage['jwtToken']
+            }
+        }).success(function(data) {
+            if (data.errors) {
+                // Showing errors.
+                $scope.errorName = data.errors;
+            } else {
+                $scope.message = data.message;
+            }
+        });
+    };
+
     $scope.loadPlaylist = function(playlist_id, next) {
         $http({
             method: 'GET',
             url: '/api/playlist/' + playlist_id
         }).then(function successCallback(response) {
-            $rootScope.playlistID = response.data._id;
-            console.log($rootScope.playlistID);
-            $location.path('play');
+
+            $location.path('play?playlist=' + response.data._id);
         }, function errorCallback(response) {
             console.log('it dead');
         });
@@ -348,13 +443,13 @@ app.controller('mainController', function($scope, $rootScope, $http, $window, $l
 });
 app.controller('profileController', function($scope, $rootScope, $location, $http, $window,
     userInfoService, playlistInfoService, Upload) {
+
     $scope.loadPlaylist = function(playlist_id, next) {
         $http({
             method: 'GET',
             url: '/api/playlist/' + playlist_id
         }).then(function successCallback(response) {
             $rootScope.playlistID = response.data._id;
-            console.log($rootScope.playlistID);
             $location.path('play');
         }, function errorCallback(response) {
             console.log('it dead');
@@ -369,7 +464,11 @@ app.controller('profileController', function($scope, $rootScope, $location, $htt
     playlistInfoService.getPlaylists().success(function(data) {
         $scope.customPlaylists = data;
     });
-
+    $scope.Favorites = []
+    angular.forEach($rootScope.favoritePlaylists, function(playlist_id) {
+          $scope.Favorites.push(playlist_id.playlist_id);
+      });
+    console.log($scope.Favorites);
     $scope.upload = function(file) {
         Upload.upload({
             url: '/upload',
@@ -428,7 +527,7 @@ app.controller('profileController', function($scope, $rootScope, $location, $htt
     }
 });
 
-app.controller('createController', function($scope, $rootScope, $http, $window,
+app.controller('createController', function($scope, $rootScope, $http, $window, $location,
     userInfoService, playlistInfoService, VideosService, Upload) {
     init();
 
@@ -485,7 +584,7 @@ app.controller('createController', function($scope, $rootScope, $http, $window,
         }).success(function(data) {
             $scope.results = VideosService.listResults(data);
         }).error(function() {
-            $log.info('Search error');
+            console.log('Search error');
         });
     }
 
@@ -526,7 +625,9 @@ app.controller('createController', function($scope, $rootScope, $http, $window,
                 // Showing errors.
                 $scope.errorName = data.errors;
             } else {
-                $scope.message = data.message;
+              $rootScope.playlistID = data.playlist_id;
+              $('#previewModal').modal('hide');
+              $location.path('/play?playlist=' + data.playlist_id);
             }
         });
     };
@@ -538,8 +639,12 @@ app.controller('createController', function($scope, $rootScope, $http, $window,
 });
 
 app.controller('genreController', function($scope, $rootScope, $location, $http, userInfoService, playlistInfoService) {
-
+    $location.search();
     $scope.filters = { };
+    if ($location.search().genre){
+      var genre = $location.search().genre
+      $scope.filters = {'tag' : $location.search().genre};
+    };
     $scope.customPlaylists = [];
     $scope.musicGenres = []
     playlistInfoService.getPlaylists().success(function(response) {
@@ -552,6 +657,8 @@ app.controller('genreController', function($scope, $rootScope, $location, $http,
             });
         });
     })
+
+
     $scope.loadPlaylist = function(playlist_id, next) {
         $http({
             method: 'GET',
@@ -566,9 +673,12 @@ app.controller('genreController', function($scope, $rootScope, $location, $http,
     }
 });
 
-app.controller('signupController', function($scope, $http, $rootScope) {
+app.controller('signupController', function($scope, $http, $rootScope, $location) {
+  $rootScope.$on('$viewContentLoaded', function(){
+      $('#preloader').fadeOut( "slow" );
+});
     angular.element('body').addClass("gradient-bg-darkest");
-    $rootScope.hideit = true;
+//    $rootScope.hideit = true;
     // create a blank object to handle form data.
     $scope.user = {};
     // calling our submit function.
@@ -586,13 +696,16 @@ app.controller('signupController', function($scope, $http, $rootScope) {
                 // Showing errors.
                 $scope.errorName = data.errors;
             } else {
+                $location.path('/signin');
                 $scope.message = data.message;
-                $location.path('#/signin');
             }
         });
     };
 });
 app.controller('signinController', function($scope, $rootScope, $http, $location, $window, userInfoService) {
+  $rootScope.$on('$viewContentLoaded', function(){
+      $('#preloader').fadeOut( "slow" );
+});
     angular.element('body').addClass("gradient-bg");
     $rootScope.hideit = true;
     $scope.user = {};
@@ -605,25 +718,26 @@ app.controller('signinController', function($scope, $rootScope, $http, $location
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         }).success(function(data) {
-            if (data.errors) {
-                $scope.errorName = data.errors;
+            if (data.success) {
+              $window.localStorage['jwtToken'] = data.token;
+              userInfoService.getUserInfo();
+             $location.path('/');
             } else {
-                $window.localStorage['jwtToken'] = data.token;
-                userInfoService.getUserInfo();
-                $location.path('/');
+              $scope.errorName = data.msg;
             }
         });
     };
 });
 
 // Controller
-app.controller('VideosController', function($route, $scope, $rootScope, $http, $log, userInfoService, playlistInfoService, VideosService) {
+app.controller('VideosController', function($route, $scope, $rootScope, $http, $log, $location, userInfoService, playlistInfoService, VideosService) {
 
-    $scope.loadPlaylist = function(playlist_id, next) {
+    $scope.loadPlaylist = function() {
         $http({
-            method: 'GET',
-            url: '/api/playlist/' + $rootScope.playlistID
+            method: 'PATCH',
+            url: '/api/playlist/' + $location.search().playlist
         }).then(function successCallback(response) {
+          VideosService.onYouTubeIframeAPIReady();
             $scope.playlist_img = response.data.img;
             $scope.playlist_name = response.data.name;
             $scope.playlist_genres = response.data.tags;
@@ -645,8 +759,7 @@ app.controller('VideosController', function($route, $scope, $rootScope, $http, $
         $scope.upcoming = VideosService.getUpcoming();
         $scope.history = VideosService.getHistory();
         $scope.playlist = true;
-        $scope.loadPlaylist($rootScope.playlistID);
-        VideosService.onYouTubeIframeAPIReady();
+        $scope.loadPlaylist();
     }
 
     $scope.launch = function(id, title) {
@@ -693,6 +806,11 @@ app.controller('VideosController', function($route, $scope, $rootScope, $http, $
     });
 
     $scope.$on('$locationChangeStart', function(event) {
+      $('#sidebar').show()
+      $('.menu-button').show()
+      $('.slimScrollDiv').show()
+      $('#minimal-animale').toggleClass('hide')
+      $('#player').removeClass('full')
         $route.reload();
         $scope.upcoming.splice(0);
         $scope.history.splice(0);
