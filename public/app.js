@@ -29,6 +29,19 @@ app.run(function ($rootScope, $location, $window, userInfoService) {
  });
  $rootScope.$on('$viewContentLoaded', function(){
      $('#preloader').fadeOut( "slow" );
+     var elements = document.getElementsByClassName('txt-rotate');
+     for (var i=0; i<elements.length; i++) {
+       var toRotate = elements[i].getAttribute('data-rotate');
+       var period = elements[i].getAttribute('data-period');
+       if (toRotate) {
+         new TxtRotate(elements[i], JSON.parse(toRotate), period);
+       }
+     }
+     // INJECT CSS
+     var css = document.createElement("style");
+     css.type = "text/css";
+     css.innerHTML = ".txt-rotate > .wrap { border-right: 0.1em solid #fff }";
+     document.body.appendChild(css);
 });
  $rootScope.hideit = false;
  $rootScope.loggedIn = $window.localStorage['jwtToken'];
@@ -124,6 +137,36 @@ app.directive('focus', function($timeout, $parse) {
         }
     }
 });
+
+app.directive('checkUsername', function(userService) {
+  return {
+    restrict: "A",
+    require: 'ngModel',
+    link: function(scope, ele, attrs, ctrl) {
+
+      ele.bind('blur', function() {
+        scope.$apply(function() {
+          console.log("Run in blur!");
+          // Checking to see if the email has been already registered
+          if (userService.isDuplicateUN(scope.user.username)) {
+
+            ctrl.$setValidity('isDuplicateUN', false);
+
+
+            return scope.user.username;;
+          } else {
+
+            ctrl.$setValidity('isDuplicateUN', true);
+
+            return scope.user.username;
+          }
+        });
+
+
+      })
+    }
+  }
+})
 
 app.directive('pwCheck', [function () {
     return {
@@ -435,6 +478,7 @@ app.controller('mainController', function($scope, $rootScope, $http, $window, $l
                 // Showing errors.
                 $scope.errorName = data.errors;
             } else {
+              $('#favoriteTagsModal').modal('hide');
                 $scope.message = data.message;
             }
         });

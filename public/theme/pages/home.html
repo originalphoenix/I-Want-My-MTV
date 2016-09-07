@@ -78,10 +78,10 @@
 
 <!-- Playlist Row Ended -->
 
-<div ng-repeat="tags in favoriteTags | limitTo: 3">
+<div ng-repeat="tags in favoriteTags | limitTo: 3" ng-show="filtered.playlists.length">
    <h2 class="font-thin m-b">Tag Spotlight: <span class="label label-primary" ng-bind="filters.tag = tags.tag"></span></h2>
    <div class="row row-sm">
-     <div class="col-xs-6 col-sm-4 col-lg-15 col-xl-2" ng-repeat="playlist in customPlaylists | filter: filters.tag | limitTo:5">
+     <div class="col-xs-6 col-sm-4 col-lg-15 col-xl-2" ng-repeat="playlist in filtered.playlists = (customPlaylists | filter: filters.tag | limitTo:5)">
        <div class="card">
           <div class="card_image">
              <img data-ng-src="{{playlist.img}}" alt="" class="image">

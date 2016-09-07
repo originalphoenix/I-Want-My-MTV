@@ -133,7 +133,7 @@
                            <span class="pull-right"><a data-toggle="modal" data-target="#favoriteTagsModal" target="_self"><i class="icon-plus i-lg"></i></a></span>
                            Favorites
                         </li>
-                        <li ng-repeat="tags in favoriteTags | limitTo: 3">
+                        <li ng-repeat="tags in favoriteTags | limitTo: 10">
                            <a href="/genres?genre={{tags.tag}}">
                            <i class="icon-music-tone icon text-success-lter"></i>
                            <span>{{tags.tag}}</span>
