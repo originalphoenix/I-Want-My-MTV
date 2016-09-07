@@ -39,7 +39,7 @@
        <div class="card">
           <div class="card_image">
              <img data-ng-src="{{playlist.img}}" alt="" class="image">
-             <i class="material-icons" onClick="favorite(this);">
+             <i class="material-icons" ng-click="favoritePlaylist(playlist._id)">
              favorite_border</i>
           </div>
           <div class="cardContent">
@@ -132,7 +132,7 @@
            <div class="card">
               <div class="card_image">
                  <img data-ng-src="{{playlist.img}}" alt="" class="image">
-                 <i class="material-icons" onClick="favorite(this);">
+                 <i class="material-icons" ng-click="favoritePlaylist(playlist._id)">
                  favorite_border</i>
               </div>
               <div class="cardContent">

@@ -1086,6 +1086,16 @@ margin-bottom: 0px;
   -o-transition: z-index 0s 0.2s;
   transition: z-index 0s 0.2s;
 }
+.card .card_image i {
+  position: absolute;
+  top: 5%;
+  left: 5%;
+  color: white;
+  font-size: 30px;
+  cursor: pointer;
+    padding-top: 10px;
+}
+
 a.cardContentButton > i {
   position: absolute;
   color: white;
@@ -1095,6 +1105,7 @@ a.cardContentButton > i {
   padding-left: 10px;
   padding-top: 12px;
 }
+
 .card .card_image img {
   min-width: 100%;
   height: 100%;

@@ -152,7 +152,7 @@ apiRoutes.patch('/memberinfo', passport.authenticate('jwt', { session: false}), 
           if (req.body.email) userinfo.email = req.body.email;
           if (req.body.password)  userinfo.password = req.body.password;
           if (req.body.favoriteTag) userinfo.favoriteTag = favoriteTagArray;
-          if (req.body.favoritePlaylists) userinfo.favoritePlaylist = favoritePlaylistArray;
+          if (req.body.favoritePlaylists) userinfo.favoritePlaylists = favoritePlaylistArray;
           if (req.body.historyPlaylist_id) userinfo.history = historyArray;
 
           User.update({username: username}, userinfo, function(err, numberAffected, rawResponse) {

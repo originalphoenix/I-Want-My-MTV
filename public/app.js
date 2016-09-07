@@ -51,6 +51,10 @@ app.config(function($routeProvider) {
             templateUrl: 'theme/pages/home.html',
             controller: 'mainController',
             isLogin: false
+        }).when('/about', {
+            templateUrl: 'theme/pages/about.html',
+            controller: 'mainController',
+            isLogin: false
         }).when('/signup', {
             templateUrl: 'signup.html',
             controller: 'signupController',
@@ -135,6 +139,17 @@ app.directive('pwCheck', [function () {
       }
     }
  }]);
+
+ app.filter('inArray', function($filter){
+    return function(list, arrayFilter, element){
+        if(arrayFilter){
+            return $filter("filter")(list, function(listItem){
+                return arrayFilter.indexOf(listItem[element]) != -1;
+            });
+        }
+    };
+});
+
 // WE FACTORIES NOW BOI
 app.factory('userInfoService', function($http, $window, $rootScope) {
     return {
@@ -360,7 +375,7 @@ app.controller('mainController', function($scope, $rootScope, $http, $window, $l
 
     $scope.favoritePlaylist = function(playlist_id) {
       $scope.user.username = $rootScope.username;
-      $scope.user.favoritePlaylists = playlist_id; 
+      $scope.user.favoritePlaylists = playlist_id;
         // Posting data to php file
         $http({
             method: 'PATCH',
@@ -385,7 +400,7 @@ app.controller('mainController', function($scope, $rootScope, $http, $window, $l
             method: 'GET',
             url: '/api/playlist/' + playlist_id
         }).then(function successCallback(response) {
-          //  $rootScope.playlistID = response.data._id;
+
             $location.path('play?playlist=' + response.data._id);
         }, function errorCallback(response) {
             console.log('it dead');
@@ -428,13 +443,13 @@ app.controller('mainController', function($scope, $rootScope, $http, $window, $l
 });
 app.controller('profileController', function($scope, $rootScope, $location, $http, $window,
     userInfoService, playlistInfoService, Upload) {
+
     $scope.loadPlaylist = function(playlist_id, next) {
         $http({
             method: 'GET',
             url: '/api/playlist/' + playlist_id
         }).then(function successCallback(response) {
             $rootScope.playlistID = response.data._id;
-            console.log($rootScope.playlistID);
             $location.path('play');
         }, function errorCallback(response) {
             console.log('it dead');
@@ -449,7 +464,11 @@ app.controller('profileController', function($scope, $rootScope, $location, $htt
     playlistInfoService.getPlaylists().success(function(data) {
         $scope.customPlaylists = data;
     });
-
+    $scope.Favorites = []
+    angular.forEach($rootScope.favoritePlaylists, function(playlist_id) {
+          $scope.Favorites.push(playlist_id.playlist_id);
+      });
+    console.log($scope.Favorites);
     $scope.upload = function(file) {
         Upload.upload({
             url: '/upload',
@@ -638,6 +657,8 @@ app.controller('genreController', function($scope, $rootScope, $location, $http,
             });
         });
     })
+
+
     $scope.loadPlaylist = function(playlist_id, next) {
         $http({
             method: 'GET',
