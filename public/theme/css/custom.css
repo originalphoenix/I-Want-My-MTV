@@ -328,6 +328,11 @@ text-align: center;
       background: #89ABE3;
     }
 
+#signinModal > div > .modal-content{
+  background: white;
+color: #545a5f;
+}
+
 /* Custom CSS for JukeTube Goes Here */
 
 .controls {

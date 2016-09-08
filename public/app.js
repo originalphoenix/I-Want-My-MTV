@@ -21,6 +21,7 @@ app.config(function ($locationProvider) {
 app.run(function ($rootScope, $location, $window, userInfoService) {
  $rootScope.$on("$locationChangeStart", function (event, next, current) {
        $('#preloader').show();
+       $('.modal-backdrop').remove();
       var userAuthenticated = $window.localStorage['jwtToken'];; /* Check if the user is logged in */
       if (!userAuthenticated && next.isLogin) {
           $rootScope.savedLocation = $location.url();
@@ -136,61 +137,6 @@ app.directive('focus', function($timeout, $parse) {
             })
         }
     }
-});
-
-app.directive('checkUsername', function(userService) {
-  return {
-    restrict: "A",
-    require: 'ngModel',
-    link: function(scope, ele, attrs, ctrl) {
-
-      ele.bind('blur', function() {
-        scope.$apply(function() {
-          console.log("Run in blur!");
-          // Checking to see if the email has been already registered
-          if (userService.isDuplicateUN(scope.user.username)) {
-
-            ctrl.$setValidity('isDuplicateUN', false);
-
-
-            return scope.user.username;;
-          } else {
-
-            ctrl.$setValidity('isDuplicateUN', true);
-
-            return scope.user.username;
-          }
-        });
-
-
-      })
-    }
-  }
-})
-
-app.directive('pwCheck', [function () {
-    return {
-      require: 'ngModel',
-      link: function (scope, elem, attrs, ctrl) {
-        var firstPassword = '#' + attrs.pwCheck;
-        elem.add(firstPassword).on('keyup', function () {
-          scope.$apply(function () {
-            var v = elem.val()===$(firstPassword).val();
-            ctrl.$setValidity('pwmatch', v);
-          });
-        });
-      }
-    }
- }]);
-
- app.filter('inArray', function($filter){
-    return function(list, arrayFilter, element){
-        if(arrayFilter){
-            return $filter("filter")(list, function(listItem){
-                return arrayFilter.indexOf(listItem[element]) != -1;
-            });
-        }
-    };
 });
 
 // WE FACTORIES NOW BOI

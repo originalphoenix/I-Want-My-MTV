@@ -13,6 +13,7 @@ var User        = require('./app/models/user'); // get the mongoose model
 var port        = process.env.PORT || 8080;
 var jwt         = require('jwt-simple');
 var path        = require('path');
+var bcrypt = require('bcrypt');
 
 cloudinary.config({
   cloud_name: 'tokkitv',
@@ -82,7 +83,7 @@ apiRoutes.post('/authenticate', function(req, res) {
     if (err) throw err;
 
     if (!user) {
-      res.send({success: false, msg: 'Authentication failed user does not exist'});
+      res.send({success: false, user: 'false', msg: 'Authentication failed user does not exist'});
     } else {
       // check if password matches
       user.comparePassword(req.body.password, function (err, isMatch) {
@@ -92,7 +93,7 @@ apiRoutes.post('/authenticate', function(req, res) {
           // return the information including token as JSON
           res.json({success: true, token: 'JWT ' + token});
         } else {
-          res.send({success: false, msg: 'Something you entered was not quite right. Try again!'});
+          res.send({success: false, user: 'true', msg: 'Something you entered was not quite right. Try again!'});
         }
       });
     }
@@ -150,7 +151,17 @@ apiRoutes.patch('/memberinfo', passport.authenticate('jwt', { session: false}), 
           if (req.body.location) userinfo.location = req.body.location;
           if (req.body.about) userinfo.about = req.body.about;
           if (req.body.email) userinfo.email = req.body.email;
-          if (req.body.password)  userinfo.password = req.body.password;
+          if (req.body.password) bcrypt.genSalt(10, function(err, salt) {
+              if (err) {
+                  return next(err);
+              }
+              bcrypt.hash(req.body.password, salt, function(err, hash) {
+                  if (err) {
+                      return next(err);
+                  }
+                  userinfo.password = hash;
+              });
+          });
           if (req.body.favoriteTag) userinfo.favoriteTag = favoriteTagArray;
           if (req.body.favoritePlaylists) userinfo.favoritePlaylists = favoritePlaylistArray;
           if (req.body.historyPlaylist_id) userinfo.history = historyArray;
