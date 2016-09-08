@@ -43,7 +43,6 @@ Profile Page
 - Fix the Create Playlist Card (needs to look less like crap)
 
 Create Playlist Page
-- Redirect to Create keeps modal backdrop, why
 - Play button takes person to the youtube video? or maybe fills the search box with the video preview? idk
 
 Jukebox UI/UX
