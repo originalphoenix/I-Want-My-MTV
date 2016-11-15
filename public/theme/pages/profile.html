@@ -16,13 +16,13 @@
                         <div class="row text-center">
                             <div class="col-xs-6">
                                 <a href="#">
-                                    <span class="m-b-xs h4 block">{{customPlaylists.length}}</span>
+                                    <span class="m-b-xs h4 block">{{filtered.playlists.length}}</span>
                                     <small class="text-muted">Favorited</small>
                                 </a>
                             </div>
                             <div class="col-xs-6">
                                 <a href="#">
-                                    <span class="m-b-xs h4 block">{{customPlaylists.length}}</span>
+                                    <span class="m-b-xs h4 block">{{filtered.create.length}}</span>
                                     <small class="text-muted">Created</small>
                                 </a>
                             </div>
@@ -32,7 +32,7 @@
                         <small class="text-uc text-xs text-muted">about me</small>
                         <p>{{about}}</p>
                         <small class="text-uc text-xs text-muted">favorite genres</small>
-                        <p><span class="label label-primary">kpop</span> <span class="label label-primary">future funk</span> <span class="label label-primary">classical</span>
+                        <p><span class="label label-primary" ng-repeat="tags in favoriteTags">{{tags.tag}}</span>
                         </p>
                         <div class="line"></div>
                     </div>
@@ -56,7 +56,7 @@
                 <div class="tab-content">
                     <div class="tab-pane active" id="favorited">
                         <div class="row row-sm">
-                            <div class="col-xs-6 col-sm-4 col-md-3 col-lg-3" ng-repeat="playlist in customPlaylists | inArray:Favorites:'_id'">
+                            <div class="col-xs-6 col-sm-4 col-md-3 col-lg-3" ng-repeat="playlist in filtered.playlists = (customPlaylists | inArray:Favorites:'_id')">
                                 <div class="card">
                                     <div class="card_image">
                                         <img data-ng-src="{{playlist.img}}" alt="" class="image">
@@ -76,7 +76,7 @@
                     </div>
                     <div class="tab-pane" id="created">
                             <div class="row row-sm">
-                                <div class="col-xs-6 col-sm-4 col-md-3 col-lg-3" ng-repeat="playlist in customPlaylists | filter: username">
+                                <div class="col-xs-6 col-sm-4 col-md-3 col-lg-3" ng-repeat="playlist in filtered.create = (customPlaylists | filter: username)">
                                     <div class="card">
                                         <div class="card_image">
                                             <img data-ng-src="{{playlist.img}}" alt="" class="image">
@@ -161,7 +161,7 @@
                                     </div>
                                     <div class="col-sm-6">
                                       <label>Confirm new password</label>
-                                      <input type="password" class="form-control" name="pw2" ng-model="pw2" pw-check="user.password">
+                                      <input type="password" class="form-control" name="pw2" ng-model="pw2" pw-check="pwd">
                                     </div>
                                   </div>
                                   <button type="submit" class="btn btn-lg btn-pink lt b-white b-2x btn-block"  ng-hide="profile.$invalid" ng-show="profile.$dirty">Submit</button>

@@ -21,6 +21,7 @@ app.config(function ($locationProvider) {
 app.run(function ($rootScope, $location, $window, userInfoService) {
  $rootScope.$on("$locationChangeStart", function (event, next, current) {
        $('#preloader').show();
+       $('.modal-backdrop').remove();
       var userAuthenticated = $window.localStorage['jwtToken'];; /* Check if the user is logged in */
       if (!userAuthenticated && next.isLogin) {
           $rootScope.savedLocation = $location.url();
@@ -29,6 +30,19 @@ app.run(function ($rootScope, $location, $window, userInfoService) {
  });
  $rootScope.$on('$viewContentLoaded', function(){
      $('#preloader').fadeOut( "slow" );
+     var elements = document.getElementsByClassName('txt-rotate');
+     for (var i=0; i<elements.length; i++) {
+       var toRotate = elements[i].getAttribute('data-rotate');
+       var period = elements[i].getAttribute('data-period');
+       if (toRotate) {
+         new TxtRotate(elements[i], JSON.parse(toRotate), period);
+       }
+     }
+     // INJECT CSS
+     var css = document.createElement("style");
+     css.type = "text/css";
+     css.innerHTML = ".txt-rotate > .wrap { border-right: 0.1em solid #fff }";
+     document.body.appendChild(css);
 });
  $rootScope.hideit = false;
  $rootScope.loggedIn = $window.localStorage['jwtToken'];
@@ -123,31 +137,6 @@ app.directive('focus', function($timeout, $parse) {
             })
         }
     }
-});
-
-app.directive('pwCheck', [function () {
-    return {
-      require: 'ngModel',
-      link: function (scope, elem, attrs, ctrl) {
-        var firstPassword = '#' + attrs.pwCheck;
-        elem.add(firstPassword).on('keyup', function () {
-          scope.$apply(function () {
-            var v = elem.val()===$(firstPassword).val();
-            ctrl.$setValidity('pwmatch', v);
-          });
-        });
-      }
-    }
- }]);
-
- app.filter('inArray', function($filter){
-    return function(list, arrayFilter, element){
-        if(arrayFilter){
-            return $filter("filter")(list, function(listItem){
-                return arrayFilter.indexOf(listItem[element]) != -1;
-            });
-        }
-    };
 });
 
 // WE FACTORIES NOW BOI
@@ -435,6 +424,7 @@ app.controller('mainController', function($scope, $rootScope, $http, $window, $l
                 // Showing errors.
                 $scope.errorName = data.errors;
             } else {
+              $('#favoriteTagsModal').modal('hide');
                 $scope.message = data.message;
             }
         });

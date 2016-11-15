@@ -13,7 +13,7 @@
          <div class="card_image featured_card_image">
            <p class="cardContentJob featured_playlist_name">{{playlist.name}}</p>
             <img data-ng-src="{{playlist.img}}" alt="" class="image">
-            <i class="material-icons" onclick="favorite(this);">
+            <i class="material-icons" onclick="favorite(this);" ng-show="loggedIn">
             favorite_border</i>
          </div>
       </div>
@@ -23,7 +23,7 @@
            <div class="card_image featured_card_image">
              <p class="cardContentJob featured_playlist_name">{{playlist.name}}</p>
               <img data-ng-src="{{playlist.img}}" alt="" class="image">
-              <i class="material-icons" onclick="favorite(this);">
+              <i class="material-icons" onclick="favorite(this);" ng-show="loggedIn">
               favorite_border</i>
            </div>
         </div>
@@ -39,7 +39,7 @@
        <div class="card">
           <div class="card_image">
              <img data-ng-src="{{playlist.img}}" alt="" class="image">
-             <i class="material-icons" ng-click="favoritePlaylist(playlist._id)">
+             <i class="material-icons" ng-click="favoritePlaylist(playlist._id)" ng-show="loggedIn">
              favorite_border</i>
           </div>
           <div class="cardContent">
@@ -63,7 +63,7 @@
        <div class="card">
           <div class="card_image">
              <img data-ng-src="{{playlist.img}}" alt="" class="image">
-             <i class="material-icons" onClick="favorite(this);">
+             <i class="material-icons" onClick="favorite(this);" ng-show="loggedIn">
              favorite_border</i>
           </div>
           <div class="cardContent">
@@ -78,14 +78,14 @@
 
 <!-- Playlist Row Ended -->
 
-<div ng-repeat="tags in favoriteTags | limitTo: 3">
+<div ng-repeat="tags in favoriteTags | limitTo: 3" ng-show="filtered.playlists.length">
    <h2 class="font-thin m-b">Tag Spotlight: <span class="label label-primary" ng-bind="filters.tag = tags.tag"></span></h2>
    <div class="row row-sm">
-     <div class="col-xs-6 col-sm-4 col-lg-15 col-xl-2" ng-repeat="playlist in customPlaylists | filter: filters.tag | limitTo:5">
+     <div class="col-xs-6 col-sm-4 col-lg-15 col-xl-2" ng-repeat="playlist in filtered.playlists = (customPlaylists | filter: filters.tag | limitTo:5)">
        <div class="card">
           <div class="card_image">
              <img data-ng-src="{{playlist.img}}" alt="" class="image">
-             <i class="material-icons" onClick="favorite(this);">
+             <i class="material-icons" onClick="favorite(this);" ng-show="loggedIn">
              favorite_border</i>
           </div>
           <div class="cardContent">
@@ -123,6 +123,37 @@
 </div>
 </div>
 
+<div class="modal fade" id="signinModal">
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-body wrapper-lg">
+      <div class="row">
+        <div class="col-sm-6 b-r">
+          <h3 class="m-t-none m-b">Sign in</h3>
+          <p>Members can create, save, favorite, and generally feel superior.</p>
+          <form role="form">
+            <div class="form-group">
+              <label>Username</label>
+              <input type="email" class="form-control" placeholder="Username">
+            </div>
+            <div class="form-group">
+              <label>Password</label>
+              <input type="password" class="form-control" placeholder="Password">
+            </div>
+            <div class="checkbox m-t-lg">
+              <button type="submit" class="btn btn-sm btn-success pull-right text-uc m-t-n-xs"><strong>Log in</strong></button>
+            </div>
+          </form>
+        </div>
+        <div class="col-sm-6">
+          <h4>Not a member?</h4>
+          <p>One of us. One of us. <a href="/signin" class="text-info">One of Us.</a></p>
+        </div>
+      </div>
+    </div>
+  </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->
+</div>
 
 <div class="overlay" id="overlay-search-main">
    <a href="#" target="_self" id="close-search-main" class="overlay-close" ng-click="overlayClose"><i class="material-icons">clear</i></a>
@@ -132,7 +163,7 @@
            <div class="card">
               <div class="card_image">
                  <img data-ng-src="{{playlist.img}}" alt="" class="image">
-                 <i class="material-icons" ng-click="favoritePlaylist(playlist._id)">
+                 <i class="material-icons" ng-click="favoritePlaylist(playlist._id)" ng-show="loggedIn">
                  favorite_border</i>
               </div>
               <div class="cardContent">
